@@ -1,0 +1,36 @@
+Modelling delayed response time:
+    * important to get interesting emergent behaviours
+    * study how a few people with slow response can mess up traffic
+    * start by modelling as a simple queue of actions (takes a certain amount of ticks to perform action)
+    * try out different functions to model this
+
+What do we measure?
+    * distance between cars?
+    * average speed / speed limit
+    * maybe both?
+
+Boundary condition:
+    * periodic boundary condition gives steady state behaviour (maybe only a single disturbance is needed?)
+    * in the general case it could be easier to kill cars that reach the end of the track and spawn new ones in the beginning
+
+Car - Track interaction:
+    * Track class keeps track of all the cars
+    * A car can query the track for local information
+        * neighbouring cars
+        * speed limit
+        * number of lanes
+        * ???
+
+Car model:
+    * Use a class (cleaner and easier to extend)
+    * Store velocity, position, etc
+    * Responsible for updating it's own position
+
+Questions for tutor:
+    * What is a good goal?
+        * multiple lanes?
+        * emergent wave behaviour?
+
+Other:
+    * Lane shifting by spawning a "ghost car" in a gap
+    * Have a way to keep track of a single car. Probably need an interactive interface with the Track class.
