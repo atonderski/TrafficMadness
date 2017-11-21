@@ -13,7 +13,7 @@ class SimpleCar(Car):
             distances.append(distance)
         # Decide if we want to brake or accelerate
 
-        if max(distances) >= safety_distance:
+        if not distances or max(distances) >= safety_distance:
             if self.velocity < target_speed:
                 # If there is room and car is below speed limit, accelerate
                 self.velocity = \
