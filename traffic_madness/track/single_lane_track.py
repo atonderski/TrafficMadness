@@ -15,9 +15,18 @@ class SingleLaneTrack(Track):
         self.back_car_index = None
         self.buffer_length = 3
 
+        self.reset()
+
+    def reset(self):
+        """Puts the track in its initial state"""
+        new_car = SimpleCar(0, velocity=self.speed_limit)
+        self.cars = [new_car]
+        self.back_car_index = 0
+
     def update(self):
-        # Update positions of all current cars
+        """Performs a time step update of the entire track"""
         for i, car in enumerate(self.cars):
+            # Get nearby cars (and handle periodic boundary)
             if len(self.cars) > 1:
                 next_car_ind = i + 1 % len(self.cars)
                 previous_car_ind = i - 1
@@ -32,26 +41,26 @@ class SingleLaneTrack(Track):
                 nearby_cars = [previous_car, next_car]
             else:
                 nearby_cars = []
+
             car.update(self.speed_limit, nearby_cars)
 
+            # Check if we need to wrap the car (periodic boundary)
             if car.position > self.track_length:
                 car.position -= self.track_length
                 self.back_car_index = i
 
-        if len(self.cars) == 0:
-            new_car = SimpleCar(0, velocity=self.speed_limit)
-            self.cars.insert(0, new_car)
-            self.back_car_index = 0
+        if len(self.cars) < self.max_num_cars:
+            self.try_to_spawn_car()
 
-        elif len(self.cars) < self.max_num_cars:
-            # Check if there is room to spawn a new car
-            back_car = self.cars[self.back_car_index]
-            if back_car.position > self.buffer_length:
-                new_car = SimpleCar(0, velocity=back_car.velocity)
-                # Insert it right before the current back car to keep the order
-                # (back car index doesn't change)
-                self.cars.insert(self.back_car_index, new_car)
-
+    def try_to_spawn_car(self):
+        # Check if there is room to spawn a new car
+        back_car = self.cars[self.back_car_index]
+        if back_car.position > self.buffer_length:
+            new_car = SimpleCar(0, velocity=back_car.velocity)
+            # Insert it right before the current back car to keep the order
+            # (back car index doesn't change)
+            self.cars.insert(self.back_car_index, new_car)
 
     def get_car_positions(self):
+        """Returns a list of all the car positions"""
         return [car.position for car in self.cars]
