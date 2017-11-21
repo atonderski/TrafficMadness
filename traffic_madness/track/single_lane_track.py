@@ -38,7 +38,12 @@ class SingleLaneTrack(Track):
                 car.position -= self.track_length
                 self.back_car_index = i
 
-        if len(self.cars < self.max_num_cars):
+        if len(self.cars) == 0:
+            new_car = SimpleCar(0, velocity=self.speed_limit)
+            self.cars.insert(0, new_car)
+            self.back_car_index = 0
+
+        elif len(self.cars) < self.max_num_cars:
             # Check if there is room to spawn a new car
             back_car = self.cars[self.back_car_index]
             if back_car.position > self.buffer_length:
