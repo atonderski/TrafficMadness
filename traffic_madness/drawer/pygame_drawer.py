@@ -12,22 +12,36 @@ class PyGameDrawer(Drawer):
         self.screen = pygame.display.set_mode(resolution)
         pygame.display.set_caption(title)
         self.clock = pygame.time.Clock()
+        self.fps = 60
 
-        self.background_surface = pygame.Surface(screen.get_size())
-        self.background_surface = backgroun_surface.convert()
-        BG_COLOR = pygame.color(255,255,255,255)
+        self.background_surface = pygame.Surface(self.screen.get_size())
+        self.background_surface = self.background_surface.convert()
+        BG_COLOR = pygame.Color(255,255,255,255)
         self.background_surface.fill(BG_COLOR)
 
-        self.screen.blit(background_surface, (0, 0))
+        self.CAR_COLOR = (175,70,2,255)
+        self.screen.blit(self.background_surface, (0, 0))
 
-        self.rect_size = 5
+        self.rect_size = 2
 
         pygame.display.flip()
 
-    def update(car_positions):
+    def update(self, car_positions):
         car_rects = [pygame.Rect(pos, 350, self.rect_size, self.rect_size)
                      for pos in car_positions]
-        rect_surfaces = [pygame.Surface(rect.size)
-                         for rect in car_rects]
+
+        self.screen.blit(self.background_surface, (0, 0))
+
+        for index, car_rect in enumerate(car_rects):
+            print(car_rect)
+            rect_surface = pygame.Surface(car_rect.size)
+            rect_surface.fill(self.CAR_COLOR)
+            self.screen.blit(rect_surface, (car_rect.x, car_rect.y))
+        print("Number of cars: " + str(len(car_rects)))
+        pygame.display.flip()
+        self.clock.tick(self.fps)
+            
         
         
+        
+
