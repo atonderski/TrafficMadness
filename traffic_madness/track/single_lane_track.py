@@ -19,7 +19,7 @@ class SingleLaneTrack(Track):
 
     def reset(self):
         """Puts the track in its initial state"""
-        new_car = SimpleCar(0, velocity=self.speed_limit)
+        new_car = SimpleCar(0, velocity=self.speed_limit, acceleration=1)
         self.cars = [new_car]
         self.back_car_index = 0
 
@@ -28,7 +28,7 @@ class SingleLaneTrack(Track):
         for i, car in enumerate(self.cars):
             # Get nearby cars (and handle periodic boundary)
             if len(self.cars) > 1:
-                next_car_ind = i + 1 % len(self.cars)
+                next_car_ind = (i + 1) % len(self.cars)
                 previous_car_ind = i - 1
                 next_car = self.cars[next_car_ind]
                 previous_car = self.cars[previous_car_ind]
@@ -56,7 +56,7 @@ class SingleLaneTrack(Track):
         # Check if there is room to spawn a new car
         back_car = self.cars[self.back_car_index]
         if back_car.position > self.buffer_length:
-            new_car = SimpleCar(0, velocity=back_car.velocity)
+            new_car = SimpleCar(0, velocity=back_car.velocity, acceleration=1)
             # Insert it right before the current back car to keep the order
             # (back car index doesn't change)
             self.cars.insert(self.back_car_index, new_car)
