@@ -3,7 +3,8 @@ from traffic_madness.track.single_lane_track import SingleLaneTrack
 
 
 def run_simulation():
-    track = SingleLaneTrack()
+    track = SingleLaneTrack(speed_limit=10, track_length=1000,
+                            max_num_cars=100)
     drawer = PyGameDrawer()
     while True:
         track.update()

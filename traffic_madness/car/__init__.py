@@ -1,4 +1,3 @@
-
 class Car:
     def __init__(self, position, velocity, acceleration):
         self.position = position

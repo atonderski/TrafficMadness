@@ -2,7 +2,6 @@ from traffic_madness.car import Car
 # import __init__
 
 class SimpleCar(Car):
-
     def update(self, target_speed, nearby_cars):
         timestep = 1
         distances = [] # Stores distances of neighbours
