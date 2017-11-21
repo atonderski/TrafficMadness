@@ -1,4 +1,4 @@
-from traffic_madness.car import Car
+from car import Car
 
 
 class SimpleCar(Car):

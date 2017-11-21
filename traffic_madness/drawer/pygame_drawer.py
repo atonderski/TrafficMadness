@@ -1,4 +1,4 @@
-from traffic_madness.drawer import Drawer
+from drawer import Drawer
 
 
 class PyGameDrawer(Drawer):
