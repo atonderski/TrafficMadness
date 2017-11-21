@@ -1,0 +1,32 @@
+Attached a website that actually does what we are trying to get. 
+http://www.traffic-simulation.de/index.html
+
+A macroscoping model, using traffic density and flow. Not an agent based model! Shows speed in dependence on the traffic density. Different behaviour in increasing congestion compared to decreasing congestion. Adding on and off ramps.
+http://onlinepubs.trb.org/Onlinepubs/trr/1979/722/722-010.pdf
+
+Urban traffic, but might give some inspiration on atributes of cars. (Maximum speed, maximum acceleration / deceleration [when we take an acceleration function], dimension [length, maybe width]). 
+Seperating driver from car class possible (I think that would be going to far for our case).
+Deceleration depending on speed difference.
+https://www.researchgate.net/publication/228778032_Agent-based_modeling_for_traffic_simulation
+
+Towards an Multilevel Agent-based Model for Traffic Simulation
+https://ac.els-cdn.com/S187705091731092X/1-s2.0-S187705091731092X-main.pdf?_tid=9c3b6f74-cecd-11e7-b3ec-00000aab0f6c&acdnat=1511276994_45ef9a7740dc877ca1305fd9fe62c06b
+
+Some numbers:
+80 km/h  = 22.22222 m/s
+100 km/h = 27.7777778 m/s
+120 km/h = 33.3333333 m/s
+
+Example for safety distance (rule learnt in German driving class): 
+speed in km/h devided by 2 in meters (80 km/h -> 40 m) or 
+speed in m/s multiplied by 1.8 (22.222 m/s -> 40 m).
+
+Maximum acceleration: 11.59 ms^(-2)  (Bugatti Veyron Super Sport)
+https://hypertextbook.com/facts/2001/MeredithBarricella.shtml
+More average: 4.3 ms^(-2) (Saab 9-5)
+https://en.wikipedia.org/wiki/Orders_of_magnitude_(acceleration)
+
+Maximum deceleration: 49+ ms^(-2) (Formula 1 car)
+https://en.wikipedia.org/wiki/Orders_of_magnitude_(acceleration)
+More average: 7.5 ms^(-2) (On dry road)
+http://www.unfallaufnahme.info/content/uebersichten-listen-und-tabellen/geschwindigkeiten-und-bremswege/ (German, but first entry in table)
