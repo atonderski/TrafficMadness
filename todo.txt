@@ -1,0 +1,21 @@
+[DONE] Simple model:
+    [DONE] car
+    [DONE] single track with periodic boundary
+    [DONE] pygame display
+
+[NOT STARTED] Advanced single lane model:
+    [NOT STARTED] delayed driver response
+    [NOT STARTED] crazy car model
+    [NOT STARTED] interactivity between pygame and model (for example, spawn crazy driver)
+    [NOT STARTED] variable speeds in different parts of track
+
+[NOT STARTED] Multi lane track:
+    [NOT STARTED] car that initiate and respond to lane shifts
+    [NOT STARTED] track that keeps track of multiple lanes
+    [NOT STARTED] some batching that makes it efficient for the track to find neighbours in different lanes
+    [NOT STARTED] pygame drawing of multiple lanes
+
+[NOT STARTED] Extra features:
+    [NOT STARTED] Model accidents in a lane (lane is unpassable at a certain position)
+    [NOT STARTED] multiple entrances and exits for highway (cars have different target exits)
+
