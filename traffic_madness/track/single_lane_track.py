@@ -1,7 +1,7 @@
 from copy import deepcopy
 
-from car.simple_car import SimpleCar
-from track import Track
+from traffic_madness.car.simple_car import SimpleCar
+from traffic_madness.track import Track
 
 
 class SingleLaneTrack(Track):

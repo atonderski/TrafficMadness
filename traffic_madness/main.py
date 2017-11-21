@@ -1,6 +1,5 @@
-#!/usr/bin/env python
-from drawer.pygame_drawer import PyGameDrawer
-from track.single_lane_track import SingleLaneTrack
+from traffic_madness.drawer.pygame_drawer import PyGameDrawer
+from traffic_madness.track.single_lane_track import SingleLaneTrack
 
 
 def run_simulation():
