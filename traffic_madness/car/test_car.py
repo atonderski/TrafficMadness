@@ -16,4 +16,4 @@ def update(frames):
     return line,
 
 def init():
-fig, ax = plt.subplot()
+    fig, ax = plt.subplot()
