@@ -9,7 +9,8 @@ Seperating driver from car class possible (I think that would be going to far fo
 Deceleration depending on speed difference.
 https://www.researchgate.net/publication/228778032_Agent-based_modeling_for_traffic_simulation
 
-Towards an Multilevel Agent-based Model for Traffic Simulation
+Presents state-of-the-art modeling approaches. Dynamic microscopic models are closest to real behaviour, since they represent individual behaviour. 
+Mesoscopic, macroscopic and hybrid models also exist, but not what we are doing.
 https://ac.els-cdn.com/S187705091731092X/1-s2.0-S187705091731092X-main.pdf?_tid=9c3b6f74-cecd-11e7-b3ec-00000aab0f6c&acdnat=1511276994_45ef9a7740dc877ca1305fd9fe62c06b
 
 Some numbers:

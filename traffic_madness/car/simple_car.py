@@ -5,7 +5,7 @@ class SimpleCar(Car):
         timestep = 1
         distances = [] # Stores distances of neighbours
         # Cannot set to 0, else cars never brake
-        safety_distance = self.velocity / 2
+        safety_distance = self.velocity * 1.8
         # Find the one in front of us
         for i in range(0, len(nearby_cars)):
             distance = nearby_cars[i].position - self.position
