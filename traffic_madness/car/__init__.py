@@ -1,10 +1,13 @@
+from traffic_madness.config import Config
+
 class Car:
-    def __init__(self, position, lane, velocity, acceleration):
+    def __init__(self, position, velocity, acceleration):
+        config = Config()
         self.position = position
-        self.lane = lane
+        # self.lane = lane
         self.velocity = velocity
-        self.acceleration = 4.3 # Add capability of acceleration
-        self.deceleration = 7.5
+        self.acceleration = config.acceleration
+        self.deceleration = config.deceleration
 
     def update(self, target_speed, nearby_cars):
         pass
