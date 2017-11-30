@@ -7,33 +7,42 @@ class PyGameDrawer(Drawer):
     def __init__(self, resolution, title, track):
         pygame.init()
         self.track = track
+        self.screen, self.bg_surface = self.setup_screen(resolution, title) 
 
-        SCREEN_RESOLUTION = resolution
-        self.screen = pygame.display.set_mode(resolution)
-        pygame.display.set_caption(title)
+        # Clock used to for update
         self.clock = pygame.time.Clock()
         self.fps = 60
+    
+        # Car constants for painting
+        self.CAR_COLOR = pygame.Color(175, 70, 2, 255)
+        self.CAR_SIZE = 2
 
-        self.background_surface = pygame.Surface(self.screen.get_size())
-        self.background_surface = self.background_surface.convert()
-        BG_COLOR = pygame.Color(255, 255, 255, 255)
-        self.background_surface.fill(BG_COLOR)
-
-        self.CAR_COLOR = (175, 70, 2, 255)
-        self.screen.blit(self.background_surface, (0, 0))
-
-        self.rect_size = 2
-
+        self.LANE_WIDTH = round(float(resolution[0]) / self.track.track_length)  
+        self.LANE_HEIGHT = resolution[1]/2.
+        
+        # Paint the screen
+        self.screen.blit(self.bg_surface, (0, 0))
         pygame.display.flip()
+
+    def setup_screen(self, resolution, title):
+        """ Set up and return screen and background."""
+        screen = pygame.display.set_mode(resolution)
+        pygame.display.set_caption(title)
+
+        bg_surface = pygame.Surface(screen.get_size())
+        bg_surface = bg_surface.convert()
+        BG_COLOR = pygame.Color(255, 255, 255, 255)
+        bg_surface.fill(BG_COLOR)
+        return screen, bg_surface
 
     def update(self, cars):
         car_rects = [pygame.Rect(car.position,
                                  200 + 50 * car.lane,
-                                 self.rect_size,
-                                 self.rect_size)
+                                 self.CAR_SIZE,
+                                 self.CAR_SIZE)
                      for car in cars]
 
-        self.screen.blit(self.background_surface, (0, 0))
+        self.screen.blit(self.bg_surface, (0, 0))
 
         for index, car_rect in enumerate(car_rects):
             print(car_rect)
