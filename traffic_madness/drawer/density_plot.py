@@ -32,6 +32,13 @@ def showdensity(density):
     plt.ylabel('density')
     plt.show()
 
+def update(self,cars):
+    car_positions = []
+    for i in range(len(cars)):
+        car_positions.push(car[i].position)
+    dens = density(car_positions, self.track.length, self.resolution)
+    showdensity(dens)
+    
 dens = density(alist,30,5)
 showdensity(dens)
     
