@@ -3,9 +3,9 @@ of the simulation'''
 class Config():
     def __init__(self):
         # track properties
-        self.speed_limit = 30
+        self.speed_limit = 5
         self.track_length = 1000
-        self.max_num_cars = 100
+        self.max_num_cars = 1000
         self.buffer_length = 3
         # car properties
         self.acceleration = 4.3
