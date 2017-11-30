@@ -15,7 +15,7 @@ class PyGameDrawer(Drawer):
     
         # Car constants for painting
         self.CAR_COLOR = pygame.Color(175, 70, 2, 255)
-        self.CAR_SIZE = 2
+        self.CAR_SIZE = 10
 
         self.LANE_WIDTH = round(float(resolution[0]) / self.track.track_length)  
         self.LANE_HEIGHT = resolution[1]/2.
@@ -34,6 +34,10 @@ class PyGameDrawer(Drawer):
         BG_COLOR = pygame.Color(255, 255, 255, 255)
         bg_surface.fill(BG_COLOR)
         return screen, bg_surface
+
+
+    def event_loop():
+        pass
 
     def update(self, cars):
         car_rects = [pygame.Rect(car.position,
