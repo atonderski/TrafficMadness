@@ -45,7 +45,7 @@ class SingleLaneTrack(Track):
             car.update(self.speed_limit, nearby_cars)
 
             # Check if we need to wrap the car (periodic boundary)
-            if car.position > self.track_length:
+            if car.position >= self.track_length:
                 car.position -= self.track_length
                 self.back_car_index = i
 

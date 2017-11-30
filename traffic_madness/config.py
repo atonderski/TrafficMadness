@@ -4,7 +4,7 @@ class Config():
     def __init__(self):
         # track properties
         self.speed_limit = 30
-        self.track_length = 5000
+        self.track_length = 1000
         self.max_num_cars = 100
         self.buffer_length = 3
         # car properties
