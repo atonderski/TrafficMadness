@@ -2,22 +2,24 @@ from copy import deepcopy
 
 from traffic_madness.car.simple_car import SimpleCar
 from traffic_madness.track import Track
+from traffic_madness.track.trackbucket import TrackBucket
 
 
-class SingleLaneTrack(Track):
+class MultiLaneTrack(Track):
     def __init__(self, speed_limit, track_length, num_lanes, max_num_cars):
         self.speed_limit = speed_limit
         self.track_length = track_length
         self.num_lanes = num_lanes
         self.max_num_cars = max_num_cars
-        self.cars = TrackBucket(track_length=track_length, bucket_length=25,
-                                num_lanes=num_lanes)
+        self.cars = None
 
         self.reset()
 
     def reset(self):
         """Puts the track in its initial state"""
-        self.cars = TrackBucket(track_length, 25)
+        self.cars = TrackBucket(track_length=self.track_length,
+                                bucket_length=25,
+                                num_lanes=self.num_lanes)
         new_car = SimpleCar(position=0,
                             velocity=self.speed_limit,
                             acceleration=1,
@@ -30,6 +32,7 @@ class SingleLaneTrack(Track):
         for car in self.cars.get_all_cars():
             old_position = car.position
             nearby_cars = self.cars.get_nearby_cars(position=car.position)
+            nearby_cars[car.lane].remove(car)
             car.update(self.speed_limit, nearby_cars)
             # Check if we need to wrap the car (periodic boundary)
             if car.position > self.track_length:
@@ -38,13 +41,28 @@ class SingleLaneTrack(Track):
             self.cars.car_has_moved(car=car, old_position=old_position)
 
         if len(self.get_num_cars()) < self.max_num_cars:
-            self.try_to_spawn_car()
+            # self.try_to_spawn_car()
+            self.try_to_spawn_car_single_lane(lane=0)
+
+    def try_to_spawn_car_single_lane(self, lane):
+        # Check if there is room to spawn a new car
+        back_cars = self.cars.get_nearby_cars(position=0)
+        cars = back_cars[lane]
+        if any([abs(car.position - self.track_length) < buffer_length for
+                car in cars]):
+            return
+        new_car = SimpleCar(position=0,
+                            velocity=back_car.velocity,
+                            acceleration=1,
+                            lane=lane)
+        self.cars.add_car(new_car)
 
     def try_to_spawn_car(self):
         # Check if there is room to spawn a new car
         back_cars = self.cars.get_nearby_cars(position=0)
         for lane, cars in enumerate(back_cars):
-            if any([abs(car.position - self.track_length) < buffer_length]):
+            if any([abs(car.position - self.track_length) < buffer_length
+                    for car in cars]):
                 continue
             new_car = SimpleCar(position=0,
                                 velocity=back_car.velocity,

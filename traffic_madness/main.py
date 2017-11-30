@@ -2,7 +2,7 @@ import pygame
 
 from traffic_madness.config import Config
 from traffic_madness.drawer.pygame_drawer import PyGameDrawer
-from traffic_madness.track.single_lane_track import SingleLaneTrack
+from traffic_madness.track.multi_lane_track import MultiLaneTrack
 
 
 def run_simulation():
