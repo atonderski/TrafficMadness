@@ -2,6 +2,9 @@ from traffic_madness.car import Car
 
 class SimpleCar(Car):
     def update(self, target_speed, nearby_cars):
+        # TODO Remove this and add multi lane logic
+        nearby_cars = nearby_cars[self.lane]
+
         timestep = 1
         distances = [] # Stores distances of neighbours
         # Cannot set to 0, else cars never brake

@@ -5,5 +5,8 @@ class Track:
     def update(self):
         pass
 
-    def get_car_positions(self):
+    def reset(self):
+        pass
+
+    def get_all_cars(self):
         pass

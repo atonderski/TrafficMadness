@@ -61,6 +61,6 @@ class SingleLaneTrack(Track):
             # (back car index doesn't change)
             self.cars.insert(self.back_car_index, new_car)
 
-    def get_car_positions(self):
+    def get_all_cars(self):
         """Returns a list of all the car positions"""
-        return [car.position for car in self.cars]
+        return self.cars
