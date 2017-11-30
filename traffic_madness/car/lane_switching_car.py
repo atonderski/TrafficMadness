@@ -33,7 +33,7 @@ class LaneSwitchingCar(Car):
                 allowed_lanes.append(self.lane - 1)
             switched_lanes = False
             for lane in allowed_lanes:
-                if self.lane_is_safe(nearby_cars[lane]):
+                if self.lane_is_safe(nearby_cars[lane], safety_distance):
                     self.lane = lane
                     switched_lanes = True
                     break
@@ -41,8 +41,8 @@ class LaneSwitchingCar(Car):
                 self.velocity -= self.acceleration * timestep
         self.position += self.velocity * timestep
 
-    def lane_is_safe(self, cars_in_lane):
+    def lane_is_safe(self, cars_in_lane, safety_distance):
         if not cars_in_lane:
             return True
         distances = [abs(car.position - self.position) for car in cars_in_lane]
-        return min(distances) > self.safe_distance
+        return min(distances) > safety_distance

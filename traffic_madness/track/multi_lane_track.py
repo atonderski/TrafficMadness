@@ -38,7 +38,7 @@ class MultiLaneTrack(Track):
             nearby_cars[car.lane].remove(car)
             car.update(self.speed_limit, nearby_cars)
             # Check if we need to wrap the car (periodic boundary)
-            if car.position > self.track_length:
+            if car.position >= self.track_length:
                 car.position -= self.track_length
             # Inform the car tracker that the car has moved
             self.cars.car_has_moved(car=car, old_position=old_position)
