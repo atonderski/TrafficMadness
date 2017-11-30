@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 from traffic_madness.drawer import Drawer
 
@@ -11,7 +12,7 @@ class PyGameDrawer(Drawer):
 
         # Clock used to for update
         self.clock = pygame.time.Clock()
-        self.fps = 60
+        self.fps = 60 
     
         # Car constants for painting
         self.CAR_COLOR = pygame.Color(175, 70, 2, 255)
@@ -36,10 +37,19 @@ class PyGameDrawer(Drawer):
         return screen, bg_surface
 
 
-    def event_loop():
-        pass
-
+    def event_loop(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.display.quit()
+                    pygame.quit()
+                    sys.exit()
     def update(self, cars):
+        self.event_loop()
         car_rects = [pygame.Rect(car.position,
                                  200 + 50 * car.lane,
                                  self.CAR_SIZE,
