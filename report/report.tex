@@ -2,7 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[swedish]{babel}
+\usepackage[english]{babel}
 \usepackage{amsmath}
 \usepackage{ae}
 \usepackage{units}
@@ -47,31 +47,34 @@ Main controller
 \newpage
 
 \section{So far, i.e. predraft}
-So far we've implemented a rudimentary model of the car track, with regular and more agressive drivers and a visualization. We have also started implementing a basic density plot in order to see the propagation and or creation and dissipation of traffic congestions on the track. So far we have observed wave-like behaviour of car/speeds. Further work will concentrate on extending the model to multi-lane, and extracting the wave propagation-speed/amplitudes etc and their dependence on the number of drivers on the track and the ratio of normal/aggressive drivers and number of lanes etc
+So far we've implemented a rudimentary model of the car track, with regular and more agressive drivers and a visualization. We have also started implementing a basic density plot in order to see the propagation and or creation and dissipation of traffic congestions on the track. So far we have observed wave-like behaviour of car/speeds. Further work will concentrate on extending the model to multi-lane, and extracting the wave propagation-speed/amplitudes etc and their dependence on the number of drivers on the track and the ratio of normal/aggressive drivers and number of lanes etc.
 
 
 
 \section{The model}
+To model traffic behaviour we use an agent-based approach with each agent representing a car and the behaviour of its driver. The goal of each agent is to try to keep its set target speed on the track and avoid having to slow down. Different agents can have different personalities, some drivers are more aggressive while others try to drive more carefully to ensure to not disturb other drivers in traffic.
+
+The agents are placed on a track of fixed length, but with periodic boundary conditions creating an infinite loop. Driving is only allowed in one direction, but to allow for more complexity and further model highway traffic the track can be extended to allow multiple parallell lanes with lane switching allowed. To decide on its actions each agent can see agents in its proximity, both in its lane and in other lanes bordering its own. The agent can read the velocity and position of these nearby agents to adjust its acceleration or decide to shift lanes.
 
 \section{Results}
-
+A basic example of the emergance of waves can be seen in figure \ref{fig:a3lanes} and \ref{fig:b3lanes}. Traffic starts in the rightmost lane and when traffic gets to dense cars starts shifting lanes. When more dense regions start to form cars spread out evenly between the lanes with clusters of cars going slower, congestion. These congestions travel through traffic like a wave, with new cars slowing down behind the congestion and getting stuck in it.  
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.3]{figs/circular_three_lane.png}
-    \caption{3 lanes}
-    \label{fig:3lanes}
+    \caption{Visualization of a three lane track with 500 cars. All cars started in the right-most lane but when traffic become too congested and cars can not keep their desired speed they switch lanes. Each lane is 1000 meters long. The cars are concentrated in the rightmost lane, but have started to migrate to the other lanes.}
+    \label{fig:a3lanes}
 \end{figure}
 
 \begin{figure}[h]     
     \centering
       \includegraphics[scale=0.3]{figs/good_circular_three_lane.png}
-      \caption{3 lanes}
-      \label{fig:3lanes}
+      \caption{Congestions have started to form. These congestion clusters have cars moving slower than the rest. Congestions are propagated through traffic with new slow cars getting added from behind.}
+      \label{fig:b3lanes}
 \end{figure}
 
-\section{Parameter dependence of cluster formations etc...}
+%\section{Parameter dependence of cluster formations etc...}
 
-\subsection{}
+%\subsection{}
 
 % Figurer inkluderade som eps-filer
 %% \begin{figure}\centering
