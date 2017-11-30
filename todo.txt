@@ -9,9 +9,9 @@
     [NOT STARTED] interactivity between pygame and model (for example, spawn crazy driver)
     [NOT STARTED] variable speeds in different parts of track
 
-[NOT STARTED] Multi lane track:
+[Daniel] Multi lane track:
     [NOT STARTED] car that initiate and respond to lane shifts
-    [NOT STARTED] track that keeps track of multiple lanes
+    [Daniel] track that keeps track of multiple lanes
     [NOT STARTED] some batching that makes it efficient for the track to find neighbours in different lanes
     [NOT STARTED] pygame drawing of multiple lanes
 

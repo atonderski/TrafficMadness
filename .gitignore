@@ -1,3 +1,8 @@
+# Latex
+*.toc
+*.aux
+report/*.pdf
+
 # macOS
 *.DS_Store
 
@@ -130,3 +135,5 @@ Session.vim
 *~
 # Auto-generated tag files
 tags
+
+

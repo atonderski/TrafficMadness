@@ -1,10 +1,10 @@
 from traffic_madness.config import Config
 
 class Car:
-    def __init__(self, position, velocity, acceleration):
+    def __init__(self, position, velocity, acceleration, lane=0):
         config = Config()
         self.position = position
-        # self.lane = lane
+        self.lane = lane
         self.velocity = velocity
         self.acceleration = config.acceleration
         self.deceleration = config.deceleration
