@@ -1,8 +1,5 @@
 import itertools
-
-from traffic_madness.car.aggressive_car import AggressiveCar
-from traffic_madness.car.simple_car import SimpleCar
-from traffic_madness.config import Config
+from copy import deepcopy
 
 
 class TrackBucket():
@@ -63,16 +60,29 @@ class TrackBucket():
             last bucket, the first bucket is returned as (iii)."""
         curr_ind = self._get_index_from_position(position)
         prev_ind = curr_ind - 1
-        next_ind = (curr_ind + 1) % len(self.bucket_list)
+        next_ind = curr_ind + 1
 
         nearby_cars = []
         for lane in range(self.num_lanes):
             cars_in_lane = []
             for bucket_ind in [prev_ind, curr_ind, next_ind]:
-                cars_in_bucket_and_lane = [
-                    car for car in self.bucket_list[bucket_ind] if
-                    car.lane == lane]
-                cars_in_bucket_and_lane.sort(key=lambda x: x.position)
-                cars_in_lane += cars_in_bucket_and_lane
+                cars_in_lane_bucket = self._get_cars_in_bucket(
+                    bucket_index=bucket_ind, lane=lane)
+                cars_in_lane += cars_in_lane_bucket
             nearby_cars.append(cars_in_lane)
         return nearby_cars
+
+    def _get_cars_in_bucket(self, bucket_index, lane):
+        true_bucket_index = bucket_index % len(self.bucket_list)
+        cars = [car for car in self.bucket_list[true_bucket_index] if
+                car.lane == lane]
+        if bucket_index > len(self.bucket_list):
+            cars = [deepcopy(car) for car in cars]
+            for car in cars:
+                car.position += self.track_length
+        if bucket_index < 0:
+            cars = [deepcopy(car) for car in cars]
+            for car in cars:
+                car.position -= self.track_length
+        cars.sort(key=lambda x: x.position)
+        return cars
