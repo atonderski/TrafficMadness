@@ -1,7 +1,7 @@
 from traffic_madness.car import Car
 
 
-class SimpleCar(Car):
+class LaneSwitchingCar(Car):
     def update(self, target_speed, nearby_cars):
 
         timestep = 1
@@ -25,7 +25,7 @@ class SimpleCar(Car):
                     min([self.velocity + self.acceleration * timestep,
                          target_speed])
         # Slow down or shift lane if close to next car
-        elif max(distances) < safety_distance:
+        else:
             allowed_lanes = []
             if self.lane < len(nearby_cars) - 1:
                 allowed_lanes.append(self.lane + 1)
@@ -33,7 +33,7 @@ class SimpleCar(Car):
                 allowed_lanes.append(self.lane - 1)
             switched_lanes = False
             for lane in allowed_lanes:
-                if self.lane_is_safe(cars_in_lane, position_to_switch_to):
+                if self.lane_is_safe(nearby_cars[lane]):
                     self.lane = lane
                     switched_lanes = True
                     break
@@ -41,7 +41,8 @@ class SimpleCar(Car):
                 self.velocity -= self.acceleration * timestep
         self.position += self.velocity * timestep
 
-    def lane_is_safe(self, cars_in_lane, position_to_switch_to, safe_distance):
-        distances = [abs(car.position - position_to_switch_to) for car in
-                     cars_in_lane]
+    def lane_is_safe(self, cars_in_lane):
+        if not cars_in_lane:
+            return True
+        distances = [abs(car.position - self.position) for car in cars_in_lane]
         return min(distances) > self.safe_distance
