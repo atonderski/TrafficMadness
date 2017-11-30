@@ -55,10 +55,13 @@ class PyGameDrawer(Drawer):
 
         def _rect_from_car(car):
             r = 350 + 20 * (self.track.num_lanes - car.lane)
-            theta = -car.position * 2*math.pi / self.track.track_length
+            theta = -car.position * 2 * math.pi / self.track.track_length
             x = 500 + r * math.cos(theta)
             y = 500 + r * math.sin(theta)
-            return pygame.Rect(x, y, self.CAR_SIZE, self.CAR_SIZE)
+            return pygame.Rect(x - self.CAR_SIZE/2,
+                               y - self.CAR_SIZE/2,
+                               self.CAR_SIZE,
+                               self.CAR_SIZE)
 
         car_rects = [_rect_from_car(car) for car in cars]
 
@@ -70,5 +73,11 @@ class PyGameDrawer(Drawer):
             rect_surface.fill(self.CAR_COLOR)
             self.screen.blit(rect_surface, (car_rect.x, car_rect.y))
         print("Number of cars: " + str(len(car_rects)))
+
+        # circles
+        for i in range(1,self.track.num_lanes+2):
+            pygame.draw.circle(self.screen, pygame.Color(0, 0, 0), (500, 500),
+                               (340 + 20 * i), 1)
+
         pygame.display.flip()
         self.clock.tick(self.fps)
