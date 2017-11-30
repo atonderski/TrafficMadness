@@ -28,15 +28,16 @@ class SingleLaneTrack(Track):
         """Performs a time step update of the entire track"""
 
         for car in self.cars.get_all_cars():
+            old_position = car.position
             nearby_cars = self.cars.get_nearby_cars(position=car.position)
             car.update(self.speed_limit, nearby_cars)
             # Check if we need to wrap the car (periodic boundary)
             if car.position > self.track_length:
                 car.position -= self.track_length
+            # Inform the car tracker that the car has moved
+            self.cars.car_has_moved(car=car, old_position=old_position)
 
-            self.cars.car_has_moved(car=car)
-
-        if len(self.cars) < self.max_num_cars:
+        if len(self.get_num_cars()) < self.max_num_cars:
             self.try_to_spawn_car()
 
     def try_to_spawn_car(self):
