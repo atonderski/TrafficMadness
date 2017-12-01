@@ -9,6 +9,7 @@ class AggressiveCar(LaneSwitchingCar):
         self.acceleration *= config.aggressiveness
         self.deceleration *= config.aggressiveness
         self.safetymultiplier /= config.aggressiveness
+        self.color = (255, 0, 0)
 
     def update(self, target_speed, nearby_cars):
         config = Config()
