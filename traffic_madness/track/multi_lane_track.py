@@ -4,7 +4,7 @@ from traffic_madness.car.lane_switching_car import LaneSwitchingCar
 from traffic_madness.car.simple_car import SimpleCar
 from traffic_madness.track import Track
 from traffic_madness.track.trackbucket import TrackBucket
-
+from traffic_madness.config import Config
 
 class MultiLaneTrack(Track):
     def __init__(self, speed_limit, track_length, num_lanes, max_num_cars):
@@ -19,9 +19,10 @@ class MultiLaneTrack(Track):
         self.reset()
 
     def reset(self):
+        config = Config()
         """Puts the track in its initial state"""
         self.cars = TrackBucket(track_length=self.track_length,
-                                bucket_length=25,
+                                bucket_length=config.bucket_length,
                                 num_lanes=self.num_lanes)
         new_car = LaneSwitchingCar(position=0,
                                    velocity=self.speed_limit,
@@ -48,12 +49,12 @@ class MultiLaneTrack(Track):
 
     def try_to_spawn_car_single_lane(self, lane):
         # Check if there is room to spawn a new car
-        back_cars = self.cars.get_nearby_cars(position=0)
+        back_cars = self.cars.get_nearby_cars(position=50)
         cars = back_cars[lane]
         if any([abs(car.position - self.track_length) < self.buffer_length for
                 car in cars]):
             return
-        new_car = LaneSwitchingCar(position=0,
+        new_car = LaneSwitchingCar(position=50,
                                    velocity=self.speed_limit,
                                    lane=lane)
         self.cars.add_car(new_car)

@@ -14,6 +14,7 @@
     [Daniel] track that keeps track of multiple lanes
     [DONE] some batching that makes it efficient for the track to find neighbours in different lanes
     [DONE] pygame drawing of multiple lanes
+    [Started] Track wrapping last bucket first bucket
 
 [NOT STARTED] Extra features:
     [NOT STARTED] Model accidents in a lane (lane is unpassable at a certain position)

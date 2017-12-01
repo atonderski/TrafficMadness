@@ -17,7 +17,7 @@ class PyGameDrawer(Drawer):
         self.fps = 10
 
         # Car constants for painting
-        self.CAR_COLOR = pygame.Color(175, 70, 2, 255)
+        # self.CAR_COLOR = pygame.Color(175, 70, 2, 255)
         self.CAR_SIZE = 10
 
         self.LANE_WIDTH = round(float(resolution[0]) / self.track.track_length)
@@ -70,7 +70,7 @@ class PyGameDrawer(Drawer):
         for index, car_rect in enumerate(car_rects):
             print(car_rect)
             rect_surface = pygame.Surface(car_rect.size)
-            rect_surface.fill(self.CAR_COLOR)
+            rect_surface.fill(cars[index].color)
             self.screen.blit(rect_surface, (car_rect.x, car_rect.y))
         print("Number of cars: " + str(len(car_rects)))
 

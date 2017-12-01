@@ -35,5 +35,5 @@ class SimpleCar(Car):
             self.position += self.velocity * timestep
 
         elif max(distances) < safety_distance:
-            self.velocity -= self.deceleration * timestep
+            self.velocity = max( 0, self.velocity - self.deceleration * timestep)
             self.position += self.velocity * timestep
