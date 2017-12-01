@@ -13,9 +13,10 @@ class Car:
         self.velocity = velocity
         self.acceleration = config.acceleration
         self.deceleration = config.deceleration
-        self.color = (64 + random.randint(0, 127),
-                      64 + random.randint(0, 127),
-                      64 + random.randint(0, 127))
+        self.color = (0, 0, 255)
+        # self.color = (64 + random.randint(0, 127),
+        #               64 + random.randint(0, 127),
+        #               64 + random.randint(0, 127))
 
     def update(self, target_speed, nearby_cars):
         pass
