@@ -9,9 +9,10 @@ class Config():
         self.lanes = 5
         self.speed_limit = 20
         self.track_length = 1000
+        self.buckets = float(66)
         self.max_num_cars = 150
-        self.buffer_length = 5
-        self.bucket_length = 50
+        self.buffer_length = 500
+        self.bucket_length = self.track_length / self.buckets
         # car properties
         self.acceleration = 4.3
         self.deceleration = 7.5
