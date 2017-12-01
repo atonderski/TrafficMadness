@@ -51,7 +51,7 @@ class MultiLaneTrack(Track):
         # Check if there is room to spawn a new car
         back_cars = self.cars.get_nearby_cars(position=0)
         cars = back_cars[lane]
-        if any([abs(car.position - 0) < self.buffer_length for
+        if any([abs(car.position) < self.buffer_length for
                 car in cars]):
             return
         if np.random.random() < 0.25:
