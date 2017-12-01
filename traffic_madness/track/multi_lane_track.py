@@ -2,6 +2,7 @@ from copy import deepcopy
 
 from traffic_madness.car.lane_switching_car import LaneSwitchingCar
 from traffic_madness.car.aggressive_car import AggressiveCar
+from traffic_madness.car.passive_car import PassiveCar
 from traffic_madness.car.simple_car import SimpleCar
 from traffic_madness.track import Track
 from traffic_madness.track.trackbucket import TrackBucket
@@ -55,14 +56,20 @@ class MultiLaneTrack(Track):
         if any([abs(car.position - 0) < self.buffer_length for
                 car in cars]):
             return
-        if np.random.random() < 0.25:
+
+        random_nbr = np.random.random()
+        if random_nbr < 0.25:
             new_car = AggressiveCar(position=0,
+                                   velocity=self.speed_limit,
+                                   lane=lane)
+        elif random_nbr < 0.75:
+            new_car = PassiveCar(position=0,
                                    velocity=self.speed_limit,
                                    lane=lane)
         else:
             new_car = LaneSwitchingCar(position=0,
-                                   velocity=self.speed_limit,
-                                   lane=lane)
+                                       velocity=self.speed_limit,
+                                       lane=lane)
         self.cars.add_car(new_car)
 
     def try_to_spawn_car(self):
