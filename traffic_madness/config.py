@@ -4,14 +4,15 @@ class Config():
     def __init__(self):
         self.timestep = 0.1
         # track properties
-        self.speed_limit = 5
-        self.track_length = 100
+        self.lanes = 5
+        self.speed_limit = 20
+        self.track_length = 1000
         self.max_num_cars = 150
-        self.buffer_length = 3
-        self.bucket_length = 25
+        self.buffer_length = 20
+        self.bucket_length = 50
         # car properties
-        self.acceleration = 1.3
-        self.deceleration = 50.0
-        self.aggressiveness = 1.1
+        self.acceleration = 4.3
+        self.deceleration = 7.5
+        self.aggressiveness = 1.2
         self.safetymultiplier = 1.0
         
