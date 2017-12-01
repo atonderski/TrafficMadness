@@ -2,7 +2,6 @@
 *.toc
 *.aux
 report/*.pdf
-report/report.synctex.gz
 
 # macOS
 *.DS_Store
