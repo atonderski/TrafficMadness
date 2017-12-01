@@ -76,7 +76,7 @@ class TrackBucket():
         true_bucket_index = bucket_index % len(self.bucket_list)
         cars = [car for car in self.bucket_list[true_bucket_index] if
                 car.lane == lane]
-        if bucket_index > len(self.bucket_list):
+        if bucket_index >= len(self.bucket_list):
             cars = [deepcopy(car) for car in cars]
             for car in cars:
                 car.position += self.track_length
