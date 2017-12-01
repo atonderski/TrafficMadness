@@ -16,6 +16,7 @@ class Car:
         self.color = (64 + random.randint(0, 127),
                       64 + random.randint(0, 127),
                       64 + random.randint(0, 127))
+        self.length = config.car_length
 
     def update(self, target_speed, nearby_cars):
         pass

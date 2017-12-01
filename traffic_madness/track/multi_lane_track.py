@@ -15,8 +15,9 @@ class MultiLaneTrack(Track):
         self.num_lanes = num_lanes
         self.max_num_cars = max_num_cars
         self.cars = None
+        config = Config()
 
-        self.buffer_length = 3
+        self.buffer_length = config.buffer_length
 
         self.reset()
 
