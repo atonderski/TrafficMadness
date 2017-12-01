@@ -40,6 +40,8 @@ class MultiLaneTrack(Track):
             # Check if we need to wrap the car (periodic boundary)
             if car.position >= self.track_length:
                 car.position -= self.track_length
+            elif car.position <= 0:
+                car.position += self.track_length
             # Inform the car tracker that the car has moved
             self.cars.car_has_moved(car=car, old_position=old_position)
 
