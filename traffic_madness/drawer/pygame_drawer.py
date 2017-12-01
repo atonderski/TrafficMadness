@@ -71,7 +71,6 @@ class PyGameDrawer(Drawer):
             rect_surface = pygame.Surface(car_rect.size)
             rect_surface.fill(cars[index].color)
             self.screen.blit(rect_surface, (car_rect.x, car_rect.y))
-        print("Number of cars: " + str(len(car_rects)))
 
         # circles
         for i in range(1,self.track.num_lanes+2):
