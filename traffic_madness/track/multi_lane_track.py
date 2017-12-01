@@ -24,10 +24,6 @@ class MultiLaneTrack(Track):
         self.cars = TrackBucket(track_length=self.track_length,
                                 bucket_length=config.bucket_length,
                                 num_lanes=self.num_lanes)
-        new_car = LaneSwitchingCar(position=0,
-                                   velocity=self.speed_limit,
-                                   lane=0)
-        self.cars.add_car(new_car)
 
     def update(self):
         """Performs a time step update of the entire track"""
@@ -40,7 +36,7 @@ class MultiLaneTrack(Track):
             # Check if we need to wrap the car (periodic boundary)
             if car.position >= self.track_length:
                 car.position -= self.track_length
-            elif car.position <= 0:
+            elif car.position < 0:
                 car.position += self.track_length
             # Inform the car tracker that the car has moved
             self.cars.car_has_moved(car=car, old_position=old_position)
@@ -51,12 +47,12 @@ class MultiLaneTrack(Track):
 
     def try_to_spawn_car_single_lane(self, lane):
         # Check if there is room to spawn a new car
-        back_cars = self.cars.get_nearby_cars(position=50)
+        back_cars = self.cars.get_nearby_cars(position=0)
         cars = back_cars[lane]
         if any([abs(car.position - self.track_length) < self.buffer_length for
                 car in cars]):
             return
-        new_car = LaneSwitchingCar(position=50,
+        new_car = LaneSwitchingCar(position=0,
                                    velocity=self.speed_limit,
                                    lane=lane)
         self.cars.add_car(new_car)

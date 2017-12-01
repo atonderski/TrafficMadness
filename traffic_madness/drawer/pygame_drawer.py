@@ -68,7 +68,6 @@ class PyGameDrawer(Drawer):
         self.screen.blit(self.bg_surface, (0, 0))
 
         for index, car_rect in enumerate(car_rects):
-            print(car_rect)
             rect_surface = pygame.Surface(car_rect.size)
             rect_surface.fill(cars[index].color)
             self.screen.blit(rect_surface, (car_rect.x, car_rect.y))
