@@ -9,7 +9,7 @@ def run_simulation():
     config = Config()
     track = MultiLaneTrack(speed_limit=config.speed_limit,
                            track_length=config.track_length,
-                           num_lanes=3,
+                           num_lanes=config.lanes,
                            max_num_cars=config.max_num_cars)
     # Add to drawer, make max_num_cars known to drawer so we can have a fixed
     # number of rects and use selective blit instead of the whole screen.

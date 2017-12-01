@@ -49,7 +49,7 @@ class MultiLaneTrack(Track):
         # Check if there is room to spawn a new car
         back_cars = self.cars.get_nearby_cars(position=0)
         cars = back_cars[lane]
-        if any([abs(car.position - self.track_length) < self.buffer_length for
+        if any([abs(car.position - 0) < self.buffer_length for
                 car in cars]):
             return
         new_car = LaneSwitchingCar(position=0,
@@ -61,7 +61,7 @@ class MultiLaneTrack(Track):
         # Check if there is room to spawn a new car
         back_cars = self.cars.get_nearby_cars(position=0)
         for lane, cars in enumerate(back_cars):
-            if any([abs(car.position - self.track_length) < self.buffer_length
+            if any([abs(car.position - 0) < self.buffer_length
                     for car in cars]):
                 continue
             new_car = LaneSwitchingCar(position=0,
