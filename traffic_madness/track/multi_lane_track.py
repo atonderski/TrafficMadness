@@ -25,7 +25,6 @@ class MultiLaneTrack(Track):
                                 num_lanes=self.num_lanes)
         new_car = LaneSwitchingCar(position=0,
                                    velocity=self.speed_limit,
-                                   acceleration=1,
                                    lane=0)
         self.cars.add_car(new_car)
 
@@ -56,7 +55,6 @@ class MultiLaneTrack(Track):
             return
         new_car = LaneSwitchingCar(position=0,
                                    velocity=self.speed_limit,
-                                   acceleration=1,
                                    lane=lane)
         self.cars.add_car(new_car)
 
@@ -69,7 +67,6 @@ class MultiLaneTrack(Track):
                 continue
             new_car = LaneSwitchingCar(position=0,
                                        velocity=self.speed_limit,
-                                       acceleration=1,
                                        lane=lane)
             self.cars.add_car(new_car)
 

@@ -38,7 +38,7 @@ class LaneSwitchingCar(Car):
                     switched_lanes = True
                     break
             if not switched_lanes:
-                self.velocity -= self.acceleration * timestep
+                self.velocity -= self.deceleration * timestep
         self.position += self.velocity * timestep
 
     def lane_is_safe(self, cars_in_lane, safety_distance):

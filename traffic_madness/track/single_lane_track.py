@@ -19,7 +19,7 @@ class SingleLaneTrack(Track):
 
     def reset(self):
         """Puts the track in its initial state"""
-        new_car = SimpleCar(0, velocity=self.speed_limit, acceleration=1)
+        new_car = SimpleCar(0, velocity=self.speed_limit)
         self.cars = [new_car]
         self.back_car_index = 0
 

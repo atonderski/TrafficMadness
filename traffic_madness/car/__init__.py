@@ -1,7 +1,7 @@
 from traffic_madness.config import Config
 
 class Car:
-    def __init__(self, position, velocity, acceleration, lane=0):
+    def __init__(self, position, velocity, lane=0):
         config = Config()
         self.position = position
         self.lane = lane
