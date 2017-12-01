@@ -6,6 +6,7 @@ from traffic_madness.car.simple_car import SimpleCar
 from traffic_madness.track import Track
 from traffic_madness.track.trackbucket import TrackBucket
 from traffic_madness.config import Config
+import numpy as np
 
 class MultiLaneTrack(Track):
     def __init__(self, speed_limit, track_length, num_lanes, max_num_cars):
@@ -53,7 +54,12 @@ class MultiLaneTrack(Track):
         if any([abs(car.position - 0) < self.buffer_length for
                 car in cars]):
             return
-        new_car = AggressiveCar(position=0,
+        if np.random.random() < 0.25:
+            new_car = AggressiveCar(position=0,
+                                   velocity=self.speed_limit,
+                                   lane=lane)
+        else:
+            new_car = LaneSwitchingCar(position=0,
                                    velocity=self.speed_limit,
                                    lane=lane)
         self.cars.add_car(new_car)
