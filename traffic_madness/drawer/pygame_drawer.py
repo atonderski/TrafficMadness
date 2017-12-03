@@ -70,16 +70,22 @@ class PyGameDrawer(Drawer):
 
         self.screen.blit(self.bg_surface, (0, 0))
 
+        ''' Beginning changes in drawer T.F.'''
         # Add rectangle with text into the middle of the circle
         rect = pygame.Rect(400, 480, 200, 40)
         pygame.draw.rect(self.bg_surface, (0, 0, 0), rect, 2)
-        test_text = 'Traffic flow: ' + str(flow) + ' cars/h'
-        self.screen.blit(self.font.render(test_text, True, (0, 0, 0)), (405, 487))
+        flow_text = 'Traffic flow: ' + str(flow) + ' cars/h'
+        self.screen.blit(self.font.render(flow_text, True, (0, 0, 0)), (405, 487))
+        # Add number of cars to drawer to indicate state of initialisation
+        cars_text = '# Cars: ' + str(len(cars))
+        self.screen.blit(self.font.render(cars_text, True, (0, 0, 0)), (450, 520))
+        ''' End changes in drawer T.F.'''
 
         for index, car_rect in enumerate(car_rects):
             rect_surface = pygame.Surface(car_rect.size)
             rect_surface.fill(cars[index].color)
             self.screen.blit(rect_surface, (car_rect.x, car_rect.y))
+
 
         # circles
         for i in range(1,self.track.num_lanes+2):
