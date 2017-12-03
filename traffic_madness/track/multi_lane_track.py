@@ -73,7 +73,7 @@ class MultiLaneTrack(Track):
         #                                lane=lane)
 
         # Spawn cars at random position, fills track faster and does not produce a biased
-        # congestion. 
+        # congestion.
         if random_nbr < config.aggressives:
             new_car = AggressiveCar(position=np.random.uniform(0.0, config.track_length),
                                    velocity=self.speed_limit,
