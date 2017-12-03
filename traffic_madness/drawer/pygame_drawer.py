@@ -71,10 +71,10 @@ class PyGameDrawer(Drawer):
         self.screen.blit(self.bg_surface, (0, 0))
 
         # Add rectangle with text into the middle of the circle
-        rect = pygame.Rect(450, 480, 100, 40)
+        rect = pygame.Rect(400, 480, 200, 40)
         pygame.draw.rect(self.bg_surface, (0, 0, 0), rect, 2)
-        test_text = 'Traffic flow: ' + str(flow)
-        self.screen.blit(self.font.render(test_text, True, (0, 0, 0)), (460, 487))
+        test_text = 'Traffic flow: ' + str(flow) + ' cars/h'
+        self.screen.blit(self.font.render(test_text, True, (0, 0, 0)), (405, 487))
 
         for index, car_rect in enumerate(car_rects):
             rect_surface = pygame.Surface(car_rect.size)

@@ -40,7 +40,7 @@ class TrackBucket():
         if old_bucket_index == new_bucket_index:
             return
         else:
-            # For one bucket calculate flow
+            # For first bucket calculate flow (count cars leaving the bucket)
             if old_bucket_index == 0:
                 self.cars_leaving += 1
             self.bucket_list[old_bucket_index].remove(car)
