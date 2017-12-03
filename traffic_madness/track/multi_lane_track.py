@@ -59,16 +59,31 @@ class MultiLaneTrack(Track):
             return
 
         random_nbr = np.random.random()
+        # if random_nbr < config.aggressives:
+        #     new_car = AggressiveCar(position=0,
+        #                            velocity=self.speed_limit,
+        #                            lane=lane)
+        # elif random_nbr < config.aggressives + config.passives:
+        #     new_car = PassiveCar(position=0,
+        #                            velocity=self.speed_limit,
+        #                            lane=lane)
+        # else:
+        #     new_car = LaneSwitchingCar(position=0,
+        #                                velocity=self.speed_limit,
+        #                                lane=lane)
+
+        # Spawn cars at random position, fills track faster and does not produce a biased
+        # congestion. 
         if random_nbr < config.aggressives:
-            new_car = AggressiveCar(position=0,
+            new_car = AggressiveCar(position=np.random.uniform(0.0, config.track_length),
                                    velocity=self.speed_limit,
                                    lane=lane)
         elif random_nbr < config.aggressives + config.passives:
-            new_car = PassiveCar(position=0,
+            new_car = PassiveCar(position=np.random.uniform(0.0, config.track_length),
                                    velocity=self.speed_limit,
                                    lane=lane)
         else:
-            new_car = LaneSwitchingCar(position=0,
+            new_car = LaneSwitchingCar(position=np.random.uniform(0.0, config.track_length),
                                        velocity=self.speed_limit,
                                        lane=lane)
         self.cars.add_car(new_car)

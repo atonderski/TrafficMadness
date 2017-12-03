@@ -18,7 +18,7 @@ def run_simulation():
     # number of rects and use selective blit instead of the whole screen.
     drawer = PyGameDrawer((1000, 1000), "Traffic Madness Simulation", track)
 
-    # Define an array for averaging the traffic flow
+    # Define an array for averaging the traffic flow (now 20 timesteps average)
     flow_array = np.zeros(20)
     while True:
         track.update()
