@@ -50,6 +50,7 @@ class MultiLaneTrack(Track):
             self.try_to_spawn_car_single_lane(lane=0)
 
     def try_to_spawn_car_single_lane(self, lane):
+        config = Config()
         # Check if there is room to spawn a new car
         back_cars = self.cars.get_nearby_cars(position=0)
         cars = back_cars[lane]
@@ -58,11 +59,11 @@ class MultiLaneTrack(Track):
             return
 
         random_nbr = np.random.random()
-        if random_nbr < 0.25:
+        if random_nbr < config.aggressives:
             new_car = AggressiveCar(position=0,
                                    velocity=self.speed_limit,
                                    lane=lane)
-        elif random_nbr < 0.75:
+        elif random_nbr < config.aggressives + config.passives:
             new_car = PassiveCar(position=0,
                                    velocity=self.speed_limit,
                                    lane=lane)
