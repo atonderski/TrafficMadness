@@ -9,6 +9,7 @@ from traffic_madness.observables.traffic_flow import traffic_flow
 
 def run_simulation():
     config = Config()
+    time = 0
     track = MultiLaneTrack(speed_limit=config.speed_limit,
                            track_length=config.track_length,
                            num_lanes=config.lanes,
@@ -21,10 +22,11 @@ def run_simulation():
     flow_array = np.zeros(20)
     while True:
         track.update()
+        time += 1
         # Get flow and updated flow array
         flow, flow_array = traffic_flow(track.get_flow_cars(), flow_array)
         # Give flow to the drawer to draw it
-        drawer.update(track.get_all_cars(), flow)
+        drawer.update(track.get_all_cars(), time, flow)
 
 
 if __name__ == '__main__':

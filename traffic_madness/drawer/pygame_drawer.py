@@ -4,6 +4,7 @@ import sys
 import pygame
 
 from traffic_madness.drawer import Drawer
+from traffic_madness.config import Config
 
 
 class PyGameDrawer(Drawer):
@@ -53,7 +54,8 @@ class PyGameDrawer(Drawer):
                     pygame.quit()
                     sys.exit()
 
-    def update(self, cars, flow):
+    def update(self, cars, time, flow):
+        config = Config()
         self.event_loop()
 
         def _rect_from_car(car):
@@ -79,6 +81,10 @@ class PyGameDrawer(Drawer):
         # Add number of cars to drawer to indicate state of initialisation
         cars_text = '# Cars: ' + str(len(cars))
         self.screen.blit(self.font.render(cars_text, True, (0, 0, 0)), (450, 520))
+        # Add current time to drawer
+        time_text = 'Time: ' + str(time * config.timestep) + ' s'
+        self.screen.blit(self.font.render(time_text, True, (0, 0, 0)), (450, 540))
+
         ''' End changes in drawer T.F.'''
 
         for index, car_rect in enumerate(car_rects):
