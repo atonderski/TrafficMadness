@@ -1,4 +1,4 @@
 class Drawer(object):
 
-    def update(self, cars):
+    def update(self, cars, observable):
         pass

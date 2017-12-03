@@ -27,6 +27,9 @@ class PyGameDrawer(Drawer):
         self.screen.blit(self.bg_surface, (0, 0))
         pygame.display.flip()
 
+        # Add a font to write stuff
+        self.font = pygame.font.SysFont('Arial', 20)
+
     def setup_screen(self, resolution, title):
         """ Set up and return screen and background."""
         screen = pygame.display.set_mode(resolution)
@@ -50,7 +53,7 @@ class PyGameDrawer(Drawer):
                     pygame.quit()
                     sys.exit()
 
-    def update(self, cars):
+    def update(self, cars, flow):
         self.event_loop()
 
         def _rect_from_car(car):
@@ -66,6 +69,12 @@ class PyGameDrawer(Drawer):
         car_rects = [_rect_from_car(car) for car in cars]
 
         self.screen.blit(self.bg_surface, (0, 0))
+
+        # Add rectangle with text into the middle of the circle
+        rect = pygame.Rect(450, 480, 100, 40)
+        pygame.draw.rect(self.bg_surface, (0, 0, 0), rect, 2)
+        test_text = 'Traffic flow: ' + str(flow)
+        self.screen.blit(self.font.render(test_text, True, (0, 0, 0)), (460, 487))
 
         for index, car_rect in enumerate(car_rects):
             rect_surface = pygame.Surface(car_rect.size)

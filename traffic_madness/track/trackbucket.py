@@ -14,6 +14,8 @@ class TrackBucket():
         self.num_lanes = num_lanes
         n_buckets = float(track_length) / bucket_length
         self.bucket_list = []
+        # Add flow ariable
+        self.cars_leaving = 0
         if int(n_buckets) == n_buckets:
             for _ in range(int(n_buckets)):
                 self.bucket_list.append([])
@@ -38,6 +40,9 @@ class TrackBucket():
         if old_bucket_index == new_bucket_index:
             return
         else:
+            # For one bucket calculate flow
+            if old_bucket_index == 0:
+                self.cars_leaving += 1
             self.bucket_list[old_bucket_index].remove(car)
             self.bucket_list[new_bucket_index].append(car)
 
@@ -86,3 +91,9 @@ class TrackBucket():
                 car.position -= self.track_length
         cars.sort(key=lambda x: x.position)
         return cars
+
+    def get_flow(self):
+        # Temporary variable to set cars_leaving back to 0 after each time step
+        temp = self.cars_leaving
+        self.cars_leaving = 0
+        return temp

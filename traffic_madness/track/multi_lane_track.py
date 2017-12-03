@@ -88,3 +88,7 @@ class MultiLaneTrack(Track):
     def get_all_cars(self):
         """Returns a list of all the car positions"""
         return self.cars.get_all_cars()
+
+    def get_flow_cars(self):
+        # Get number of cars that left a bucket this timestep
+        return self.cars.get_flow()
