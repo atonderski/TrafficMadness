@@ -37,3 +37,8 @@ class SimpleCar(Car):
         elif max(distances) < safety_distance:
             self.velocity = max( 0, self.velocity - self.deceleration * timestep)
             self.position += self.velocity * timestep
+
+        if (delay_buffer.length < delay_buffer.size):
+            delay_buffer.append(self.velocity)
+            self.velocity = delay_buffer.pop(0)
+            
