@@ -20,6 +20,6 @@ class Config():
         self.deceleration = 7.5
         self.aggressiveness = 1.2
         self.passiveness = 0.8
-        self.safetymultiplier = 1.8
+        self.safetymultiplier = 0.5
         self.car_length = 5.0
-        
+        self.delay_buffer_length = 10
