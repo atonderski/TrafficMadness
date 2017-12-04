@@ -3,7 +3,7 @@ from traffic_madness.config import Config
 from traffic_madness.car.lane_switching_car import LaneSwitchingCar
 
 class AggressiveCar(LaneSwitchingCar):
-    def __init__(self, position, velocity, lane):
+    def __init__(self, position, velocity, lane, delay_buffer_length=0):
         config = Config()
         super().__init__(position, velocity, lane)
         self.acceleration *= config.aggressiveness
