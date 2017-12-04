@@ -36,7 +36,7 @@ def spawning(track, drawer):
         track.update()
         time_counter += 1
         #  Give flow to the drawer to draw it
-        drawer.update(track.get_all_cars(), time_counter, 0)
+        # drawer.update(track.get_all_cars(), time_counter, 0)
 
 
 def equilibration(track, drawer, flow_array):
@@ -48,7 +48,7 @@ def equilibration(track, drawer, flow_array):
         # Get flow and updated flow array
         flow, flow_array = traffic_flow(track.get_flow_cars(), flow_array)
         # # Give flow to the drawer to draw it
-        drawer.update(track.get_all_cars(), time_counter, flow)
+        # drawer.update(track.get_all_cars(), time_counter, flow)
 
 
 def observation(track, drawer, flow_array):

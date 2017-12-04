@@ -22,4 +22,4 @@ class Config():
         self.passiveness = 0.8
         self.safetymultiplier = 0.5
         self.car_length = 5.0
-        self.delay_buffer_length = 10
+        self.delay_buffer_length = 2
