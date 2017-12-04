@@ -24,5 +24,4 @@ def class_average_speed(cars):
         class_velocity = sum(velocities) / len(velocities)
         class_velocities.append([class_velocity])
         class_names.append(key)
-    print(class_velocities, class_names)
-
+    return class_velocities, class_names
