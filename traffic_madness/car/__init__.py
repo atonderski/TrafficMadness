@@ -6,7 +6,7 @@ from traffic_madness.config import Config
 class Car:
     def __init__(self, position, velocity, lane=0, delay_buffer_length=0):
         config = Config()
-        self.delay_buffer_length = delay_buffer_length
+        self.delay_buffer_length = config.delay_buffer_length
         self.timestep = config.timestep
         self.safetymultiplier = config.safetymultiplier
         self.position = position
@@ -19,6 +19,7 @@ class Car:
         # self.color = (64 + random.randint(0, 127),
         #               64 + random.randint(0, 127),
         #               64 + random.randint(0, 127))
+        self.delay_buffer = []
 
     def update(self, target_speed, nearby_cars):
         pass

@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from traffic_madness.config import Config
 
 colors = ['k-', 'r-', 'b-', 'g-',
           'k--', 'r--', 'b--', 'g--',
@@ -28,3 +29,8 @@ plt.xlabel('time [s]')
 plt.ylabel('traffic flow [cars / h]')
 # plt.ylim(5000, 8000)
 plt.show()
+
+
+def optimal_flow(aggressives):
+    config = Config()
+    (config.speed_limit / config.track_length)

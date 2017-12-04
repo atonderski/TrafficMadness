@@ -77,7 +77,6 @@ class MultiLaneTrack(Track):
         if random_nbr < config.aggressives:
             new_car = AggressiveCar(position=np.random.uniform(0.0, config.track_length),
                                    velocity=self.speed_limit,
-                                    delay_buffer_length = 1,
                                    lane=lane)
         elif random_nbr < config.aggressives + config.passives:
             new_car = PassiveCar(position=np.random.uniform(0.0, config.track_length),

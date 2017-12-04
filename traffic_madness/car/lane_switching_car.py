@@ -39,8 +39,9 @@ class LaneSwitchingCar(Car):
         self.update_position(self.position + dist_to_car_in_front)
 
         assert self.velocity >= 0
-        if (len(self.delay_buffer) < self.delay_buffer_length):
-            self.delay_buffer.append(self.velocity)
+        self.delay_buffer.append(self.velocity)
+        self.velocity = 0
+        if (len(self.delay_buffer) > self.delay_buffer_length):
             self.velocity = self.delay_buffer.pop(0)
         
     

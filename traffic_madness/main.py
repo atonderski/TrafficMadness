@@ -22,6 +22,7 @@ def run_simulation():
     # Define an array for averaging the traffic flow (now 1 min average)
     # equilibration needs to be at least the average time
     flow_array = np.zeros(int(60 / config.timestep))
+
     spawning(track, drawer)
     equilibration(track, drawer, flow_array)
     observation(track, drawer, flow_array)
