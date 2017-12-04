@@ -39,6 +39,10 @@ class LaneSwitchingCar(Car):
         self.update_position(self.position + dist_to_car_in_front)
 
         assert self.velocity >= 0
+        if (len(self.delay_buffer) < self.delay_buffer_length):
+            self.delay_buffer.append(self.velocity)
+            self.velocity = self.delay_buffer.pop(0)
+        
     
     def update_position(self, car_in_front_position):
         """ Updates the position of the car. If it reaches the 
