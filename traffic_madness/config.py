@@ -6,7 +6,7 @@ class Config():
         self.equilibration = 120 # Set equilibration time
         self.observation = 180 # Set time for observation
         # track properties
-        self.aggressives = 1.0 # % of aggressive drivers
+        self.aggressives = 0.2 # % of aggressive drivers
         self.passives = 0.0 # passive drivers
         self.lanes = 3
         self.speed_limit = 20
@@ -20,6 +20,6 @@ class Config():
         self.deceleration = 7.5
         self.aggressiveness = 1.2
         self.passiveness = 0.8
-        self.safetymultiplier = 1.8
+        self.safetymultiplier = 0.5
         self.car_length = 5.0
-        
+        self.delay_buffer_length = 2

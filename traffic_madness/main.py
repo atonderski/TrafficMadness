@@ -22,9 +22,27 @@ def run_simulation():
     # Define an array for averaging the traffic flow (now 1 min average)
     # equilibration needs to be at least the average time
     flow_array = np.zeros(int(60 / config.timestep))
-    run = True
-    start = time.time()
-    while run:
+
+    spawning(track, drawer)
+    equilibration(track, drawer, flow_array)
+    observation(track, drawer, flow_array)
+
+
+# Spawning phase for all cars
+def spawning(track, drawer):
+    config = Config()
+    time_counter = 0
+    while len(track.get_all_cars()) < config.max_num_cars:
+        track.update()
+        time_counter += 1
+        #  Give flow to the drawer to draw it
+        # drawer.update(track.get_all_cars(), time_counter, 0)
+
+
+def equilibration(track, drawer, flow_array):
+    config = Config()
+    time_counter = 0
+    while time_counter * config.timestep < config.equilibration:
         track.update()
         time_counter += 1
         # Get flow and updated flow array
@@ -32,36 +50,17 @@ def run_simulation():
         # # Give flow to the drawer to draw it
         # drawer.update(track.get_all_cars(), time_counter, flow)
 
-        if len(track.get_all_cars()) == config.max_num_cars:
-            end = time.time()
-            print('Spawning done, time %f s' % (end - start))
-            equilibration = config.equilibration
-            observation = config.observation
-            time_counter = 0
-            for i in range(0, int(equilibration / config.timestep)):
-                track.update()
-                time_counter += 1
-                # Get flow and updated flow array
-                flow, flow_array = traffic_flow(track.get_flow_cars(), flow_array)
-                # # Give flow to the drawer to draw it
-                # drawer.update(track.get_all_cars(), time_counter, flow)
-            end = time.time()
-            print('Equilibration done, time %f s' % (end - start))
-            time_counter = 0
-            file = open('data/flow_aggressiveness%.2f_cars%d.dat' %
-                        (config.aggressives, config.max_num_cars), 'w')
-            for j in range(0, int(observation / config.timestep)):
-                track.update()
-                time_counter += 1
-                # Get flow and updated flow array
-                flow, flow_array = traffic_flow(track.get_flow_cars(), flow_array)
-                file.write('%f \t %f \n' % (time_counter * config.timestep, flow))
-                # Give flow to the drawer to draw it
-                drawer.update(track.get_all_cars(), time_counter, flow)
-            file.close()
-            end = time.time()
-            print('Observation done, time %f s' % (end - start))
-            run = False
+
+def observation(track, drawer, flow_array):
+    config = Config()
+    time_counter = 0
+    while time_counter * config.timestep < config.observation:
+        track.update()
+        time_counter += 1
+        # Get flow and updated flow array
+        flow, flow_array = traffic_flow(track.get_flow_cars(), flow_array)
+        # # Give flow to the drawer to draw it
+        drawer.update(track.get_all_cars(), time_counter, flow)
 
 
 if __name__ == '__main__':
