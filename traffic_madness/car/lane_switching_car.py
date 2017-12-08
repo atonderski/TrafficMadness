@@ -14,12 +14,19 @@ class LaneSwitchingCar(Car):
         if dist_to_car_in_front < safety_distance:
             switched = self.attempt_lane_shift(target_speed,
                                                nearby_cars,
-                                               safety_distance)
+                                               safety_distance,
+                                               allow_right=not self.nice)
         elif abs(dist_to_car_in_back) < safety_distance:
             switched = self.attempt_lane_shift(target_speed,
                                                nearby_cars,
                                                safety_distance,
-                                               prefer_right=True)
+                                               prefer_right=True,
+                                               allow_left=not self.nice)
+        elif self.nice:
+            switched = self.attempt_lane_shift(target_speed,
+                                               nearby_cars,
+                                               safety_distance,
+                                               allow_left=False)
 
         # Update distances if we switched lanes
         if switched:
@@ -45,15 +52,15 @@ class LaneSwitchingCar(Car):
 
         assert self.velocity >= 0
 
-        
-    
     def update_position(self, car_in_front_position):
         """ Updates the position of the car. If it reaches the 
             position of the car in front, the cars collide.
             Passing not allowed except for lane switching."""
         proposed_position = self.position + self.velocity * self.timestep
-        # TODO(CHANGE THIS DANIEL): This should not be - own length, send car instead
+        # TODO(CHANGE THIS DANIEL): This should not be - own length,
+        # send car instead
         crash_position = car_in_front_position - self.length
+
         if proposed_position > crash_position and self.position >= crash_position:
             # We stay at the same spot until car in front moves
             self.velocity = 0
@@ -77,10 +84,11 @@ class LaneSwitchingCar(Car):
         return dist_to_car_in_front, dist_to_car_in_back
 
     def attempt_lane_shift(self, target_speed, nearby_cars, safety_distance,
-                           prefer_right=True):
+                           prefer_right=True, allow_left=True,
+                           allow_right=True):
         # Check lane shift
         allowed_lanes = []
-        if self.lane < len(nearby_cars) - 1:
+        if allow_left and self.lane < len(nearby_cars) - 1:
             allowed_lanes.append(self.lane + 1)
         if self.lane > 0:
             allowed_lanes.append(self.lane - 1)

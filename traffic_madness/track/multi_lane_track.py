@@ -1,13 +1,12 @@
-from copy import deepcopy
+import numpy as np
 
-from traffic_madness.car.lane_switching_car import LaneSwitchingCar
 from traffic_madness.car.aggressive_car import AggressiveCar
+from traffic_madness.car.lane_switching_car import LaneSwitchingCar
 from traffic_madness.car.passive_car import PassiveCar
-from traffic_madness.car.simple_car import SimpleCar
+from traffic_madness.config import Config
 from traffic_madness.track import Track
 from traffic_madness.track.trackbucket import TrackBucket
-from traffic_madness.config import Config
-import numpy as np
+
 
 class MultiLaneTrack(Track):
     def __init__(self, speed_limit, track_length, num_lanes, max_num_cars):
@@ -16,6 +15,8 @@ class MultiLaneTrack(Track):
         self.num_lanes = num_lanes
         self.max_num_cars = max_num_cars
         self.cars = None
+        self.cartypes = [0, 0, 0]  # Counter for different car types
+        # [Aggressive, neutral, passive]
         config = Config()
 
         self.buffer_length = config.buffer_length
@@ -74,20 +75,30 @@ class MultiLaneTrack(Track):
         #                                velocity=self.speed_limit,
         #                                lane=lane)
 
-        # Spawn cars at random position, fills track faster and does not produce a biased
+        # Spawn cars at random position, fills track faster and does not
+        # produce a biased
         # congestion.
         if random_nbr < config.aggressives:
-            new_car = AggressiveCar(position=np.random.uniform(0.0, config.track_length),
-                                   velocity=self.speed_limit,
-                                   lane=lane)
+            new_car = AggressiveCar(
+                position=np.random.uniform(0.0, config.track_length),
+                velocity=self.speed_limit,
+                lane=lane,
+                nice=True)
+            self.cartypes[0] += 1
         elif random_nbr < config.aggressives + config.passives:
-            new_car = PassiveCar(position=np.random.uniform(0.0, config.track_length),
-                                   velocity=self.speed_limit,
-                                   lane=lane)
+            new_car = PassiveCar(
+                position=np.random.uniform(0.0, config.track_length),
+                velocity=self.speed_limit,
+                lane=lane,
+                nice=True)
+            self.cartypes[2] += 1
         else:
-            new_car = LaneSwitchingCar(position=np.random.uniform(0.0, config.track_length),
-                                       velocity=self.speed_limit,
-                                       lane=lane)
+            new_car = LaneSwitchingCar(
+                position=np.random.uniform(0.0, config.track_length),
+                velocity=self.speed_limit,
+                lane=lane,
+                nice=True)
+            self.cartypes[1] += 1
         self.cars.add_car(new_car)
 
     def try_to_spawn_car(self):
@@ -109,3 +120,6 @@ class MultiLaneTrack(Track):
     def get_flow_cars(self):
         # Get number of cars that left a bucket this timestep
         return self.cars.get_flow()
+
+    def get_cartypes(self):
+        return self.cartypes

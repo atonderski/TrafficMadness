@@ -11,3 +11,20 @@ def traffic_flow(cars_moved, flows):
     # Get flow in cars per hour (Unit of timestep is seconds)
     multiplicator = 1 / config.timestep * 3600
     return average * multiplicator, flows
+
+def optimal_flow(cartypes):
+    config = Config()
+    aggressives = cartypes[0]
+    neutrals = cartypes[1]
+    passives = cartypes[2]
+    # Flow of neutral cars
+    flow = (config.speed_limit / config.track_length) * neutrals
+    # Flow of aggressive cars
+    flow += (config.speed_limit * config.aggressiveness/ config.track_length)\
+            * aggressives
+    # Flow of passive cars
+    flow += (config.speed_limit * config.passiveness / config.track_length) \
+            * passives
+    # Rescale to cars per hour
+    flow *= 3600
+    return flow
