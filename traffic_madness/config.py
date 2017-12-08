@@ -9,11 +9,11 @@ class Config():
         # track properties
         self.aggressives = 0.2 # % of aggressive drivers
         self.passives = 0.1 # passive drivers
-        self.lanes = 3
+        self.lanes = 2 
         self.speed_limit = 20
         self.track_length = 1000
         self.buckets = 40.0
-        self.max_num_cars = 200
+        self.max_num_cars = 150
         self.buffer_length = 10
         self.bucket_length = self.track_length / self.buckets
         # car properties
