@@ -9,7 +9,8 @@ class LaneSwitchingCar(Car):
 
         dist_to_car_in_front, dist_to_car_in_back, car_in_front, car_in_back \
             = self._get_dist_to_front_and_back(nearby_cars)
-        safety_distance = max(self.velocity * self.safetymultiplier, car_in_front.length)
+        safety_distance = max(self.velocity * self.safetymultiplier,
+                              car_in_front.length)
 
         """
         Lane switching logic:
@@ -21,21 +22,20 @@ class LaneSwitchingCar(Car):
         """
         switched = False
         if self.nice:
-            switched = self.attempt_nice_right_shift(target_speed,
-                                                     nearby_cars,
-                                                     safety_distance)
+            if self.lane != 0:
+                switched = self.attempt_lane_shift(nearby_cars,
+                                                   safety_distance,
+                                                   allow_left=False)
         if switched:
             # No more actions need to be taken
             pass
         elif (dist_to_car_in_front < safety_distance and
-                      car_in_front.velocity < self.velocity):
-            switched = self.attempt_lane_shift(target_speed,
-                                               nearby_cars,
+                      car_in_front.velocity < target_speed):
+            switched = self.attempt_lane_shift(nearby_cars,
                                                safety_distance)
         elif (abs(dist_to_car_in_back) < safety_distance and
                       car_in_back.velocity > self.velocity):
-            switched = self.attempt_lane_shift(target_speed,
-                                               nearby_cars,
+            switched = self.attempt_lane_shift(nearby_cars,
                                                safety_distance,
                                                prefer_right=True)
 
@@ -52,8 +52,8 @@ class LaneSwitchingCar(Car):
                          target_speed])
         else:
             deceleration = self.deceleration * (
-                (1-dist_to_car_in_front/safety_distance)*0.7 + 
-                0.3*(self.velocity - car_in_front.velocity)) 
+                (1 - dist_to_car_in_front / safety_distance) * 0.7 +
+                0.3 * (self.velocity - car_in_front.velocity))
             deceleration = min(deceleration, config.max_deceleration)
             self.velocity = max(
                   0, self.velocity - deceleration * self.timestep)
@@ -110,7 +110,7 @@ class LaneSwitchingCar(Car):
         return dist_to_car_in_front, dist_to_car_in_back, car_in_front, \
                car_in_back
 
-    def attempt_lane_shift(self, target_speed, nearby_cars, safety_distance,
+    def attempt_lane_shift(self, nearby_cars, safety_distance,
                            prefer_right=True, allow_left=True,
                            allow_right=True):
         # Check lane shift
@@ -124,29 +124,18 @@ class LaneSwitchingCar(Car):
             allowed_lanes = reversed(allowed_lanes)
 
         for lane in allowed_lanes:
-            if self.lane_is_safe(nearby_cars[lane], safety_distance):
+            if self.lane_is_safe(nearby_cars, lane, safety_distance):
                 self.lane = lane
                 return True
         return False
 
-    def lane_is_safe(self, cars_in_lane, safety_distance):
-        if not cars_in_lane:
+    def lane_is_safe(self, nearby_cars, lane, safety_distance):
+        if not nearby_cars[lane]:
             return True
-        distances = [abs(car.position - self.position) for car in cars_in_lane]
-        return min(distances) > safety_distance
-
-    def attempt_nice_right_shift(self, target_speed, nearby_cars,
-                                 safety_distance):
-        if self.lane == 0:
-            return False
         dist_to_car_in_front, dist_to_car_in_back, car_in_front, car_in_back \
-            = self._get_dist_to_front_and_back(nearby_cars, lane=self.lane - 1)
+            = self._get_dist_to_front_and_back(nearby_cars, lane=lane)
         front_ok = (dist_to_car_in_front > safety_distance or
                     car_in_front.velocity > self.velocity)
         back_ok = (dist_to_car_in_back > safety_distance or
                    car_in_front.velocity < self.velocity)
-        if front_ok and back_ok:
-            return self.attempt_lane_shift(target_speed,
-                                           nearby_cars,
-                                           safety_distance,
-                                           allow_left=False)
+        return front_ok and back_ok
