@@ -2,20 +2,11 @@ from traffic_madness.config import Config
 
 
 class Car:
-<<<<<<< HEAD
-    def __init__(self, position, velocity, lane=0, delay_buffer_length=0):
- 
-=======
     def __init__(self, position, velocity, lane=0, nice=False):
-        config = Config()
-        self.nice = nice
-        self.delay_buffer_length = config.delay_buffer_length
-        self.timestep = config.timestep
-        self.safetymultiplier = config.safetymultiplier
->>>>>>> 0847835c57020996fd2becf8a08401b2f43a114b
         self.position = position
         self.lane = lane
         self.velocity = velocity
+        self.nice = nice
 
         config = Config()
 #        self.delay_buffer_length = config.delay_buffer_length
