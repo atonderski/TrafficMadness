@@ -36,10 +36,10 @@ class LaneSwitchingCar(Car):
             self.velocity = max(
                 0, self.velocity - self.deceleration * self.timestep)
 
-        self.delay_buffer.append(self.velocity)
-        self.velocity = 0
-        if (len(self.delay_buffer) > self.delay_buffer_length):
-            self.velocity = self.delay_buffer.pop(0)
+#        self.delay_buffer.append(self.velocity)
+#        self.velocity = 0
+#        if (len(self.delay_buffer) > self.delay_buffer_length):
+#            self.velocity = self.delay_buffer.pop(0)
 
         self.update_position(self.position + dist_to_car_in_front)
 
@@ -54,12 +54,14 @@ class LaneSwitchingCar(Car):
         proposed_position = self.position + self.velocity * self.timestep
         # TODO(CHANGE THIS DANIEL): This should not be - own length, send car instead
         crash_position = car_in_front_position - self.length
-        if proposed_position > crash_position and self.position > crash_position:
+        if proposed_position > crash_position and self.position >= crash_position:
             # We stay at the same spot until car in front moves
             self.velocity = 0
-        elif proposed_position > car_in_front_position and self.position < crash_position:
+            print("Car has crashed at {}".format(self.position))
+        elif proposed_position > crash_position and self.position < crash_position:
            self.position = crash_position
            self.velocity = 0
+           print("Car has crashed at {}".format(self.position))
         else:
             self.position = proposed_position
 

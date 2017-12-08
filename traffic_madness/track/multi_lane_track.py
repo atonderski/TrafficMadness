@@ -30,7 +30,9 @@ class MultiLaneTrack(Track):
                                 num_lanes=self.num_lanes)
 
     def update(self):
-        """Performs a time step update of the entire track"""
+        """Performs a time step update of the entire track.
+           The current time is the loop iteration times the time
+           step used in the model. The actual time the cars see."""
 
         for car in self.cars.get_all_cars():
             old_position = car.position

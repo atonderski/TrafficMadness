@@ -10,12 +10,13 @@ from traffic_madness.config import Config
 class PyGameDrawer(Drawer):
     def __init__(self, resolution, title, track):
         pygame.init()
+        config = Config()
         self.track = track
         self.screen, self.bg_surface = self.setup_screen(resolution, title)
 
         # Clock used to for update
         self.clock = pygame.time.Clock()
-        self.fps = 10
+        self.fps = config.fps
 
         # Car constants for painting
         # self.CAR_COLOR = pygame.Color(175, 70, 2, 255)
