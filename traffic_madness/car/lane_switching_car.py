@@ -21,20 +21,17 @@ class LaneSwitchingCar(Car):
         space and the velocity is better or equal to the current velocity
         """
         switched = False
-        if self.nice:
+        if not switched and self.nice:
             if self.lane != 0:
                 switched = self.attempt_lane_shift(nearby_cars,
                                                    safety_distance,
                                                    allow_left=False)
-        if switched:
-            # No more actions need to be taken
-            pass
-        elif (dist_to_car_in_front < safety_distance and
-                      car_in_front.velocity < target_speed):
+        if not switched and (dist_to_car_in_front < safety_distance and
+                                     car_in_front.velocity < target_speed):
             switched = self.attempt_lane_shift(nearby_cars,
                                                safety_distance)
-        elif (dist_to_car_in_back < safety_distance and
-                      car_in_back.velocity > self.velocity):
+        if not switched and (dist_to_car_in_back < safety_distance and
+                                     car_in_back.velocity >= self.velocity):
             switched = self.attempt_lane_shift(nearby_cars,
                                                safety_distance,
                                                prefer_right=True)

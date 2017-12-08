@@ -25,5 +25,6 @@ class Config():
         self.safetymultiplier = 0.5
         self.car_length = 5.0
         self.min_distance = 5.0
+        self.nice_cars = False
 #        self.delay_buffer_length = 2
         self.reaction_time = 1.0 # Seconds between deacceleration
