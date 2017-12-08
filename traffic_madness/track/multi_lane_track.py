@@ -16,6 +16,8 @@ class MultiLaneTrack(Track):
         self.num_lanes = num_lanes
         self.max_num_cars = max_num_cars
         self.cars = None
+        self.cartypes = [0, 0, 0] # Counter for different car types
+                                  # [Aggressive, neutral, passive]
         config = Config()
 
         self.buffer_length = config.buffer_length
@@ -78,14 +80,18 @@ class MultiLaneTrack(Track):
             new_car = AggressiveCar(position=np.random.uniform(0.0, config.track_length),
                                    velocity=self.speed_limit,
                                    lane=lane)
+            self.cartypes[0] += 1
         elif random_nbr < config.aggressives + config.passives:
             new_car = PassiveCar(position=np.random.uniform(0.0, config.track_length),
                                    velocity=self.speed_limit,
                                    lane=lane)
+            self.cartypes[2] += 1
         else:
             new_car = LaneSwitchingCar(position=np.random.uniform(0.0, config.track_length),
                                        velocity=self.speed_limit,
                                        lane=lane)
+            self.cartypes[1] += 1
+
         self.cars.add_car(new_car)
 
     def try_to_spawn_car(self):
@@ -107,3 +113,6 @@ class MultiLaneTrack(Track):
     def get_flow_cars(self):
         # Get number of cars that left a bucket this timestep
         return self.cars.get_flow()
+
+    def get_cartypes(self):
+        return self.cartypes
