@@ -1,12 +1,13 @@
 from traffic_madness.car import Car
-
+from traffic_madness.config import Config
 
 class LaneSwitchingCar(Car):
     def update(self, target_speed, nearby_cars):
+        config = Config()
         # Cannot set to 0, else cars never brake
         safety_distance = self.velocity * self.safetymultiplier
 
-        dist_to_car_in_front, dist_to_car_in_back = \
+        dist_to_car_in_front, dist_to_car_in_back, car_in_front, car_in_back = \
             self._get_dist_to_front_and_back(nearby_cars)
 
         # Switch lanes if we are too close in front or back
@@ -30,7 +31,7 @@ class LaneSwitchingCar(Car):
 
         # Update distances if we switched lanes
         if switched:
-            dist_to_car_in_front, dist_to_car_in_back = \
+            dist_to_car_in_front, dist_to_car_in_back, car_in_front, car_in_back = \
                 self._get_dist_to_front_and_back(nearby_cars)
 
         # Speed up to speed limit if no car in front
@@ -40,8 +41,10 @@ class LaneSwitchingCar(Car):
                     min([self.velocity + self.acceleration * self.timestep,
                          target_speed])
         else:
+            deceleration = self.deceleration * (self.velocity - car_in_front.velocity) * 0.1
+            deceleration = min(deceleration, config.max_deceleration)
             self.velocity = max(
-                0, self.velocity - self.deceleration * self.timestep)
+                0, self.velocity - deceleration * self.timestep)
 
 #        self.delay_buffer.append(self.velocity)
 #        self.velocity = 0
@@ -75,13 +78,17 @@ class LaneSwitchingCar(Car):
     def _get_dist_to_front_and_back(self, nearby_cars):
         dist_to_car_in_front = float('inf')
         dist_to_car_in_back = -float('inf')
+        car_in_front = Car(float('inf'), float('inf'))
+        car_in_back = Car(float('inf'), float('inf'))
         for car in nearby_cars[self.lane]:
             dist = car.position - self.position
             if dist > 0 and dist < dist_to_car_in_front:
                 dist_to_car_in_front = dist
+                car_in_front = car
             elif dist < 0 and dist > dist_to_car_in_back:
                 dist_to_car_in_back = dist
-        return dist_to_car_in_front, dist_to_car_in_back
+                car_in_back = car
+        return dist_to_car_in_front, dist_to_car_in_back, car_in_front, car_in_back
 
     def attempt_lane_shift(self, target_speed, nearby_cars, safety_distance,
                            prefer_right=True, allow_left=True,
