@@ -6,10 +6,10 @@ class LaneSwitchingCar(Car):
     def update(self, target_speed, nearby_cars):
         config = Config()
         # Cannot set to 0, else cars never brake
-        safety_distance = self.velocity * self.safetymultiplier
 
         dist_to_car_in_front, dist_to_car_in_back, car_in_front, car_in_back \
             = self._get_dist_to_front_and_back(nearby_cars)
+        safety_distance = max(self.velocity * self.safetymultiplier, car_in_front.length)
 
         """
         Lane switching logic:
@@ -19,7 +19,6 @@ class LaneSwitchingCar(Car):
         nice cars additionally switch to the right lane whenever it has
         space and the velocity is better or equal to the current velocity
         """
-        # Switch lanes if we are too close in front or back
         switched = False
         if self.nice:
             switched = self.attempt_nice_right_shift(target_speed,
@@ -53,7 +52,8 @@ class LaneSwitchingCar(Car):
                          target_speed])
         else:
             deceleration = self.deceleration * (
-                self.velocity - car_in_front.velocity) * 0.1
+                (1-dist_to_car_in_front/safety_distance)*0.7 + 
+                0.3*(self.velocity - car_in_front.velocity)) 
             deceleration = min(deceleration, config.max_deceleration)
             self.velocity = max(
                   0, self.velocity - deceleration * self.timestep)
