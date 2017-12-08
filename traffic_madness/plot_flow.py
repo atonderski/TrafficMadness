@@ -18,12 +18,12 @@ colors = ['k-', 'r-', 'b-', 'g-',
 # plt.ylim(5000, 8000)
 # plt.show()
 
-for i in range(0, 11):
-    file = 'data/flow_aggressiveness%.2f.dat' % (0.1 * i)
-    data = np.loadtxt(file)
-    flow = np.average(data[:, 1])
-    plt.scatter(0.1 * i, flow, c='k')
 
+file = 'data/flow_aggressives_100cars/aggressives0.00.dat'
+data = np.loadtxt(file)
+flow = np.average(data[:, 1])
+plt.scatter(0.0, flow, c='k')
+# plt.plot(data[:, 0], data[:, 1], label='Flow')
 plt.legend(loc='best')
 plt.xlabel('time [s]')
 plt.ylabel('traffic flow [cars / h]')
