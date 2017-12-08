@@ -10,6 +10,7 @@ class Car:
 
         config = Config()
 #        self.delay_buffer_length = config.delay_buffer_length
+        self.min_distance = config.min_distance
         self.reaction_time = config.reaction_time
         self.timestep = config.timestep
         self.safetymultiplier = config.safetymultiplier

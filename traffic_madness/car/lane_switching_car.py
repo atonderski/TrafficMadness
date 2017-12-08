@@ -10,7 +10,7 @@ class LaneSwitchingCar(Car):
         dist_to_car_in_front, dist_to_car_in_back, car_in_front, car_in_back \
             = self._get_dist_to_front_and_back(nearby_cars)
         safety_distance = max(self.velocity * self.safetymultiplier,
-                              car_in_front.length)
+                              self.min_distance)
 
         """
         Lane switching logic:
@@ -33,7 +33,7 @@ class LaneSwitchingCar(Car):
                       car_in_front.velocity < target_speed):
             switched = self.attempt_lane_shift(nearby_cars,
                                                safety_distance)
-        elif (abs(dist_to_car_in_back) < safety_distance and
+        elif (dist_to_car_in_back < safety_distance and
                       car_in_back.velocity > self.velocity):
             switched = self.attempt_lane_shift(nearby_cars,
                                                safety_distance,
@@ -94,7 +94,7 @@ class LaneSwitchingCar(Car):
         if lane is None:
             lane = self.lane
         dist_to_car_in_front = float('inf')
-        dist_to_car_in_back = -float('inf')
+        dist_to_car_in_back = float('inf')
         car_in_front = Car(float('inf'), float('inf'))
         car_in_back = Car(float('inf'), float('inf'))
         for car in nearby_cars[lane]:
@@ -102,8 +102,8 @@ class LaneSwitchingCar(Car):
             if dist > 0 and dist < dist_to_car_in_front:
                 dist_to_car_in_front = dist
                 car_in_front = car
-            elif dist < 0 and dist > dist_to_car_in_back:
-                dist_to_car_in_back = dist
+            elif dist < 0 and abs(dist) < dist_to_car_in_back:
+                dist_to_car_in_back = abs(dist)
                 car_in_back = car
         dist_to_car_in_front -= car_in_front.length
         dist_to_car_in_back -= self.length
@@ -135,7 +135,9 @@ class LaneSwitchingCar(Car):
         dist_to_car_in_front, dist_to_car_in_back, car_in_front, car_in_back \
             = self._get_dist_to_front_and_back(nearby_cars, lane=lane)
         front_ok = (dist_to_car_in_front > safety_distance or
-                    car_in_front.velocity > self.velocity)
+                    (car_in_front.velocity > self.velocity and
+                     dist_to_car_in_front > self.min_distance))
         back_ok = (dist_to_car_in_back > safety_distance or
-                   car_in_front.velocity < self.velocity)
+                   (car_in_back.velocity < self.velocity and
+                    dist_to_car_in_back > self.min_distance))
         return front_ok and back_ok
