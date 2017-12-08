@@ -42,14 +42,14 @@ def spawning(track, drawer):
 def equilibration(track, drawer, flow_array):
     config = Config()
     optimal_flow = tf.optimal_flow(track.get_cartypes())
-    print(optimal_flow)
     time_counter = 0
+    print(optimal_flow)
     while time_counter * config.timestep < config.equilibration:
         track.update()
         time_counter += 1
         # Get flow and updated flow array
-        print()
         flow, flow_array = tf.traffic_flow(track.get_flow_cars(), flow_array)
+        flow /= optimal_flow
         # # Give flow to the drawer to draw it
         # drawer.update(track.get_all_cars(), time_counter, flow)
     return flow_array
