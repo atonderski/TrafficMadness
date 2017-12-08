@@ -11,23 +11,34 @@ class LaneSwitchingCar(Car):
         dist_to_car_in_front, dist_to_car_in_back, car_in_front, car_in_back \
             = self._get_dist_to_front_and_back(nearby_cars)
 
+        """
+        Lane switching logic:
+        cars generally switch lane when they are not driving at optimal
+        velocity and the other lane has a higher velocity/no cars
+
+        nice cars additionally switch to the right lane whenever it has
+        space and the velocity is better or equal to the current velocity
+        """
         # Switch lanes if we are too close in front or back
         switched = False
         if self.nice:
             switched = self.attempt_nice_right_shift(target_speed,
                                                      nearby_cars,
                                                      safety_distance)
-        if dist_to_car_in_front < safety_distance:
+        if switched:
+            # No more actions need to be taken
+            pass
+        elif (dist_to_car_in_front < safety_distance and
+                      car_in_front.velocity < self.velocity):
+            switched = self.attempt_lane_shift(target_speed,
+                                               nearby_cars,
+                                               safety_distance)
+        elif (abs(dist_to_car_in_back) < safety_distance and
+                      car_in_back.velocity > self.velocity):
             switched = self.attempt_lane_shift(target_speed,
                                                nearby_cars,
                                                safety_distance,
-                                               allow_right=not self.nice)
-        elif abs(dist_to_car_in_back) < safety_distance:
-            switched = self.attempt_lane_shift(target_speed,
-                                               nearby_cars,
-                                               safety_distance,
-                                               prefer_right=True,
-                                               allow_left=not self.nice)
+                                               prefer_right=True)
 
         # Update distances if we switched lanes
         if switched:
