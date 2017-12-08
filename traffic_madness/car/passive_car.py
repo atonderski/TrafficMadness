@@ -1,11 +1,11 @@
-from traffic_madness.car import Car
-from traffic_madness.config import Config
 from traffic_madness.car.lane_switching_car import LaneSwitchingCar
+from traffic_madness.config import Config
+
 
 class PassiveCar(LaneSwitchingCar):
-    def __init__(self, position, velocity, lane):
+    def __init__(self, position, velocity, lane, nice):
         config = Config()
-        super().__init__(position, velocity, lane)
+        super().__init__(position, velocity, lane, nice)
         self.acceleration *= config.passiveness
         self.deceleration *= config.passiveness
         self.safetymultiplier /= config.passiveness
@@ -13,8 +13,6 @@ class PassiveCar(LaneSwitchingCar):
 
     def update(self, target_speed, nearby_cars):
         config = Config()
-        distances = []  # Stores distances of neighbours
-        # Cannot set to 0, else cars never brake
         target_speed *= config.passiveness
 
         super().update(target_speed, nearby_cars)

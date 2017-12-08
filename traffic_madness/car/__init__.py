@@ -1,11 +1,10 @@
-import random
-
 from traffic_madness.config import Config
 
 
 class Car:
-    def __init__(self, position, velocity, lane=0, delay_buffer_length=0):
+    def __init__(self, position, velocity, lane=0, nice=False):
         config = Config()
+        self.nice = nice
         self.delay_buffer_length = config.delay_buffer_length
         self.timestep = config.timestep
         self.safetymultiplier = config.safetymultiplier

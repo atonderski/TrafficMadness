@@ -1,13 +1,12 @@
-from copy import deepcopy
+import numpy as np
 
-from traffic_madness.car.lane_switching_car import LaneSwitchingCar
 from traffic_madness.car.aggressive_car import AggressiveCar
+from traffic_madness.car.lane_switching_car import LaneSwitchingCar
 from traffic_madness.car.passive_car import PassiveCar
-from traffic_madness.car.simple_car import SimpleCar
+from traffic_madness.config import Config
 from traffic_madness.track import Track
 from traffic_madness.track.trackbucket import TrackBucket
-from traffic_madness.config import Config
-import numpy as np
+
 
 class MultiLaneTrack(Track):
     def __init__(self, speed_limit, track_length, num_lanes, max_num_cars):
@@ -72,20 +71,27 @@ class MultiLaneTrack(Track):
         #                                velocity=self.speed_limit,
         #                                lane=lane)
 
-        # Spawn cars at random position, fills track faster and does not produce a biased
+        # Spawn cars at random position, fills track faster and does not
+        # produce a biased
         # congestion.
         if random_nbr < config.aggressives:
-            new_car = AggressiveCar(position=np.random.uniform(0.0, config.track_length),
-                                   velocity=self.speed_limit,
-                                   lane=lane)
+            new_car = AggressiveCar(
+                position=np.random.uniform(0.0, config.track_length),
+                velocity=self.speed_limit,
+                lane=lane,
+                nice=True)
         elif random_nbr < config.aggressives + config.passives:
-            new_car = PassiveCar(position=np.random.uniform(0.0, config.track_length),
-                                   velocity=self.speed_limit,
-                                   lane=lane)
+            new_car = PassiveCar(
+                position=np.random.uniform(0.0, config.track_length),
+                velocity=self.speed_limit,
+                lane=lane,
+                nice=True)
         else:
-            new_car = LaneSwitchingCar(position=np.random.uniform(0.0, config.track_length),
-                                       velocity=self.speed_limit,
-                                       lane=lane)
+            new_car = LaneSwitchingCar(
+                position=np.random.uniform(0.0, config.track_length),
+                velocity=self.speed_limit,
+                lane=lane,
+                nice=True)
         self.cars.add_car(new_car)
 
     def try_to_spawn_car(self):
