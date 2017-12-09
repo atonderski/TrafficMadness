@@ -21,11 +21,11 @@ def plot_flow():
     # plt.ylim(5000, 8000)
     # plt.show()
 
-    files = listdir('data/flow_aggressives_100cars/')
+    files = listdir('data/flow_aggressives_100niceCars/')
 
     for file in files:
         if file != 'config':
-            data = np.loadtxt('data/flow_aggressives_100cars/' + file)
+            data = np.loadtxt('data/flow_aggressives_100niceCars/' + file)
             flow = np.average(data[:, 1])
             aggressives = float(re.findall("\d+\.\d+", file)[0][:])
             # plt.plot(data[:, 0], data[:, 1], label='Flow {:.2f}'.format(aggressives))
@@ -34,7 +34,21 @@ def plot_flow():
             mini = min(data[:, 1])
             plt.scatter(aggressives, mini + (maxi - mini) / 2, c='b')
             plt.plot([aggressives, aggressives], [max(data[:, 1]), min(data[:, 1])], 'k-')
-    plt.scatter([], [], c='k', label='Average flow')
+
+    files = listdir('data/flow_aggressives_100cars/')
+    for file in files:
+        if file != 'config':
+            data = np.loadtxt('data/flow_aggressives_100cars/' + file)
+            flow = np.average(data[:, 1])
+            aggressives = float(re.findall("\d+\.\d+", file)[0][:])
+            # plt.plot(data[:, 0], data[:, 1], label='Flow {:.2f}'.format(aggressives))
+            plt.scatter(aggressives, flow, c='r')
+            maxi = max(data[:, 1])
+            mini = min(data[:, 1])
+            plt.scatter(aggressives, mini + (maxi - mini) / 2, c='g')
+            plt.plot([aggressives, aggressives], [max(data[:, 1]), min(data[:, 1])], 'r-')
+    plt.scatter([], [], c='r', label='Average flow')
+    plt.scatter([], [], c='k', label='Average flow nice cars')
     plt.scatter([], [], c='b', label='Middle of fluctuation')
     plt.plot([], [], 'k-', label='Fluctuation')
     # file = 'data/flow_aggressives_100cars/aggressives0.09.dat'
@@ -47,4 +61,5 @@ def plot_flow():
     plt.ylabel('traffic flow / optimal traffic flow')
     plt.show()
 
-plot_flow()
+if __name__ == '__main__':
+    plot_flow()
