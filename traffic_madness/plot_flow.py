@@ -6,6 +6,7 @@ import re
 
 
 def plot_flow():
+    colors = ['k', 'b', 'r']
     # Path were to find the data that is wanted to be ploted
     path = 'data/test/'
     # Gives a list of files at that path
@@ -13,8 +14,15 @@ def plot_flow():
 
     for file in files:
         # Do not try to plot the config file
-        if file != 'config':
+        if file != 'config.py':
             data = np.loadtxt(path + file)
+            if re.findall("before", file):
+                color_index = 0
+            elif re.findall("after", file):
+                color_index = 1
+            elif re.findall("final", file):
+                color_index = 2
+
             # Get the average flow over all observation time
             flow = np.average(data[:, 1])
             # Get the number of aggressive drivers from the filename
@@ -24,7 +32,7 @@ def plot_flow():
             #          label='Flow {:.2f}'.format(aggressives))
             # Plot one data point with the averaged flow depending on
             # proportion of aggressive drivers
-            plt.scatter(aggressives, flow, c='k')
+            plt.scatter(aggressives, flow, c=colors[color_index])
 
             ''' Plot binned flow '''
             # data_x = []
