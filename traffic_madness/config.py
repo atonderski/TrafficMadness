@@ -3,12 +3,12 @@ of the simulation'''
 class Config():
     def __init__(self):
         self.timestep = 0.05
-        self.equilibration = 120 # Set equilibration time
+        self.equilibration = 10 # Set equilibration time
         self.observation = 180 # Set time for observation
         self.fps = 60
         # track properties
         self.aggressives = 0.2 # % of aggressive drivers
-        self.passives = 0.1 # passive drivers
+        self.passives = 0.0 # passive drivers
         self.lanes = 3
         self.speed_limit = 20
         self.track_length = 1000
@@ -18,11 +18,11 @@ class Config():
         self.bucket_length = self.track_length / self.buckets
         # car properties
         self.acceleration = 4.3
-        self.deceleration = 7.5
+        self.deceleration = 5.5
         self.max_deceleration = 10.0
         self.aggressiveness = 1.2
         self.passiveness = 0.8
-        self.safetymultiplier = 0.5
+        self.safetymultiplier = 1.5
         self.car_length = 5.0
         self.min_distance = 5.0
         self.nice_cars = False

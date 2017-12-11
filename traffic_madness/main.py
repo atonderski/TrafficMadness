@@ -24,8 +24,9 @@ def run_simulation():
 
     spawning(track, drawer)
     equilibration(track, drawer)
+    observation(track, drawer, 'before')
     disturbance(track)
-    observation(track, drawer)
+    observation(track, drawer, 'after')
 
 def disturbance(track):
     all_cars = track.get_all_cars()
@@ -60,12 +61,12 @@ def equilibration(track, drawer):
         drawer.update(track.get_all_cars(), time_counter, flow)
 
 
-def observation(track, drawer):
+def observation(track, drawer, eq):
     config = Config()
     time_counter = 0
     cartypes = track.get_cartypes()
     optimal_flow = tf.optimal_flow(cartypes)
-    file = open('data/flow_aggressives_100cars/aggressives{:.2f}.dat'.format(cartypes[0] / config.max_num_cars),
+    file = open('data/test/aggressives{:.2f}{}.dat'.format(cartypes[0] / config.max_num_cars, eq),
                 'w')
     file.write('# Optimal flow dependent on time \n '
                '# Aggressives: {} \n'.format(cartypes[0]))
