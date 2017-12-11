@@ -17,8 +17,8 @@ def run_simulation():
                            max_num_cars=config.max_num_cars)
     # Add to drawer, make max_num_cars known to drawer so we can have a fixed
     # number of rects and use selective blit instead of the whole screen.
-    drawer = PyGameDrawer((1000, 1000), "Traffic Madness Simulation", track)
-    #drawer = 0
+    # drawer = PyGameDrawer((1000, 1000), "Traffic Madness Simulation", track)
+    drawer = 0
     # Define an array for averaging the traffic flow (now 1 min average)
     # equilibration needs to be at least the average time
 
@@ -44,7 +44,7 @@ def spawning(track, drawer):
         track.update()
         time_counter += 1
         #  Give flow to the drawer to draw it
-        drawer.update(track.get_all_cars(), time_counter, 0)
+        # drawer.update(track.get_all_cars(), time_counter, 0)
 
 
 def equilibration(track, drawer):
@@ -58,16 +58,16 @@ def equilibration(track, drawer):
         flow = tf.traffic_flow(track.get_flow_cars())
         flow /= optimal_flow
         # # Give flow to the drawer to draw it
-        drawer.update(track.get_all_cars(), time_counter, flow)
-
+        # drawer.update(track.get_all_cars(), time_counter, flow)
+    print('Done equilibration')
 
 def observation(track, drawer, eq):
     config = Config()
     time_counter = 0
     cartypes = track.get_cartypes()
     optimal_flow = tf.optimal_flow(cartypes)
-    file = open('data/test/aggressives{:.2f}{}.dat'.format(cartypes[0] / config.max_num_cars, eq),
-                'w')
+    file = open('data/test/aggressives{:.2f}{}.dat'.format(cartypes[0] /
+                                        config.max_num_cars, eq), 'w')
     file.write('# Optimal flow dependent on time \n '
                '# Aggressives: {} \n'.format(cartypes[0]))
     while time_counter * config.timestep < config.observation:
@@ -76,11 +76,15 @@ def observation(track, drawer, eq):
         # Get flow and updated flow array
         flow = tf.traffic_flow(track.get_flow_cars())
         flow /= optimal_flow
-        file.write('{:.2f} \t {:.4f} \n'.format(time_counter * config.timestep, flow))
+        file.write('{:.2f} \t {:.4f} \n'.format(time_counter * config.timestep,
+                                                flow))
         # # Give flow to the drawer to draw it
-        drawer.update(track.get_all_cars(), time_counter, flow)
+        # drawer.update(track.get_all_cars(), time_counter, flow)
     file.close()
+    print('Done observation ' + eq)
 
 
 if __name__ == '__main__':
+    start = time.time()
     run_simulation()
+    print('Done in {:.0f}'.format(time.time()-start))
