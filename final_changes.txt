@@ -1,0 +1,8 @@
+[ADAM] Nice drivers that switch to the right.
+[Fredrik] 
+[Daniel] Crashes, spawn randomized on track.
+[Thorben] Velocity difference affect acceleration and deceleration. 
+
+TODO:
+Crashes, show graphics, print a message
+
