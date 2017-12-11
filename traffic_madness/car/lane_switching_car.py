@@ -55,6 +55,7 @@ class LaneSwitchingCar(Car):
                 (1 - dist_to_car_in_front / safety_distance) * 0.4 +
                 0.2 * (self.velocity - car_in_front.velocity))
             deceleration = min(deceleration, config.max_deceleration)
+            deceleration = max(-config.acceleration, deceleration)
             self.velocity = max(
                   0, self.velocity - deceleration * self.timestep)
 
@@ -132,6 +133,7 @@ class LaneSwitchingCar(Car):
     def lane_is_safe(self, nearby_cars, lane, safety_distance):
         if not nearby_cars[lane]:
             return True
+
         dist_to_car_in_front, dist_to_car_in_back, car_in_front, car_in_back \
             = self._get_dist_to_front_and_back(nearby_cars, lane=lane)
         front_ok = (dist_to_car_in_front > safety_distance or
@@ -140,4 +142,5 @@ class LaneSwitchingCar(Car):
         back_ok = (dist_to_car_in_back > safety_distance or
                    (car_in_back.velocity < self.velocity and
                     dist_to_car_in_back > self.min_distance))
+
         return front_ok and back_ok

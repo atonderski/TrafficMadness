@@ -7,7 +7,7 @@ import re
 
 def plot_flow():
     # Path were to find the data that is wanted to be ploted
-    path = 'data/flow_aggressives_150niceCars/'
+    path = 'data/test/'
     # Gives a list of files at that path
     files = listdir(path)
 
@@ -20,50 +20,60 @@ def plot_flow():
             # Get the number of aggressive drivers from the filename
             aggressives = float(re.findall("\d+\.\d+", file)[0][:])
             # Plot the flow's time dependence
-            plt.plot(data[:, 0], data[:, 1],
-                     label='Flow {:.2f}'.format(aggressives))
+            # plt.plot(data[:, 0], data[:, 1],
+            #          label='Flow {:.2f}'.format(aggressives))
             # Plot one data point with the averaged flow depending on
             # proportion of aggressive drivers
             plt.scatter(aggressives, flow, c='k')
 
-            # Plot fluctuations for an estimate on reliability of data
-            maxi = max(data[:, 1])
-            mini = min(data[:, 1])
-            # Data point in the middle of fluctuations
-            plt.scatter(aggressives, mini + (maxi - mini) / 2, c='b')
-            # "Error bar"
-            plt.plot([aggressives, aggressives],
-                     [max(data[:, 1]), min(data[:, 1])], 'k-')
-
-    # Do same for second directory
-    # Path were to find the data that is wanted to be ploted
-    path = 'data/flow_aggressives_100niceCars/'
-    # Gives a list of files at that path
-    files = listdir(path)
-
-    for file in files:
-        # Do not try to plot the config file
-        if file != 'config':
-            data = np.loadtxt(path + file)
-            # Get the average flow over all observation time
-            flow = np.average(data[:, 1])
-            # Get the number of aggressive drivers from the filename
-            aggressives = float(re.findall("\d+\.\d+", file)[0][:])
-            # Plot the flow's time dependence
-            plt.plot(data[:, 0], data[:, 1],
-                     label='Flow {:.2f}'.format(aggressives))
-            # Plot one data point with the averaged flow depending on
-            # proportion of aggressive drivers
-            plt.scatter(aggressives, flow, c='k')
+            ''' Plot binned flow '''
+            # data_x = []
+            # data_y = []
+            # buckets = 10
+            # buckets_length = int(len(data[:, 0]) / buckets)
+            # for i in range(0, buckets):
+            #     data_x.append(np.average(data[buckets_length * i : buckets_length * (i + 1), 0]))
+            #     data_y.append(np.average(data[buckets_length * i: buckets_length * (i + 1), 1]))
+            # plt.plot(data_x, data_y, 'r-')
 
             # Plot fluctuations for an estimate on reliability of data
-            maxi = max(data[:, 1])
-            mini = min(data[:, 1])
+            # maxi = max(data[:, 1])
+            # mini = min(data[:, 1])
             # Data point in the middle of fluctuations
-            plt.scatter(aggressives, mini + (maxi - mini) / 2, c='k', marker='d')
+            # plt.scatter(aggressives, mini + (maxi - mini) / 2, c='b')
             # "Error bar"
-            plt.plot([aggressives, aggressives],
-                     [max(data[:, 1]), min(data[:, 1])], 'k-')
+            # plt.plot([aggressives, aggressives],
+            #          [max(data[:, 1]), min(data[:, 1])], 'k-')
+
+    # # Do same for second directory
+    # # Path were to find the data that is wanted to be ploted
+    # path = 'data/flow_aggressives_100niceCars/'
+    # # Gives a list of files at that path
+    # files = listdir(path)
+    #
+    # for file in files:
+    #     # Do not try to plot the config file
+    #     if file != 'config':
+    #         data = np.loadtxt(path + file)
+    #         # Get the average flow over all observation time
+    #         flow = np.average(data[:, 1])
+    #         # Get the number of aggressive drivers from the filename
+    #         aggressives = float(re.findall("\d+\.\d+", file)[0][:])
+    #         # Plot the flow's time dependence
+    #         plt.plot(data[:, 0], data[:, 1],
+    #                  label='Flow {:.2f}'.format(aggressives))
+    #         # Plot one data point with the averaged flow depending on
+    #         # proportion of aggressive drivers
+    #         plt.scatter(aggressives, flow, c='k')
+    #
+    #         # Plot fluctuations for an estimate on reliability of data
+    #         maxi = max(data[:, 1])
+    #         mini = min(data[:, 1])
+    #         # Data point in the middle of fluctuations
+    #         plt.scatter(aggressives, mini + (maxi - mini) / 2, c='k', marker='d')
+    #         # "Error bar"
+    #         plt.plot([aggressives, aggressives],
+    #                  [max(data[:, 1]), min(data[:, 1])], 'k-')
 
 
     # Empty opjects to generate the labels for the plots (else there would be
