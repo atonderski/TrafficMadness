@@ -72,9 +72,9 @@ def observation(track, drawer, eq):
     cartypes = track.get_cartypes()
     optimal_flow = tf.optimal_flow(cartypes)
     optimal_speed = sa.get_optimal_speed(cartypes)   
-    file = open('data/test/aggressives{:.2f}{}.dat'.format(cartypes[0] / 
+    file = open('data/tmp/aggressives{:.2f}{}.dat'.format(cartypes[0] / 
         config.max_num_cars, eq), 'w')
-    file.write('# Optimal flow dependent on time \n '
+    file.write('# Optimal flow and avg speed dependent on time \n '
                '# Aggressives: {} \n'.format(cartypes[0]))
     while time_counter * config.timestep < config.observation:
         track.update()
