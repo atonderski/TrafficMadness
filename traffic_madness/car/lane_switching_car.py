@@ -82,12 +82,12 @@ class LaneSwitchingCar(Car):
               crash_position:
             # We stay at the same spot until car in front moves
             self.velocity = 0
-            print("Car has crashed at {}".format(self.position))
+            #print("Car has crashed at {}".format(self.position))
         elif proposed_position > crash_position and self.position < \
               crash_position:
             self.position = crash_position
             self.velocity = 0
-            print("Car has crashed at {}".format(self.position))
+            #print("Car has crashed at {}".format(self.position))
         else:
             self.position = proposed_position
 

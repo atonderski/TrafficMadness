@@ -6,6 +6,7 @@ from traffic_madness.config import Config
 from traffic_madness.drawer.pygame_drawer import PyGameDrawer
 from traffic_madness.track.multi_lane_track import MultiLaneTrack
 import traffic_madness.observables.traffic_flow as tf
+import traffic_madness.observables.speed_averages as sa
 
 
 def run_simulation():
@@ -25,8 +26,11 @@ def run_simulation():
     spawning(track, drawer)
     equilibration(track, drawer)
     observation(track, drawer, 'before')
-    disturbance(track)
+    stopped = disturbance(track)
     observation(track, drawer, 'after')
+    stopped.color= (123, 43, 89)
+    stopped.stuck = False
+    observation(track, drawer, 'final')
 
 def disturbance(track):
     all_cars = track.get_all_cars()
@@ -34,6 +38,7 @@ def disturbance(track):
     all_cars[index].velocity = 0
     all_cars[index].color = (0, 0, 0)
     all_cars[index].stuck = True
+    return all_cars[index]
 
 
 # Spawning phase for all cars
@@ -66,17 +71,19 @@ def observation(track, drawer, eq):
     time_counter = 0
     cartypes = track.get_cartypes()
     optimal_flow = tf.optimal_flow(cartypes)
-    file = open('data/test/aggressives{:.2f}{}.dat'.format(cartypes[0] / config.max_num_cars, eq),
-                'w')
+    optimal_speed = sa.get_optimal_speed(cartypes)   
+    file = open('data/test/aggressives{:.2f}{}.dat'.format(cartypes[0] / 
+        config.max_num_cars, eq), 'w')
     file.write('# Optimal flow dependent on time \n '
                '# Aggressives: {} \n'.format(cartypes[0]))
     while time_counter * config.timestep < config.observation:
         track.update()
         time_counter += 1
         # Get flow and updated flow array
+        speed = sa.global_average_speed(track.get_all_cars())/optimal_speed
         flow = tf.traffic_flow(track.get_flow_cars())
         flow /= optimal_flow
-        file.write('{:.2f} \t {:.4f} \n'.format(time_counter * config.timestep, flow))
+        file.write('{:.2f} \t {:.4f} \t {:.4f} \n'.format(time_counter * config.timestep, flow, speed))
         # # Give flow to the drawer to draw it
         drawer.update(track.get_all_cars(), time_counter, flow)
     file.close()
