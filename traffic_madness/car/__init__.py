@@ -7,7 +7,7 @@ class Car:
         self.lane = lane
         self.velocity = velocity
         self.nice = nice
-
+        self.stuck = False
         config = Config()
 #        self.delay_buffer_length = config.delay_buffer_length
         self.min_distance = config.min_distance

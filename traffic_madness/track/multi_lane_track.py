@@ -82,21 +82,21 @@ class MultiLaneTrack(Track):
             new_car = AggressiveCar(
                 position=np.random.uniform(0.0, config.track_length),
                 velocity=self.speed_limit,
-                lane=lane,
+                lane=np.random.randint(0, 2),
                 nice=self.spawn_nice_cars)
             self.cartypes[0] += 1
         elif random_nbr < config.aggressives + config.passives:
             new_car = PassiveCar(
                 position=np.random.uniform(0.0, config.track_length),
                 velocity=self.speed_limit,
-                lane=lane,
+                lane=np.random.randint(0, 2),
                 nice=self.spawn_nice_cars)
             self.cartypes[2] += 1
         else:
             new_car = LaneSwitchingCar(
                 position=np.random.uniform(0.0, config.track_length),
                 velocity=self.speed_limit,
-                lane=lane,
+                lane=np.random.randint(0, 2),
                 nice=self.spawn_nice_cars)
             self.cartypes[1] += 1
         self.cars.add_car(new_car)

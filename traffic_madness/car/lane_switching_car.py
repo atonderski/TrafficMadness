@@ -4,6 +4,9 @@ from traffic_madness.config import Config
 
 class LaneSwitchingCar(Car):
     def update(self, target_speed, nearby_cars):
+        if self.stuck:
+            return
+
         config = Config()
         # Cannot set to 0, else cars never brake
 
@@ -49,8 +52,8 @@ class LaneSwitchingCar(Car):
                          target_speed])
         else:
             deceleration = self.deceleration * (
-                (1 - dist_to_car_in_front / safety_distance) * 0.7 +
-                0.3 * (self.velocity - car_in_front.velocity))
+                (1 - dist_to_car_in_front / safety_distance) * 0.4 +
+                0.2 * (self.velocity - car_in_front.velocity))
             deceleration = min(deceleration, config.max_deceleration)
             self.velocity = max(
                   0, self.velocity - deceleration * self.timestep)

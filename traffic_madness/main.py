@@ -21,11 +21,18 @@ def run_simulation():
     #drawer = 0
     # Define an array for averaging the traffic flow (now 1 min average)
     # equilibration needs to be at least the average time
-    flow_array = np.zeros(int(60 / config.timestep))
 
     spawning(track, drawer)
-    flow_array = equilibration(track, drawer, flow_array)
-    observation(track, drawer, flow_array)
+    equilibration(track, drawer)
+    disturbance(track)
+    observation(track, drawer)
+
+def disturbance(track):
+    all_cars = track.get_all_cars()
+    index = np.random.randint(0, len(all_cars) - 1)
+    all_cars[index].velocity = 0
+    all_cars[index].color = (0, 0, 0)
+    all_cars[index].stuck = True
 
 
 # Spawning phase for all cars
@@ -39,22 +46,21 @@ def spawning(track, drawer):
         drawer.update(track.get_all_cars(), time_counter, 0)
 
 
-def equilibration(track, drawer, flow_array):
+def equilibration(track, drawer):
     config = Config()
     optimal_flow = tf.optimal_flow(track.get_cartypes())
     time_counter = 0
-    print(optimal_flow)
     while time_counter * config.timestep < config.equilibration:
         track.update()
         time_counter += 1
         # Get flow and updated flow array
-        flow, flow_array = tf.traffic_flow(track.get_flow_cars(), flow_array)
+        flow = tf.traffic_flow(track.get_flow_cars())
         flow /= optimal_flow
         # # Give flow to the drawer to draw it
         drawer.update(track.get_all_cars(), time_counter, flow)
-    return flow_array
 
-def observation(track, drawer, flow_array):
+
+def observation(track, drawer):
     config = Config()
     time_counter = 0
     cartypes = track.get_cartypes()
@@ -67,7 +73,7 @@ def observation(track, drawer, flow_array):
         track.update()
         time_counter += 1
         # Get flow and updated flow array
-        flow, flow_array = tf.traffic_flow(track.get_flow_cars(), flow_array)
+        flow = tf.traffic_flow(track.get_flow_cars())
         flow /= optimal_flow
         file.write('{:.2f} \t {:.4f} \n'.format(time_counter * config.timestep, flow))
         # # Give flow to the drawer to draw it
