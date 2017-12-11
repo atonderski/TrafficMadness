@@ -7,7 +7,7 @@ class Config():
         self.observation = 1800 # Set time for observation
         self.fps = 60
         # track properties
-        self.aggressives = 0 # % of aggressive drivers
+        self.aggressives = 0.0 # % of aggressive drivers
         self.passives = 0.0 # passive drivers
         self.lanes = 3
         self.speed_limit = 20
@@ -25,6 +25,6 @@ class Config():
         self.safetymultiplier = 0.5
         self.car_length = 5.0
         self.min_distance = 5.0
-        self.nice_cars = False
+        self.nice_cars = True
 #        self.delay_buffer_length = 2
         self.reaction_time = 1.0 # Seconds between deacceleration

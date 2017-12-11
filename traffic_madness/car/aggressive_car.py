@@ -14,7 +14,6 @@ class AggressiveCar(LaneSwitchingCar):
 
     def update(self, target_speed, nearby_cars):
         config = Config()
-        # Cannot set to 0, else cars never brake
         target_speed *= config.aggressiveness
 
         super().update(target_speed, nearby_cars)

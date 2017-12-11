@@ -47,14 +47,30 @@ Main controller
 \newpage
 
 \section{So far, i.e. predraft}
-So far we've implemented a rudimentary model of the car track, with regular and more agressive drivers and a visualization. We have also started implementing a basic density plot in order to see the propagation and or creation and dissipation of traffic congestions on the track. So far we have observed wave-like behaviour of car/speeds. Further work will concentrate on extending the model to multi-lane, and extracting the wave propagation-speed/amplitudes etc and their dependence on the number of drivers on the track and the ratio of normal/aggressive drivers and number of lanes etc.
+So far we've implemented a rudimentary model of the car track, with regular and more aggressive drivers and a visualization. We have also started implementing a basic density plot in order to see the propagation and or creation and dissipation of traffic congestions on the track. So far we have observed wave-like behaviour of car/speeds. Further work will concentrate on extending the model to multi-lane, and extracting the wave propagation-speed/amplitudes etc and their dependence on the number of drivers on the track and the ratio of normal/aggressive drivers and number of lanes etc.
 
 
 
 \section{The model}
-To model traffic behaviour we use an agent-based approach with each agent representing a car and the behaviour of its driver. The goal of each agent is to try to keep its set target speed on the track and avoid having to slow down. Different agents can have different personalities, some drivers are more aggressive while others try to drive more carefully to ensure to not disturb other drivers in traffic.
+To model traffic behaviour we use an agent-based approach with each agent representing a car and the behaviour of its driver. The goal of each agent is to try to keep its set target speed on the track and avoid having to slow down. Different agents can have different personalities, some drivers are more aggressive while others try to drive more carefully to ensure not to disturb other drivers in traffic.
 
-The agents are placed on a track of fixed length, but with periodic boundary conditions creating an infinite loop. Driving is only allowed in one direction, but to allow for more complexity and further model highway traffic the track can be extended to allow multiple parallell lanes with lane switching allowed. To decide on its actions each agent can see agents in its proximity, both in its lane and in other lanes bordering its own. The agent can read the velocity and position of these nearby agents to adjust its acceleration or decide to shift lanes.
+\subsection{The track}\label{track}
+The track carries the main information of the simulation. It contains track length, number of lanes and a list of all cars on the track. The updating is mainly controlled by the track class.  \\
+During one step in time, the track class communicates with every car to give information of nearest neighbours and the current speed limit. The car's behaviour is then controlled by the car class itself (see \ref{cars}). The track stores the updated information about the cars and checks the periodic boundary conditions. \\
+To control the information and make them accessible the track is divided in buckets. This makes it easier to find nearby cars on several tracks, since it is now possible to only look into nearby buckets.
+
+\subsection{The cars} \label{cars}
+The model contains three different car types: neutral drivers, passive drivers and aggressive drivers. The neutral driver is the mother class. Its attributes are position, velocity, acceleration and deceleration capability, length and a safety multiplier that affects the safety distance a car wants to hold. \\
+All these attributes are also inherited by the other car classes. For the aggressive drivers and passive drivers the target speed, the acceleration and deceleration capability and the safety multiplier are manipulated by a factor of aggressiveness (> 1) or passiveness (<1). The safety multiplier is divided by this factor so that an aggressive driver tends to hold less distance and a passive driver holds more distance to cars in front. \\
+During a step in time every car gets information from the track (\ref{track}) about its nearest neighbours and the allowed speed. Depending on the distance and speed to the car in front and the car behind the agent decides whether he needs to brake, can accelerate or needs to switch lanes to overtake. \\
+For the lane switching behaviour two different possibilities are implemented, depending on the parameter: nice. If nice is set to be False, lanes are switched in two cases: when the agent is below its personal speed limit and can go faster on another lane or when a car behind is too close and faster.\\
+If nice is set to be True, cars will try to drive as far right as possible. If the lane to the right is free and they do not have to reduce their velocity, nice cars will switch to that lane. 
+
+\subsection{Initialisation}
+
+\subsection{Observation}
+
+%The agents are placed on a track of fixed length, but with periodic boundary conditions creating an infinite loop. Driving is only allowed in one direction, but to allow for more complexity and further model highway traffic the track can be extended to allow multiple parallel lanes with lane switching allowed. To decide on its actions each agent can see agents in its proximity, both in its lane and in other lanes bordering its own. The agent can read the velocity and position of these nearby agents to adjust its acceleration or decide to shift lanes.
 
 \section{Results}
 A basic example of the emergance of waves can be seen in figure \ref{fig:a3lanes} and \ref{fig:b3lanes}. Traffic starts in the rightmost lane and when traffic gets to dense cars starts shifting lanes. When more dense regions start to form cars spread out evenly between the lanes with clusters of cars going slower, congestion. These congestions travel through traffic like a wave, with new cars slowing down behind the congestion and getting stuck in it.  
