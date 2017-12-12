@@ -97,8 +97,8 @@ During the initialisation all cars are spawned randomly on the track. They are a
 After the cars are on the track they start propagating according to the rules explained in section \ref{cars}. To not let the unnatural random spawning influence the observation an equilibration phase is implemented.
 
 \subsection{Observation} \label{Observation}
-One simulation run has three different observation phases: 1. Before a disturbance. 2. During a disturbance. 3. After a disturbance\\
-After equilibrium and before a disturbance is put on the track, one can observe the natural behaviour of the certain number of cars on the track. Then a disturbance is implemented. The disturbance is a car that stops (for example a collision in real-world traffic). It stands still in one lane for the second observation time. The third observation time begins when the stopped car moves again. \\
+One simulation run has three different observation phases: 1. Before a disturbance. 2. During a disturbance. 3. After a disturbance.
+After equilibration and before a disturbance is put on the track, one can observe the equilibrium behaviour of the cars on the track. Then a disturbance is implemented. The disturbance is a car that stops (for example a collision in real-world traffic). It stands still in one lane for the second observation time. At this point it is interesting to analyse how well the system can handle the disturbance. The third observation time begins when the stopped car moves again. One can therefore see, if the system turns back into the equilibrium state it had before the disturbance. \\
 
 \subsection{Observables}
 During the observation phases (\ref{Observation}) it is kept track of the following observables: current traffic flow over optimal traffic flow, current average speed over speed limit and which part of the track has the highest density of cars and this density. \\
