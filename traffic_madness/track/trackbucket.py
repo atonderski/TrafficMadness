@@ -55,6 +55,20 @@ class TrackBucket():
             active in all buckets."""
         return list(itertools.chain.from_iterable(self.bucket_list))
 
+    def get_max_density_index(self, disturbed_car):
+        """Return the bucket index of the disturbed car"""
+        disturbed_index = self._get_index_from_position(disturbed_car.position)
+        
+        nbr_cars_in_buckets = [len(bucket) for bucket in self.bucket_list]
+        max_index = 0
+        max_value = 0
+        for index, nbr in enumerate(nbr_cars_in_buckets):
+            if nbr > max_value:
+                max_index = index
+                max_value = nbr
+        
+        return disturbed_index, max_index
+
     def get_nearby_cars(self, position):
         """ Returns an unordered list of car objects for cars in
             (i) The bucket the position maps to
