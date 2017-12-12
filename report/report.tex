@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper,twocolumn]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -10,6 +10,7 @@
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{bbm}
+\usepackage{comment}
 \newcommand{\N}{\ensuremath{\mathbbm{N}}}
 \newcommand{\Z}{\ensuremath{\mathbbm{Z}}}
 \newcommand{\Q}{\ensuremath{\mathbbm{Q}}}
@@ -27,7 +28,7 @@
 \maketitle
 
 \begin{abstract}
-apaIn real-world traffic small errors, like an unnecessary brake from individual drivers can propagate through traffic and lead to interruptions and traffic jams far away from the initial disturbance. Studying these phenomena could be especially important with the emergence of self-driving cars. The cars need to be tuned so they don't cause unnecessary traffic congestion.
+  In real-world traffic small errors, like an unnecessary brake from individual drivers can propagate through traffic and lead to interruptions and traffic jams far away from the initial disturbance. Studying these phenomena could be especially important with the emergence of self-driving cars. The cars need to be tuned so they don't cause unnecessary traffic congestion.
 
 We want to study how small irregularites, such as braking or acceleration of a few drivers, in traffic flow propagate through traffic. We start from a single lane situation with agent-based modelling of individual drivers and periodic boundary condidtions. Each agent is represented by a finite-state machine with threes states, braking, acceleration and driving at constant speed. The state transitions depend on the speed and positions of the nearest neighbours, primarily the one ahead. Depending on the time available, more complexity will be added to the model.  
 
@@ -44,13 +45,13 @@ Main controller
 
 \newpage
 \tableofcontents
-\newpage
+%\newpage
 
 \section{So far, i.e. predraft}
 So far we've implemented a rudimentary model of the car track, with regular and more aggressive drivers and a visualization. We have also started implementing a basic density plot in order to see the propagation and or creation and dissipation of traffic congestions on the track. So far we have observed wave-like behaviour of car/speeds. Further work will concentrate on extending the model to multi-lane, and extracting the wave propagation-speed/amplitudes etc and their dependence on the number of drivers on the track and the ratio of normal/aggressive drivers and number of lanes etc.
 
 \section{Introduction}
-In real-world traffic small localized perturbations, like an unnecessary brake from an individual driver, can cause long-lasting interruptions and congestions in traffic flow for a long time after the initial disturbance \cite{kerner97flow}. The occuring sections of slow-moving flow can propagate through traffic and give rise to traffic jams involving cars far away from the disturbance \cite{kerner96trafficjam}.
+In real-world traffic small localized perturbations, like an unnecessary brake from an individual driver, can cause long-lasting interruptions and congestions in traffic flow for a long time after the initial disturbance \cite{kerner97flow}. The occuring sections of slow-moving flow can propagate through traffic and give rise to traffic jams involving cars far away from the disturbance \cite{kerner96trafficjam}. This disturbance can occur without specific origin and can be regarded as an instability of a dynamical system \cite{bando1995dynamical}. 
 
 https://en.wikipedia.org/wiki/Three-phase\_traffic\_theory
 
@@ -105,24 +106,32 @@ If nice is set to be True, cars will try to drive as far right as possible. If t
 
 A basic example of the emergence of waves can be seen in figure \ref{fig:a3lanes} and \ref{fig:b3lanes}. Traffic starts in the rightmost lane and when traffic gets to dense cars starts shifting lanes. When more dense regions start to form cars spread out evenly between the lanes with clusters of cars going slower, congestion. These congestions travel through traffic like a wave, with new cars slowing down behind the congestion and getting stuck in it.
 We can observe how a number of agressive drivers can increase the traffic flow by disrupting congestions. However, using only agressive drivers appears to reduce traffic flow in same manner as having only passive drivers. From this we conclude that there should be an optimal ratio of agressive drivers per passive drivers to maximize traffic flow. This result can be seen in figure \ref{jam_flow} where we have plotted traffic flow against the ratio of agressive drivers per passive drivers.
+The reason the traffic flow appears to decrease when aggressive drivers are introduced beyond the point of optimal number of agressive drivers is that we meaure flow as a fraction of how fast drivers \textit{want} to drive, and the aggressive drivers want to drive faster, thus decreasing the optimal flow despite driving on average faster.
+
+Another observation is how introducing a car that has co mpletely stopped, effectively simulating the effect of a crash, decreases the traffic flow despite only blocking one of the three lanes.
+\begin{comment}
+  how does the ratio of aggressive drivers vs passive drivers affect the result of blocking one lane, and or is it relevant?
+  How is traffic affected by blocking two lanes?
+  How is the optimal ratio passives/agressives affected by car density (i.e. number of cars on the track) ?
+\end{comment}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.3]{figs/jam_flow_aggresives_150.png}
-    \caption{Visualization of a three lane track with 500 cars. All cars started in the right-most lane but when traffic become too congested and cars can not keep their desired speed they switch lanes. Each lane is 1000 meters long. The cars are concentrated in the rightmost lane, but have started to migrate to the other lanes.}
+    \includegraphics[scale=0.4]{figs/jam_flow_aggresives_150.png}
+    \caption{Traffic flow as a function of the ratio of agressive drivers versus passive drivers. We can tell there appears to be a ratio at which the traffic flow is optimal}
     \label{fig:jam_flow}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.3]{figs/circular_three_lane.png}
+    \includegraphics[scale=0.2]{figs/circular_three_lane.png}
     \caption{Visualization of a three lane track with 500 cars. All cars started in the right-most lane but when traffic become too congested and cars can not keep their desired speed they switch lanes. Each lane is 1000 meters long. The cars are concentrated in the rightmost lane, but have started to migrate to the other lanes.}
     \label{fig:a3lanes}
 \end{figure}
 
 \begin{figure}[h]     
     \centering
-      \includegraphics[scale=0.3]{figs/good_circular_three_lane.png}
+      \includegraphics[scale=0.2]{figs/good_circular_three_lane.png}
       \caption{Congestions have started to form. These congestion clusters have cars moving slower than the rest. Congestions are propagated through traffic with new slow cars getting added from behind.}
       \label{fig:b3lanes}
 \end{figure}
