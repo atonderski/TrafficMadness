@@ -96,6 +96,14 @@ If nice is set to be True, cars will try to drive as far right as possible. If t
 %The agents are placed on a track of fixed length, but with periodic boundary conditions creating an infinite loop. Driving is only allowed in one direction, but to allow for more complexity and further model highway traffic the track can be extended to allow multiple parallel lanes with lane switching allowed. To decide on its actions each agent can see agents in its proximity, both in its lane and in other lanes bordering its own. The agent can read the velocity and position of these nearby agents to adjust its acceleration or decide to shift lanes.
 
 \section{Results}
+
+% Amount of slowdown during traffic jam for varying percentages of aggressive drivers
+% Amount of slowdown during traffic jam for varying percentages of passive drivers (no improvement)
+% Time vs average velocity for different safety distances
+% Plot that shows how the bucket with the largest car concentration moves
+% Still picture of the cars during a traffic jam
+% (very very optional) nice vs normal cars
+
 A basic example of the emergence of waves can be seen in figure \ref{fig:a3lanes} and \ref{fig:b3lanes}. Traffic starts in the rightmost lane and when traffic gets to dense cars starts shifting lanes. When more dense regions start to form cars spread out evenly between the lanes with clusters of cars going slower, congestion. These congestions travel through traffic like a wave, with new cars slowing down behind the congestion and getting stuck in it.
 We can observe how a number of agressive drivers can increase the traffic flow by disrupting congestions. However, using only agressive drivers appears to reduce traffic flow in same manner as having only passive drivers. From this we conclude that there should be an optimal ratio of agressive drivers per passive drivers to maximize traffic flow. This result can be seen in figure \ref{jam_flow} where we have plotted traffic flow against the ratio of agressive drivers per passive drivers.
 The reason the traffic flow appears to decrease when aggressive drivers are introduced beyond the point of optimal number of agressive drivers is that we meaure flow as a fraction of how fast drivers \textit{want} to drive, and the aggressive drivers want to drive faster, thus decreasing the optimal flow despite driving on average faster.
