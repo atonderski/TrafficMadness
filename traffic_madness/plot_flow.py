@@ -62,9 +62,9 @@ def plot_flow(path, marker='', label=['', '', '']):
     # plt.plot([], [], 'k-', label='Fluctuation')
 
     # Locate legend and plot axis labels
-    plt.legend(loc='best')
+    #plt.legend(loc='best')
     plt.xlabel('Ratio of aggressive drivers')
-    plt.ylabel('traffic flow / optimal traffic flow')
+    plt.ylabel('Traffic speed / optimal traffic speed')
     plt.show()
 
 
