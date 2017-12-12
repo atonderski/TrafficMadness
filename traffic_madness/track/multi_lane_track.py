@@ -113,8 +113,13 @@ class MultiLaneTrack(Track):
                                        lane=lane)
             self.cars.add_car(new_car)
 
+    def get_max_density_index(self, disturbed_car):
+        """Returns the bucket index of the disturbed car and
+           the bucket index of the car with the maximum density"""
+        return self.cars.get_max_density_index(disturbed_car)
+
     def get_all_cars(self):
-        """Returns a list of all the car positions"""
+        """Returns a list of all car positions"""
         return self.cars.get_all_cars()
 
     def get_flow_cars(self):
