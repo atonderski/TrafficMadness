@@ -9,6 +9,7 @@ class Car:
         self.nice = nice
         self.stuck = False
         config = Config()
+        self.velocity_factor = config.velocity_factor
 #        self.delay_buffer_length = config.delay_buffer_length
         self.min_distance = config.min_distance
         self.reaction_time = config.reaction_time

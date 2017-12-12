@@ -6,8 +6,8 @@ class AggressiveCar(LaneSwitchingCar):
     def __init__(self, position, velocity, lane, nice):
         config = Config()
         super().__init__(position, velocity, lane, nice)
-        self.acceleration *= config.aggressiveness
-        self.deceleration *= config.aggressiveness
+#        self.acceleration *= config.aggressiveness
+#        self.deceleration *= config.aggressiveness
         self.safetymultiplier /= config.aggressiveness
         self.color = (255, 0, 0)
         self.delay_buffer = []

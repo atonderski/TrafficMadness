@@ -51,9 +51,12 @@ class LaneSwitchingCar(Car):
                     min([self.velocity + self.acceleration * self.timestep,
                          target_speed])
         else:
-            deceleration = self.deceleration * (
-                (1 - dist_to_car_in_front / safety_distance) * 0.4 +
-                0.2 * (self.velocity - car_in_front.velocity))
+            if self.velocity_factor and self.velocity < car_in_front.velocity:
+                distance_part = 0
+            else:
+                distance_part = (1 - (dist_to_car_in_front / safety_distance)**2) * 2 
+            velocity_part = self.velocity_factor * (self.velocity - car_in_front.velocity)
+            deceleration = self.deceleration * (distance_part + velocity_part)
             deceleration = min(deceleration, config.max_deceleration)
             deceleration = max(-config.acceleration, deceleration)
             self.velocity = max(
@@ -82,12 +85,12 @@ class LaneSwitchingCar(Car):
               crash_position:
             # We stay at the same spot until car in front moves
             self.velocity = 0
-            #print("Car has crashed at {}".format(self.position))
+            print("Car has crashed at {}".format(self.position))
         elif proposed_position > crash_position and self.position < \
               crash_position:
             self.position = crash_position
             self.velocity = 0
-            #print("Car has crashed at {}".format(self.position))
+            print("Car has crashed at {}".format(self.position))
         else:
             self.position = proposed_position
 

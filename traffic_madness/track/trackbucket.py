@@ -69,6 +69,10 @@ class TrackBucket():
         
         return disturbed_index, max_index
 
+    def get_bucket_densities(self):
+        nbr_cars_in_buckets = [len(bucket) for bucket in self.bucket_list]
+        return nbr_cars_in_buckets
+
     def get_nearby_cars(self, position):
         """ Returns an unordered list of car objects for cars in
             (i) The bucket the position maps to
