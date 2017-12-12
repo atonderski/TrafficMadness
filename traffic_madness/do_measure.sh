@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run the simulation and change a variable
-change='aggressives'
+change='passives'
 from=0
 to=1
 step=0.1
