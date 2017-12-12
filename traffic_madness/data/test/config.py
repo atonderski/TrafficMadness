@@ -13,7 +13,7 @@ class Config():
         self.speed_limit = 20
         self.track_length = 1000
         self.buckets = 20.0
-        self.max_num_cars = 200
+        self.max_num_cars = 85
         self.buffer_length = 5
         self.bucket_length = self.track_length / self.buckets
         # car properties

@@ -5,10 +5,9 @@ from os import listdir
 import re
 
 
-def plot_flow():
+def plot_flow(path, marker='', label=['', '', '']):
     colors = ['k', 'b', 'r']
     # Path were to find the data that is wanted to be ploted
-    path = 'data/aggressives_500s_obs_150_cars/'
     # Gives a list of files at that path
     files = listdir(path)
 
@@ -32,7 +31,7 @@ def plot_flow():
             #          label='Flow {:.2f}'.format(aggressives))
             # Plot one data point with the averaged flow depending on
             # proportion of aggressive drivers
-            plt.scatter(aggressives, flow, c=colors[color_index])
+            plt.scatter(aggressives, flow, c=colors[color_index], marker=marker)
 
             ''' Plot binned flow '''
             # data_x = []
@@ -53,45 +52,14 @@ def plot_flow():
             # plt.plot([aggressives, aggressives],
             #          [max(data[:, 1]), min(data[:, 1])], 'k-')
 
-    # # Do same for second directory
-    # # Path were to find the data that is wanted to be ploted
-    # path = 'data/flow_aggressives_100niceCars/'
-    # # Gives a list of files at that path
-    # files = listdir(path)
-    #
-    # for file in files:
-    #     # Do not try to plot the config file
-    #     if file != 'config':
-    #         data = np.loadtxt(path + file)
-    #         # Get the average flow over all observation time
-    #         flow = np.average(data[:, 1])
-    #         # Get the number of aggressive drivers from the filename
-    #         aggressives = float(re.findall("\d+\.\d+", file)[0][:])
-    #         # Plot the flow's time dependence
-    #         plt.plot(data[:, 0], data[:, 1],
-    #                  label='Flow {:.2f}'.format(aggressives))
-    #         # Plot one data point with the averaged flow depending on
-    #         # proportion of aggressive drivers
-    #         plt.scatter(aggressives, flow, c='k')
-    #
-    #         # Plot fluctuations for an estimate on reliability of data
-    #         maxi = max(data[:, 1])
-    #         mini = min(data[:, 1])
-    #         # Data point in the middle of fluctuations
-    #         plt.scatter(aggressives, mini + (maxi - mini) / 2, c='k', marker='d')
-    #         # "Error bar"
-    #         plt.plot([aggressives, aggressives],
-    #                  [max(data[:, 1]), min(data[:, 1])], 'k-')
-
-
     # Empty opjects to generate the labels for the plots (else there would be
     # a label for every fiel)
-    plt.scatter([], [], c='r', label='Average flow')
-    plt.scatter([], [], c='r', marker='d', label='Middle of fluctuation')
-    plt.plot([], [], 'r-', label='Fluctuation')
-    plt.scatter([], [], c='k', label='Average flow nice cars')
-    plt.scatter([], [], c='k', marker='d', label='Middle of fluctuation')
-    plt.plot([], [], 'k-', label='Fluctuation')
+    plt.scatter([], [], c='k', marker=marker, label=label[0])
+    plt.scatter([], [], c='b', marker=marker, label=label[1])
+    # plt.plot([], [], 'r-', label='Fluctuation')
+    plt.scatter([], [], c='r', marker=marker, label=label[2])
+    # plt.scatter([], [], c='k', marker='d', label='Middle of fluctuation')
+    # plt.plot([], [], 'k-', label='Fluctuation')
 
     # Locate legend and plot axis labels
     #plt.legend(loc='best')
@@ -101,4 +69,5 @@ def plot_flow():
 
 
 if __name__ == '__main__':
-    plot_flow()
+    plot_flow(path = 'data/test/', marker='o', label=['Before', 'After', 'Final'])
+
