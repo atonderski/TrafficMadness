@@ -11,6 +11,7 @@
 \usepackage{graphicx}
 \usepackage{bbm}
 \usepackage{comment}
+\usepackage{url}
 \newcommand{\N}{\ensuremath{\mathbbm{N}}}
 \newcommand{\Z}{\ensuremath{\mathbbm{Z}}}
 \newcommand{\Q}{\ensuremath{\mathbbm{Q}}}
@@ -23,7 +24,7 @@
 \begin{document}
 
 \title{Simulations of road blockages, Simulation of complex systems}
-\author{Fredrik, Daniel, Thorben, Atonderski}
+\author{Fredrik Johnsson, Daniel Karlsson, Thorben Finke, Adam Tonderski}
 \date{\today}
 \maketitle
 
@@ -51,27 +52,15 @@ Main controller
 So far we've implemented a rudimentary model of the car track, with regular and more aggressive drivers and a visualization. We have also started implementing a basic density plot in order to see the propagation and or creation and dissipation of traffic congestions on the track. So far we have observed wave-like behaviour of car/speeds. Further work will concentrate on extending the model to multi-lane, and extracting the wave propagation-speed/amplitudes etc and their dependence on the number of drivers on the track and the ratio of normal/aggressive drivers and number of lanes etc.
 
 \section{Introduction}
-In real-world traffic small localized perturbations, like an unnecessary brake from an individual driver, can cause long-lasting interruptions and congestions in traffic flow for a long time after the initial disturbance \cite{kerner97flow}. The occuring sections of slow-moving flow can propagate through traffic and give rise to traffic jams involving cars far away from the disturbance \cite{kerner96trafficjam}. This disturbance can occur without specific origin and can be regarded as an instability of a dynamical system \cite{bando1995dynamical}. 
+Congestions in traffic flow is a widely recognized problem in many regions of the world and a large cost for both individuals and society \cite{inrix}. Congestions form in regions with high-density traffic with increased instability. Even small localized perturbations, such as for example an unnecessary brake from an individual driver, can cause interruptions and congestions in traffic flow for a long time after the initial disturbance \cite{kerner97flow, bando1995dynamical}. The initial congestion along with driver behaviour creates growing stop-and-go waves propagating backwards through traffic as new cars at the end of the wave need to slow down while cars in the wave need to speed up or slow donw depending on the state of their forward neighbour  \cite{stern17autonomous, kerner96trafficjam}. The occuring sections of slow-moving flow can propagate long distances and give rise to traffic jams involving cars far away from the disturbance \cite{kerner96trafficjam}.
 
-https://en.wikipedia.org/wiki/Three-phase\_traffic\_theory
+Since a large part of the dynamics of the stop-and-go waves are due to the human factor a prospect solution to the problem is the introduction of autonomous vehicles (AVs) and different forms of inter-vehicle communication (IVC) \cite{stern17autonomous, darbha1999cruisecontrol, bauza2013vehicle2vehicle, fagnant2015autonomous}. Even a small amount of AVs are proposed to be able to drastically improve the negative effects of congestion on traffic flow and even help to dissipate them when formed by serving as actuators. It is suggested that even simple decision measures such as velocity differences and spatial distance to nearby cars, as already present in some modern cruise control systems, can be utilized by AVs to regulate the flow of traffic \cite{stern17autonomous}.
 
-B.S Kerner As found in experimental data from real
+In this paper we use a simple agent-based simulation model to explore the effects of congestion on traffic flow and throughput, and how traffic jams form and dissipate depending on traffic density and characteristic behaviour of the drivers involved. Furthermore, we study the simulated effect of introducing autonomous vehicles by allowing the agents a higher degree of awareness of variations in traffic by reading the velocity of nearby cars and using this information in their decision model. As stated previosly, even simple measures such as this should lead to increased traffic flow and ability to dissipate congestions \cite{stern17autonomous}. 
 
-We explore how characteristics and behaviour of individual drivers affect the formation and resolution (dissolution) of traffic jams.
-
-We explore how traffic jams can occur in a model of traffic flow on a three-lane highway and how different behaviour and actions of individual drivers give rise to congestions.
+To characterize the congestions 
 
 A characteristic measure of real-world traffic jams that can be used to verify the authenticity has been proposed by B.S Kerner \cite{kerner96trafficjam}. The characteristics include the density of vehicles in the traffic jam, the average velocity of the cars and the flow of traffic out from the jam.
-
-Similar results as seen in experimental data
-Bla bla
-
-Write some about the negative aspects, cost, time, environment (accidents). Write some about potential causes.
-
-Write what we want to explore.
-
-Write a bit about self-driving cars.
-
 
 
 \section{The model}
@@ -117,21 +106,21 @@ Another observation is how introducing a car that has co mpletely stopped, effec
   How is the optimal ratio passives/agressives affected by car density (i.e. number of cars on the track) ?
 \end{comment}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[scale=0.4]{figs/jam_flow_aggresives_150.png}
     \caption{Traffic flow as a function of the ratio of agressive drivers versus passive drivers. We can tell there appears to be a ratio at which the traffic flow is optimal}
     \label{fig:jam_flow}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[scale=0.2]{figs/circular_three_lane.png}
     \caption{Visualization of a three lane track with 500 cars. All cars started in the right-most lane but when traffic become too congested and cars can not keep their desired speed they switch lanes. Each lane is 1000 meters long. The cars are concentrated in the rightmost lane, but have started to migrate to the other lanes.}
     \label{fig:a3lanes}
 \end{figure}
 
-\begin{figure}[h]     
+\begin{figure}[ht]     
     \centering
       \includegraphics[scale=0.2]{figs/good_circular_three_lane.png}
       \caption{Congestions have started to form. These congestion clusters have cars moving slower than the rest. Congestions are propagated through traffic with new slow cars getting added from behind.}
