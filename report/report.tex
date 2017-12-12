@@ -27,7 +27,7 @@
 \maketitle
 
 \begin{abstract}
-In real-world traffic small errors, like an unnecessary brake from individual drivers can propagate through traffic and lead to interruptions and traffic jams far away from the initial disturbance. Studying these phenomena could be especially important with the emergence of self-driving cars. The cars need to be tuned so they don't cause unnecessary traffic congestion.
+apaIn real-world traffic small errors, like an unnecessary brake from individual drivers can propagate through traffic and lead to interruptions and traffic jams far away from the initial disturbance. Studying these phenomena could be especially important with the emergence of self-driving cars. The cars need to be tuned so they don't cause unnecessary traffic congestion.
 
 We want to study how small irregularites, such as braking or acceleration of a few drivers, in traffic flow propagate through traffic. We start from a single lane situation with agent-based modelling of individual drivers and periodic boundary condidtions. Each agent is represented by a finite-state machine with threes states, braking, acceleration and driving at constant speed. The state transitions depend on the speed and positions of the nearest neighbours, primarily the one ahead. Depending on the time available, more complexity will be added to the model.  
 
@@ -93,7 +93,16 @@ If nice is set to be True, cars will try to drive as far right as possible. If t
 %The agents are placed on a track of fixed length, but with periodic boundary conditions creating an infinite loop. Driving is only allowed in one direction, but to allow for more complexity and further model highway traffic the track can be extended to allow multiple parallel lanes with lane switching allowed. To decide on its actions each agent can see agents in its proximity, both in its lane and in other lanes bordering its own. The agent can read the velocity and position of these nearby agents to adjust its acceleration or decide to shift lanes.
 
 \section{Results}
-A basic example of the emergance of waves can be seen in figure \ref{fig:a3lanes} and \ref{fig:b3lanes}. Traffic starts in the rightmost lane and when traffic gets to dense cars starts shifting lanes. When more dense regions start to form cars spread out evenly between the lanes with clusters of cars going slower, congestion. These congestions travel through traffic like a wave, with new cars slowing down behind the congestion and getting stuck in it.  
+A basic example of the emergence of waves can be seen in figure \ref{fig:a3lanes} and \ref{fig:b3lanes}. Traffic starts in the rightmost lane and when traffic gets to dense cars starts shifting lanes. When more dense regions start to form cars spread out evenly between the lanes with clusters of cars going slower, congestion. These congestions travel through traffic like a wave, with new cars slowing down behind the congestion and getting stuck in it.
+We can observe how a number of agressive drivers can increase the traffic flow by disrupting congestions. However, using only agressive drivers appears to reduce traffic flow in same manner as having only passive drivers. From this we conclude that there should be an optimal ratio of agressive drivers per passive drivers to maximize traffic flow. This result can be seen in figure \ref{jam_flow} where we have plotted traffic flow against the ratio of agressive drivers per passive drivers.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.3]{figs/jam_flow_aggresives_150.png}
+    \caption{Visualization of a three lane track with 500 cars. All cars started in the right-most lane but when traffic become too congested and cars can not keep their desired speed they switch lanes. Each lane is 1000 meters long. The cars are concentrated in the rightmost lane, but have started to migrate to the other lanes.}
+    \label{fig:jam_flow}
+\end{figure}
+
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.3]{figs/circular_three_lane.png}
@@ -107,6 +116,8 @@ A basic example of the emergance of waves can be seen in figure \ref{fig:a3lanes
       \caption{Congestions have started to form. These congestion clusters have cars moving slower than the rest. Congestions are propagated through traffic with new slow cars getting added from behind.}
       \label{fig:b3lanes}
 \end{figure}
+
+
 
 %\section{Parameter dependence of cluster formations etc...}
 
