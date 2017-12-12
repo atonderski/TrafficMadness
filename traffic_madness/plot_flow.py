@@ -8,7 +8,7 @@ import re
 def plot_flow():
     colors = ['k', 'b', 'r']
     # Path were to find the data that is wanted to be ploted
-    path = 'data/test/'
+    path = 'data/aggressives_500s_obs_150_cars/'
     # Gives a list of files at that path
     files = listdir(path)
 
@@ -94,9 +94,9 @@ def plot_flow():
     plt.plot([], [], 'k-', label='Fluctuation')
 
     # Locate legend and plot axis labels
-    plt.legend(loc='best')
+    #plt.legend(loc='best')
     plt.xlabel('Ratio of aggressive drivers')
-    plt.ylabel('traffic flow / optimal traffic flow')
+    plt.ylabel('Traffic speed / optimal traffic speed')
     plt.show()
 
 
