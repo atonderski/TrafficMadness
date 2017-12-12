@@ -6,8 +6,8 @@ class PassiveCar(LaneSwitchingCar):
     def __init__(self, position, velocity, lane, nice):
         config = Config()
         super().__init__(position, velocity, lane, nice)
-        self.acceleration *= config.passiveness
-        self.deceleration *= config.passiveness
+#        self.acceleration *= config.passiveness
+#        self.deceleration *= config.passiveness
         self.safetymultiplier /= config.passiveness
         self.color = (0, 255, 0)
 

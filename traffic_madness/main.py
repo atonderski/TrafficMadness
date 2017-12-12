@@ -107,7 +107,7 @@ def observation(track, drawer, eq, disturbed_car):
 
 
 if __name__ == '__main__':
-    draw_all = False
+    draw_all = True
     start = time.time()
     run_simulation()
     print('Done in {:.0f}'.format(time.time()-start))
