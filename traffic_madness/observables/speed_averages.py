@@ -4,18 +4,7 @@ from traffic_madness.config import Config
 
 def get_optimal_speed(cartypes):
     config = Config()
-    aggressives = cartypes[0]
-    neutrals = cartypes[1]
-    passives = cartypes[2]
-    # Speed of neutral cars
-    speed = (config.speed_limit) * neutrals
-    # Speed of aggressive cars
-    speed += (config.speed_limit * config.aggressiveness)* aggressives
-    # Flow of passive cars
-    speed += (config.speed_limit * config.passiveness)* passives
-    # Rescale to cars per hour
-    speed *= 1/(aggressives+neutrals+passives)
-    return speed
+    return config.speed_limit
 
 def global_average_speed(cars):
     """Return the instantaneous average velocity averaged over all cars"""
