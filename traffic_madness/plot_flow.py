@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
 from traffic_madness.config import Config
 from os import listdir
@@ -6,7 +7,7 @@ import re
 
 
 def plot_flow(path, marker='', label=['', '', '']):
-    colors = ['k', 'b', 'r']
+    colors = ['b', 'k', 'r']
     # Path were to find the data that is wanted to be ploted
     # Gives a list of files at that path
     files = listdir(path)
@@ -16,11 +17,14 @@ def plot_flow(path, marker='', label=['', '', '']):
         if file != 'config.py':
             data = np.loadtxt(path + file)
             if re.findall("before", file):
-                color_index = 0
+                continue
+                # color_index = 0
             elif re.findall("after", file):
-                color_index = 1
+                continue
+                # color_index = 1
             elif re.findall("final", file):
-                color_index = 2
+                # continue
+                color_index = 1
 
             # Get the average flow over all observation time
             flow = np.average(data[:, 1])
@@ -54,20 +58,28 @@ def plot_flow(path, marker='', label=['', '', '']):
 
     # Empty opjects to generate the labels for the plots (else there would be
     # a label for every fiel)
-    plt.scatter([], [], c='k', marker=marker, label=label[0])
-    plt.scatter([], [], c='b', marker=marker, label=label[1])
+    # plt.scatter([], [], c='b', marker=marker, label=label[0])
+    plt.scatter([], [], c='k', marker=marker, label=label[1])
     # plt.plot([], [], 'r-', label='Fluctuation')
-    plt.scatter([], [], c='r', marker=marker, label=label[2])
+    # plt.scatter([], [], c='r', marker=marker, label=label[2])
     # plt.scatter([], [], c='k', marker='d', label='Middle of fluctuation')
     # plt.plot([], [], 'k-', label='Fluctuation')
 
     # Locate legend and plot axis labels
-    #plt.legend(loc='best')
-    plt.xlabel('Ratio of aggressive drivers')
-    plt.ylabel('Traffic speed / optimal traffic speed')
-    plt.show()
+
+
 
 
 if __name__ == '__main__':
-    plot_flow(path = 'data/test/', marker='o', label=['Before', 'After', 'Final'])
+    matplotlib.rcParams.update({'font.size': 22})
+    plot_flow(path = 'data/test/', marker='o', label=['85 Cars', '85 Cars', '85 Cars'])
+    plot_flow(path='data/aggressives_500s_obs_150_cars/',
+              marker='d', label=['150 Cars', '150 Cars', '150 Cars'])
+    plot_flow(path='data/aggressives_500s_obs_200_cars/',
+              marker='s', label=['200 Cars', '200 Cars', '200 Cars'])
+    plt.plot([],[], 'white', label='Traffic flow, after one lane was blocked')
+    plt.legend(loc='best')
+    plt.xlabel('Ratio of aggressive drivers')
+    plt.ylabel('Traffic flow / optimal traffic flow')
 
+    plt.show()
