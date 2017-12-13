@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,twocolumn]{article}
+\documentclass[11pt,a4paper,twocolumn]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -11,6 +11,7 @@
 \usepackage{graphicx}
 \usepackage{bbm}
 \usepackage{comment}
+\usepackage{url}
 \newcommand{\N}{\ensuremath{\mathbbm{N}}}
 \newcommand{\Z}{\ensuremath{\mathbbm{Z}}}
 \newcommand{\Q}{\ensuremath{\mathbbm{Q}}}
@@ -23,14 +24,15 @@
 \begin{document}
 
 \title{Simulations of road blockages, Simulation of complex systems}
-\author{Fredrik, Daniel, Thorben, Atonderski}
+\author{Fredrik Johnsson, Daniel Karlsson, Thorben Finke, Adam Tonderski}
 \date{\today}
 \maketitle
+
 
 \begin{abstract}
   In real-world traffic small errors, like an unnecessary brake from individual drivers can propagate through traffic and lead to interruptions and traffic jams far away from the initial disturbance. Studying these phenomena could be especially important with the emergence of self-driving cars. The cars need to be tuned so they don't cause unnecessary traffic congestion.
 
-We want to study how small irregularites, such as braking or acceleration of a few drivers, in traffic flow propagate through traffic. We start from a single lane situation with agent-based modelling of individual drivers and periodic boundary condidtions. Each agent is represented by a finite-state machine with threes states, braking, acceleration and driving at constant speed. The state transitions depend on the speed and positions of the nearest neighbours, primarily the one ahead. Depending on the time available, more complexity will be added to the model.  
+We want to study how small irregularities, such as braking or acceleration of a few drivers, in traffic flow propagate through traffic. We start from a single lane situation with agent-based modelling of individual drivers and periodic boundary conditions. Each agent is represented by a finite-state machine with threes states, braking, acceleration and driving at constant speed. The state transitions depend on the speed and positions of the nearest neighbours, primarily the one ahead. Depending on the time available, more complexity will be added to the model.  
 
 main features to be implemented:
 Graphics - matplotlib/pygame,
@@ -51,25 +53,15 @@ Main controller
 So far we've implemented a rudimentary model of the car track, with regular and more aggressive drivers and a visualization. We have also started implementing a basic density plot in order to see the propagation and or creation and dissipation of traffic congestions on the track. So far we have observed wave-like behaviour of car/speeds. Further work will concentrate on extending the model to multi-lane, and extracting the wave propagation-speed/amplitudes etc and their dependence on the number of drivers on the track and the ratio of normal/aggressive drivers and number of lanes etc.
 
 \section{Introduction}
-In real-world traffic small localized perturbations, like an unnecessary brake from an individual driver, can cause long-lasting interruptions and congestions in traffic flow for a long time after the initial disturbance \cite{kerner97flow}. The occuring sections of slow-moving flow can propagate through traffic and give rise to traffic jams involving cars far away from the disturbance \cite{kerner96trafficjam}. This disturbance can occur without specific origin and can be regarded as an instability of a dynamical system \cite{bando1995dynamical}. 
+Congestions in traffic flow is a widely recognized problem in many regions of the world and a large cost for both individuals and society \cite{inrix}. Congestions form in regions with high-density traffic with increased instability. Even small localized perturbations, such as for example an unnecessary brake from an individual driver, can cause interruptions and congestions in traffic flow for a long time after the initial disturbance \cite{kerner97flow, bando1995dynamical}. The initial congestion along with driver behaviour creates growing stop-and-go waves propagating backwards through traffic as new cars at the end of the wave need to slow down while cars in the wave need to speed up or slow donw depending on the state of their forward neighbour  \cite{stern17autonomous, kerner96trafficjam}. The occuring sections of slow-moving flow can propagate long distances and give rise to traffic jams involving cars far away from the disturbance \cite{kerner96trafficjam}.
 
-https://en.wikipedia.org/wiki/Three-phase\_traffic\_theory
+Since a large part of the dynamics of the stop-and-go waves are due to the human factor a prospect solution to the problem is the introduction of autonomous vehicles (AVs) and different forms of inter-vehicle communication (IVC) \cite{stern17autonomous, darbha1999cruisecontrol, bauza2013vehicle2vehicle, fagnant2015autonomous}. Even a small amount of AVs are proposed to be able to drastically improve the negative effects of congestion on traffic flow and even help to dissipate them when formed by serving as actuators. It is suggested that even simple decision measures such as velocity differences and spatial distance to nearby cars, as already present in some modern cruise control systems, can be utilized by AVs to regulate the flow of traffic \cite{stern17autonomous}.
 
-B.S Kerner As found in experimental data from real 
+In this paper we use a simple agent-based simulation model to explore the effects of congestion on traffic flow and throughput, and how traffic jams form and dissipate depending on traffic density and characteristic behaviour of the drivers involved. Furthermore, we study the simulated effect of introducing autonomous vehicles by allowing the agents a higher degree of awareness of variations in traffic by reading the velocity of nearby cars and using this information in their decision model. As stated previosly, even simple measures such as this should lead to increased traffic flow and ability to dissipate congestions \cite{stern17autonomous}. 
 
-We explore how traffic jams can occur in a model of traffic flow on a three-lane highway and how different behaviour and actions of individual drivers give rise to congestions.
+To characterize the congestions 
 
 A characteristic measure of real-world traffic jams that can be used to verify the authenticity has been proposed by B.S Kerner \cite{kerner96trafficjam}. The characteristics include the density of vehicles in the traffic jam, the average velocity of the cars and the flow of traffic out from the jam.
-
-Similar results as seen in experimental data
-Bla bla
-
-Write some about the negative aspects, cost, time, environment (accidents). Write some about potential causes.
-
-Write what we want to explore.
-
-Write a bit about self-driving cars.
-
 
 
 \section{The model}
@@ -80,7 +72,7 @@ The track carries the main information of the simulation. It contains track leng
 During one step in time, the track class communicates with every car to give information of nearest neighbours and the current speed limit. The car's behaviour is then controlled by the car class itself (see \ref{cars}). The track stores the updated information about the cars and checks the periodic boundary conditions. \\
 
 % Not sure if we want to go into details about the implementation. Cut this out if we don't want it :)
-In order for the model to scale to a large number of cars (at least 1000) the track needed to utilize an efficient data structure. The naive implementation of just storing all the cars in a list and iterating over that list proved to be too slow. If N is the number of cars the naive approach had a time complexity of at least O(N^2). A better approach was instead to divide the track into a lot of smaller pieces, "buckets". The buckets in turn stored a list of all the cars inside it. The bucket division was based on the position on the track, so that a given position mapped uniquely to a single bucket. The primary improvement came from the fact that given a certain car it was possible to directly look up all the cars in the same bucket, without having to consider any of the other buckets. The performance improved to close to O(N) instead of O(N^2), which made a big difference when N was approaching 1000 cars. Note that this new model collapses to the naive implementation if the number of buckets is 1.
+In order for the model to scale to a large number of cars (at least 1000) the track needed to utilize an efficient data structure. The naive implementation of just storing all the cars in a list and iterating over that list proved to be too slow. If N is the number of cars the naive approach had a time complexity of at least $O(N^2)$. A better approach was instead to divide the track into a lot of smaller pieces, buckets. The buckets in turn stored a list of all the cars inside it. The bucket division was based on the position on the track, so that a given position mapped uniquely to a single bucket. The primary improvement came from the fact that given a certain car it was possible to directly look up all the cars in the same bucket, without having to consider any of the other buckets. The performance improved to close to O(N) instead of $O(N^2)$, which made a big difference when N was approaching 1000 cars. Note that this new model collapses to the naive implementation if the number of buckets is 1.
 
 \subsection{The cars} \label{cars}
 The model contains three different car types: neutral drivers, passive drivers and aggressive drivers. The neutral driver is the mother class. Its attributes are position, velocity, acceleration and deceleration capability, length and a safety multiplier that affects the safety distance a car wants to hold. \\
@@ -89,9 +81,25 @@ During a step in time every car gets information from the track (\ref{track}) ab
 For the lane switching behaviour two different possibilities are implemented, depending on the parameter: nice. If nice is set to be False, lanes are switched in two cases: when the agent is below its personal speed limit and can go faster on another lane or when a car behind is too close and faster.\\
 If nice is set to be True, cars will try to drive as far right as possible. If the lane to the right is free and they do not have to reduce their velocity, nice cars will switch to that lane. 
 
-\subsection{Initialisation}
+\subsection{Initialisation} \label{Initialisation}
+During the initialisation all cars are spawned randomly on the track. They are all spawned with a velocity according to the track's speed limit. The probability for a car to be aggressive or passive can be set in the configurations file. \\
+After the cars are on the track they start propagating according to the rules explained in section \ref{cars}. To not let the unnatural random spawning influence the observation an equilibration phase is implemented.
 
-\subsection{Observation}
+\subsection{Observation} \label{Observation}
+One simulation run has three different observation phases: 1. Before a disturbance. 2. During a disturbance. 3. After a disturbance.
+After equilibration and before a disturbance is put on the track, one can observe the equilibrium behaviour of the cars on the track. Then a disturbance is implemented. The disturbance is a car that stops (for example a collision in real-world traffic). It stands still in one lane for the second observation time. At this point it is interesting to analyse how well the system can handle the disturbance. The third observation time begins when the stopped car moves again. One can therefore see, if the system turns back into the equilibrium state it had before the disturbance. \\
+
+\subsection{Observables}
+During the observation phases (\ref{Observation}) it is kept track of the following observables: current traffic flow over optimal traffic flow, current average speed over speed limit and which part of the track has the highest density of cars and this density. \\
+The optimal flow is calculated according to
+\begin{align*}
+F_{optimal} &= F_{aggressives} + F_{passives} + F_{neutrals} \\
+F_{aggressives} &= \frac{v_{aggressive}}{L_{track}} \cdot N_{aggressives} \cdot 3600 \\
+F_{passives} &= \frac{v_{passive}}{L_{track}} \cdot N_{passives} \cdot 3600 \\
+F_{neutrals} &= \frac{v_{neutral}}{L_{track}} \cdot N_{neutrals} \cdot 3600 \\
+\end{align*}
+
+$F$ is the flow, optimal, aggressive, passive and neutral respectively. $v$ refers to the target speed of the different car species. $N$ is the actual number of cars of a certain type. The factor of $3600$ converts the flow into units $cars/hour$, since the units during the simulation are $meter$ and $second$.
 
 %The agents are placed on a track of fixed length, but with periodic boundary conditions creating an infinite loop. Driving is only allowed in one direction, but to allow for more complexity and further model highway traffic the track can be extended to allow multiple parallel lanes with lane switching allowed. To decide on its actions each agent can see agents in its proximity, both in its lane and in other lanes bordering its own. The agent can read the velocity and position of these nearby agents to adjust its acceleration or decide to shift lanes.
 
@@ -115,21 +123,21 @@ Another observation is how introducing a car that has co mpletely stopped, effec
   How is the optimal ratio passives/agressives affected by car density (i.e. number of cars on the track) ?
 \end{comment}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[scale=0.4]{figs/jam_flow_aggresives_150.png}
     \caption{Traffic flow as a function of the ratio of agressive drivers versus passive drivers. We can tell there appears to be a ratio at which the traffic flow is optimal}
     \label{fig:jam_flow}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[scale=0.2]{figs/circular_three_lane.png}
     \caption{Visualization of a three lane track with 500 cars. All cars started in the right-most lane but when traffic become too congested and cars can not keep their desired speed they switch lanes. Each lane is 1000 meters long. The cars are concentrated in the rightmost lane, but have started to migrate to the other lanes.}
     \label{fig:a3lanes}
 \end{figure}
 
-\begin{figure}[h]     
+\begin{figure}[ht]     
     \centering
       \includegraphics[scale=0.2]{figs/good_circular_three_lane.png}
       \caption{Congestions have started to form. These congestion clusters have cars moving slower than the rest. Congestions are propagated through traffic with new slow cars getting added from behind.}

@@ -17,11 +17,45 @@ class MultiLaneTrack(Track):
         self.cars = None
         self.cartypes = [0, 0, 0]  # Counter for different car types
         # [Aggressive, neutral, passive]
-        config = Config()
-        self.spawn_nice_cars = config.nice_cars
-        self.buffer_length = config.buffer_length
+        self.config = Config()
+        self.spawn_nice_cars = self.config.nice_cars
+        self.buffer_length = self.config.buffer_length
 
         self.reset()
+
+    def spawn_all_cars(self):
+        for i in range(self.max_num_cars):
+            position = self.track_length*i/(self.max_num_cars);
+            position += 2*(np.random.random()-0.5)
+            lane = i%3;
+            random_nbr = np.random.random()
+
+            # Spawn cars at random position, fills track faster and does not
+            # produce a biased
+            # congestion.
+            if random_nbr < self.config.aggressives:
+                new_car = AggressiveCar(
+                    position=position,
+                    velocity=self.speed_limit,
+                    lane=lane,
+                    nice=self.spawn_nice_cars)
+                self.cartypes[0] += 1
+            elif random_nbr < self.config.aggressives + self.config.passives:
+                new_car = PassiveCar(
+                    position=position,
+                    velocity=self.speed_limit,
+                    lane=lane,
+                    nice=self.spawn_nice_cars)
+                self.cartypes[2] += 1
+            else:
+                new_car = LaneSwitchingCar(
+                    position=position,
+                    velocity=self.speed_limit,
+                    lane=lane,
+                    nice=self.spawn_nice_cars)
+                self.cartypes[1] += 1
+            self.cars.add_car(new_car)
+
 
     def reset(self):
         config = Config()
@@ -29,6 +63,7 @@ class MultiLaneTrack(Track):
         self.cars = TrackBucket(track_length=self.track_length,
                                 bucket_length=config.bucket_length,
                                 num_lanes=self.num_lanes)
+        self.spawn_all_cars()
 
     def update(self):
         """Performs a time step update of the entire track.
@@ -117,6 +152,7 @@ class MultiLaneTrack(Track):
         """Returns the bucket index of the disturbed car and
            the bucket index of the car with the maximum density"""
         return self.cars.get_max_density_index(disturbed_car)
+
 
     def get_all_cars(self):
         """Returns a list of all car positions"""
