@@ -1,12 +1,13 @@
-import pygame
-import numpy as np
+import argparse
 import time
 
+import numpy as np
+
+import traffic_madness.observables.speed_averages as sa
+import traffic_madness.observables.traffic_flow as tf
 from traffic_madness.config import Config
 from traffic_madness.drawer.pygame_drawer import PyGameDrawer
 from traffic_madness.track.multi_lane_track import MultiLaneTrack
-import traffic_madness.observables.traffic_flow as tf
-import traffic_madness.observables.speed_averages as sa
 
 
 def run_simulation():
@@ -20,7 +21,8 @@ def run_simulation():
     # Add to drawer, make max_num_cars known to drawer so we can have a fixed
     # number of rects and use selective blit instead of the whole screen.
     if draw_all:
-        drawer = PyGameDrawer((1000, 1000), "Traffic Madness Simulation", track)
+        drawer = PyGameDrawer((1000, 1000), "Traffic Madness Simulation",
+                              track)
     else:
         drawer = 0
     # Define an array for averaging the traffic flow (now 1 min average)
@@ -34,6 +36,7 @@ def run_simulation():
     observation(track, drawer, 'after', car_to_disturb)
     undisturb_car(car_to_disturb)
     observation(track, drawer, 'final', car_to_disturb)
+
 
 def undisturb_car(disturb_car):
     disturb_car.stuck = False
@@ -78,27 +81,32 @@ def equilibration(track, drawer):
             drawer.update(track.get_all_cars(), time_counter, flow)
     print('Done equilibration')
 
+
 def observation(track, drawer, eq, disturbed_car):
     config = Config()
     time_counter = 0
     cartypes = track.get_cartypes()
     optimal_flow = tf.optimal_flow(cartypes)
     optimal_speed = sa.get_optimal_speed(cartypes)
-    file = open('data/tmp/aggressives{:.2f}{}.dat'.format(cartypes[0] / 
-        config.max_num_cars, eq), 'w')
+    file = open('data/tmp/aggressives{:.2f}velocity_factor{:.2f}{}.dat'.format(
+        cartypes[0] / config.max_num_cars, config.velocity_factor, eq), 'w')
     file.write('# Optimal flow and avg speed dependent on time \n '
-               '# Aggressives: {} \n'.format(cartypes[0]))
+               '# Aggressives: {} \n # Velocity factor: {} \n'.format(
+                cartypes[0], config.velocity_factor))
     while time_counter * config.timestep < config.observation:
         track.update()
         time_counter += 1
         # Get flow and updated flow array
-        speed = sa.global_average_speed(track.get_all_cars())/optimal_speed
+        speed = sa.global_average_speed(track.get_all_cars()) / optimal_speed
         flow = tf.traffic_flow(track.get_flow_cars())
         flow /= optimal_flow
-        bucket_disturbed, bucket_max_density = track.get_max_density_index(disturbed_car)
+        bucket_disturbed, bucket_max_density = track.get_max_density_index(
+            disturbed_car)
         # Data in file Tab: time flow avg vel index of disturbance, index of
         # max density
-        file.write('{:.2f} \t {:.4f} \t {:.4f} \t {} \t {} \n'.format(time_counter * config.timestep, flow, speed, bucket_disturbed, bucket_max_density))
+        file.write('{:.2f} \t {:.4f} \t {:.4f} \t {} \t {} \n'.format(
+            time_counter * config.timestep, flow, speed, bucket_disturbed,
+            bucket_max_density))
         # # Give flow to the drawer to draw it
         if draw_all:
             drawer.update(track.get_all_cars(), time_counter, flow)
@@ -107,7 +115,10 @@ def observation(track, drawer, eq, disturbed_car):
 
 
 if __name__ == '__main__':
-    draw_all = True
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--draw', action='store_true')
+    args = parser.parse_args()
+    draw_all = args.draw
     start = time.time()
     run_simulation()
-    print('Done in {:.0f}'.format(time.time()-start))
+    print('Done in {:.0f}'.format(time.time() - start))
