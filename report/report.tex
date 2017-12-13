@@ -116,7 +116,7 @@ A basic example of the emergence of waves can be seen in figure \ref{fig:a3lanes
 We can observe how a number of agressive drivers can increase the traffic flow by disrupting congestions. However, using only agressive drivers appears to reduce traffic flow in same manner as having only passive drivers. From this we conclude that there should be an optimal ratio of agressive drivers per passive drivers to maximize traffic flow. This result can be seen in figure \ref{jam_flow} where we have plotted traffic flow against the ratio of agressive drivers per passive drivers.
 The reason the traffic flow appears to decrease when aggressive drivers are introduced beyond the point of optimal number of agressive drivers is that we meaure flow as a fraction of how fast drivers \textit{want} to drive, and the aggressive drivers want to drive faster, thus decreasing the optimal flow despite driving on average faster.
 
-Another observation is how introducing a car that has co mpletely stopped, effectively simulating the effect of a crash, decreases the traffic flow despite only blocking one of the three lanes.
+Another observation is how introducing a car that has completely stopped, effectively simulating the effect of a crash, decreases the traffic flow despite only blocking one of the three lanes.
 \begin{comment}
   how does the ratio of aggressive drivers vs passive drivers affect the result of blocking one lane, and or is it relevant?
   How is traffic affected by blocking two lanes?
@@ -144,6 +144,23 @@ Another observation is how introducing a car that has co mpletely stopped, effec
       \label{fig:b3lanes}
 \end{figure}
 
+\begin{figure}[ht]
+    \centering
+      \includegraphics[scale=0.2]{figs/velocity_over_time.eps}
+      \caption{In the first stage all cars drive at the speed limit. All models drop almost immediately to around 0.7 and stay there. Only the model with velocity awareness of 1.0 is able to recover to the speed limit. After the disturbance, the models with low velocity awareness decrease in average velocity whereas the models with higher velocity awareness actually increased their average velocity.}
+      \label{fig:vel_over_time}
+\end{figure}
+
+Figure \ref{fig:vel_over_time} displays the time evolution for varying velocity parameters ADD EQREF. The initial observation phase shows that the average velocities tend to drop to around 0.7.
+This should correspond to the steady state where every car keeps their desired safety distance to the car in front, see section REFERENCE TO SECTION and the theoretical value from equation REFERENCE EQUATION is X.
+An interesting observation however is that when the velocity awareness is set to 1.0, the model initially drops close to 0.7, but manages to recover to the speed limit. DISCUSS THIS
+
+Once a disturbance is introduce (first vertical line), the system leaves the steady state and starts fluctuating. For low velocity awareness, the average velocity decreases, but for the larger velocity awareness the average velocity tends to increase.
+After the disturbance is removed, the models with low velocit awareness slowly return to the steady state. Several of the other models however, manage to go all the way to the speed limit.
+This result is extremely interesting, since it means that a traffic accident can actually improve the flow of the entire system, while it happens and after it has been cleared up.
+It can be related to studies that show that placing certain obstacles in front of an emergency exit improves the overall flow REFERENCE.
+
+We probably don't see these kind of behaviours in the real world since human drivers have a very low velocity awareness. With the advent of self driving cars however, it's possible that accidents will no longer cause immense slowdowns in traffic!
 
 
 %\section{Parameter dependence of cluster formations etc...}
