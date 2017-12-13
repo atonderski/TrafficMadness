@@ -12,6 +12,7 @@
 \usepackage{bbm}
 \usepackage{comment}
 \usepackage{url}
+\usepackage{placeins}
 \newcommand{\N}{\ensuremath{\mathbbm{N}}}
 \newcommand{\Z}{\ensuremath{\mathbbm{Z}}}
 \newcommand{\Q}{\ensuremath{\mathbbm{Q}}}
@@ -49,15 +50,14 @@ Main controller
 \tableofcontents
 %\newpage
 
-\section{So far, i.e. predraft}
-So far we've implemented a rudimentary model of the car track, with regular and more aggressive drivers and a visualization. We have also started implementing a basic density plot in order to see the propagation and or creation and dissipation of traffic congestions on the track. So far we have observed wave-like behaviour of car/speeds. Further work will concentrate on extending the model to multi-lane, and extracting the wave propagation-speed/amplitudes etc and their dependence on the number of drivers on the track and the ratio of normal/aggressive drivers and number of lanes etc.
-
 \section{Introduction}
 Congestions in traffic flow is a widely recognized problem in many regions of the world and a large cost for both individuals and society \cite{inrix}. Congestions form in regions with high-density traffic with increased instability. Even small localized perturbations, such as for example an unnecessary brake from an individual driver, can cause interruptions and congestions in traffic flow for a long time after the initial disturbance \cite{kerner97flow, bando1995dynamical}. The initial congestion along with driver behaviour creates growing stop-and-go waves propagating backwards through traffic as new cars at the end of the wave need to slow down while cars in the wave need to speed up or slow donw depending on the state of their forward neighbour  \cite{stern17autonomous, kerner96trafficjam}. The occuring sections of slow-moving flow can propagate long distances and give rise to traffic jams involving cars far away from the disturbance \cite{kerner96trafficjam}.
 
+Much work regarding the prevention of traffic jams has been done, many focusing on improvements in road planning and increased availibility of public transportation. As put forward by Anthony Downs in 1962, traffic tends to increase to meet the capacity of available road network \cite{downs2000stuck, downs2005still, downs1962law}. This means there are diminishing or no improvements on congestion at all for investments in road capacity. Instead, the possible avenues for improvements are ways of controlling traffic flow and the behaviour of individual drivers.
+
 Since a large part of the dynamics of the stop-and-go waves are due to the human factor a prospect solution to the problem is the introduction of autonomous vehicles (AVs) and different forms of inter-vehicle communication (IVC) \cite{stern17autonomous, darbha1999cruisecontrol, bauza2013vehicle2vehicle, fagnant2015autonomous}. Even a small amount of AVs are proposed to be able to drastically improve the negative effects of congestion on traffic flow and even help to dissipate them when formed by serving as actuators. It is suggested that even simple decision measures such as velocity differences and spatial distance to nearby cars, as already present in some modern cruise control systems, can be utilized by AVs to regulate the flow of traffic \cite{stern17autonomous}.
 
-In this paper we use a simple agent-based simulation model to explore the effects of congestion on traffic flow and throughput, and how traffic jams form and dissipate depending on traffic density and characteristic behaviour of the drivers involved. Furthermore, we study the simulated effect of introducing autonomous vehicles by allowing the agents a higher degree of awareness of variations in traffic by reading the velocity of nearby cars and using this information in their decision model. As stated previosly, even simple measures such as this should lead to increased traffic flow and ability to dissipate congestions \cite{stern17autonomous}. 
+In this paper we implement a simple agent-based simulation model to explore the effects of congestion on traffic flow and throughput, and how traffic jams form and dissipate depending on traffic density and characteristic behaviour of the drivers involved. Furthermore, we study the simulated effect of introducing autonomous vehicles by allowing the agents a higher degree of awareness of variations in traffic by reading the velocity of nearby cars and using this information in their decision model. As stated previosly, even simple measures such as this should lead to increased traffic flow and ability to dissipate congestions \cite{stern17autonomous}. 
 
 To characterize the congestions 
 
@@ -111,7 +111,7 @@ $F$ is the flow, optimal, aggressive, passive and neutral respectively. $v$ refe
 % Plot that shows how the bucket with the largest car concentration moves
 % Still picture of the cars during a traffic jam
 % (very very optional) nice vs normal cars
-
+\subsection{Old result remove}
 A basic example of the emergence of waves can be seen in figure \ref{fig:a3lanes} and \ref{fig:b3lanes}. Traffic starts in the rightmost lane and when traffic gets to dense cars starts shifting lanes. When more dense regions start to form cars spread out evenly between the lanes with clusters of cars going slower, congestion. These congestions travel through traffic like a wave, with new cars slowing down behind the congestion and getting stuck in it.
 We can observe how a number of agressive drivers can increase the traffic flow by disrupting congestions. However, using only agressive drivers appears to reduce traffic flow in same manner as having only passive drivers. From this we conclude that there should be an optimal ratio of agressive drivers per passive drivers to maximize traffic flow. This result can be seen in figure \ref{jam_flow} where we have plotted traffic flow against the ratio of agressive drivers per passive drivers.
 The reason the traffic flow appears to decrease when aggressive drivers are introduced beyond the point of optimal number of agressive drivers is that we meaure flow as a fraction of how fast drivers \textit{want} to drive, and the aggressive drivers want to drive faster, thus decreasing the optimal flow despite driving on average faster.
@@ -130,19 +130,19 @@ Another observation is how introducing a car that has co mpletely stopped, effec
     \label{fig:jam_flow}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure*}[ht]     
     \centering
-    \includegraphics[scale=0.2]{figs/circular_three_lane.png}
-    \caption{Visualization of a three lane track with 500 cars. All cars started in the right-most lane but when traffic become too congested and cars can not keep their desired speed they switch lanes. Each lane is 1000 meters long. The cars are concentrated in the rightmost lane, but have started to migrate to the other lanes.}
-    \label{fig:a3lanes}
-\end{figure}
+      \includegraphics[scale=0.35]{figs/traffic_density_effect}
+      \caption{Effect of traffic density }
+      \label{fig:traffic_density}
+\end{figure*}
 
-\begin{figure}[ht]     
-    \centering
-      \includegraphics[scale=0.2]{figs/good_circular_three_lane.png}
-      \caption{Congestions have started to form. These congestion clusters have cars moving slower than the rest. Congestions are propagated through traffic with new slow cars getting added from behind.}
-      \label{fig:b3lanes}
-\end{figure}
+\subsection{Formation of traffic jams}
+One of the most important parameters for the formation and dissipation of traffic jams is known to be the traffic density \cite{kerner96trafficjam, kerner97flow}. We examined the effect of road saturation by varying the number of cars on a three-lane highway and measuring the average traffic flow  before and after an artificial disturbance had been introduced in the form ofa car coming to a sudden halt blocking one lane of traffic. The artificial disturbance was used to get an even strong congestion for all cases and not rely on eventual congestions due to system instability.  We also varied the ratio of aggressive drivers in traffic to see if a more active lane-changing behaviour and shorter safety distances would have an effect on the traffic flow.
+
+The resulting measurements of traffic flow as a function of traffic density and ratio of aggressive cars is seen in figure \ref{fig:traffic_density}. The density measurements were done for three distinct values, 85, 150 and 200 cars representing low, high and medium densities, respectively. A system with less cars are sparse enough to not be affected by a blocked lane, cars have enough space to simply switch lanes and avoid the congestion, while a system with more than about 200 cars is so saturated that congestions forms almost instantly. The measurements before the As seen in the figure, the average traffic flow decreases with car density for both the measurements   
+
+A highly saturated road has a higher degree of instability due to the decreased  
 
 
 
@@ -162,6 +162,8 @@ Another observation is how introducing a car that has co mpletely stopped, effec
 %% \caption{\label{finafiguren} Perioden $T$ som funktion av
 %%   pendellängden.}
 %% \end{figure}
+
+\FloatBarrier
 \bibliographystyle{unsrt}
 \bibliography{bibliography}
 
