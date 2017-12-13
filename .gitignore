@@ -3,8 +3,8 @@
 *.aux
 report/*.pdf
 report/*gz
-report/*bbl
-report/*bbg
+report/report.bbl
+report/report.bbg
 
 # macOS
 *.DS_Store
