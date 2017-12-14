@@ -68,9 +68,10 @@ All these attributes are also inherited by the other car classes.
 For the aggressive drivers and passive drivers the target speed and the safety multiplier are manipulated by a factor of aggressiveness (> 1) or passiveness (<1). The safety multiplier is divided by this factor so that an aggressive driver tends to hold less distance and a passive driver holds more distance to cars in front. \\
 During a step in time every car gets information from the track (\ref{subsec:track}) about its nearest neighbours and the allowed speed. Depending on the distance and speed to the car in front and the car behind the agent decides whether he needs to brake, can accelerate or needs to switch lanes to overtake. If the agent needs to brake, its deceleration is according to:
 \begin{align*}
-a_{eff} = a_{config} \cdot (dist + velo)
+\label{eq:velo_param}
+a_{eff} = a_{config} \cdot (f(\Delta x) + k_v \Delta v)
 \end{align*}
-$a_{eff}$ is the effective deceleration value, while $a_{config}$ is the basic deceleration value set in the configurations file. $dist$ refers to a factor that is based on the distance to the car in front and $velo$ is a similar factor containing information about the velocity of the car in front. The capability of realising the velocity difference can be set as a parameter (velocity awareness). If this factor is set to zero, $velo$ will always be zero. This means the deceleration is not depending on velocity difference at all.\\
+$a_{eff}$ is the effective deceleration value, while $a_{config}$ is the basic deceleration value set in the configurations file. $f(\Delta x)$ is a factor that is based on the distance to the car in front and $k_v \Delta v$ is a similar factor based on the velocity difference to the car in front ($\Delta v$). The capability of realising the velocity difference is controlled by $k_v$, the velocity awareness parameter. If this factor is set to zero, the deceleration is not depending on velocity difference at all.\\
 For the lane switching behaviour two different possibilities are implemented, depending on the parameter: nice. If nice is set to be False, lanes are switched in two cases: when the agent is below its personal speed limit and can go faster on another lane or when a car behind is too close and faster.\\
 If nice is set to be True, cars will try to drive as far right as possible. If the lane to the right is free and they do not have to reduce their velocity, nice cars will switch to that lane. 
 
@@ -160,16 +161,17 @@ Three main avenues have been followed. First, we wanted to confirm that the mode
  The absence of change between individual measurements is possibly a consequence of the averaging used. The average is taken over a large time in the system both before and after the disturbance. Transient behaviour in the transition from flowing traffic to congestion is therefore averaged out and figure \ref{fig:traffic_density} only represents the steady-state behaviour. To study the transient behaviour of the system with the introduction of disturbances we examined the time evolution of the instantaneous velocity, see section \ref{sec:transient}. 
 
 \subsection{Transient behaviour}
-Figure \ref{fig:vel_over_time} displays the time evolution for varying velocity parameters ADD EQREF. The initial observation phase shows that the average velocities tend to drop to around 0.7.
+Figure \ref{fig:vel_over_time} displays the time evolution for varying velocity parameters \eqref{eq:velo_param}. The initial observation phase shows that the average velocities tend to drop to around 0.7.
 This should correspond to the steady state where every car keeps their desired safety distance to the car in front, see section REFERENCE TO SECTION and the theoretical value from equation REFERENCE EQUATION is X.
-An interesting observation however is that when the velocity awareness is set to 1.0, the model initially drops close to 0.7, but manages to recover to the speed limit. DISCUSS THIS
+An interesting observation is that when the velocity awareness is set to 1.0, the model initially drops close to 0.7, but manages to recover to the speed limit. DISCUSS THIS
 
-Once a disturbance is introduce (first vertical line), the system leaves the steady state and starts fluctuating. For low velocity awareness, the average velocity decreases, but for the larger velocity awareness the average velocity tends to increase.
-After the disturbance is removed, the models with low velocit awareness slowly return to the steady state. Several of the other models however, manage to go all the way to the speed limit.
-This result is extremely interesting, since it means that a traffic accident can actually improve the flow of the entire system, while it happens and after it has been cleared up.
-It can be related to studies that show that placing certain obstacles in front of an emergency exit improves the overall flow \cite{yanagisawa2009obstacle}.
+Once a disturbance is introduced (first vertical line), the system leaves the steady state and starts fluctuating. For low velocity awareness values, the average velocity decreases, but for the larger velocity awareness the average velocity tends to increase.
+After the disturbance is removed, the models with low velocity awareness slowly return to the steady state, whereas the other models manage to go all the way to the speed limit. This behaviour of escaping from a steady state to another, less stable steady state, can be likened to a system with a stable and unstable attractor (such as a simple pendulum). In and of itself, the system will always converge to the stable attractar, but external factors (in this case velocity awareness) can keep the system semi-stable in the unstable fix point.
 
-We probably don't see these kind of behaviours in the real world since human drivers have a very low velocity awareness. With the advent of self driving cars however, it's possible that accidents will no longer cause immense slowdowns in traffic.
+This result is extremely interesting, since it implies that major traffic distrubances (such as a roadblack or accident) can actually improve the overall flow. Both during the disturbance and after it has been cleared up.
+There have been studies that show that placing certain obstacles in front of an emergency exit improves the overall flow \cite{yanagisawa2009obstacle}, which lends some strength to this very unintuitive conclusion..
+
+A likely reason that we don't commonly see this kind of flow improvement in the real world is that human drivers have a very low velocity awareness. With the advent of self driving cars however, it's possible that traffic disturbances  will no longer cause immense slowdowns, but might rather be beneficial (in small amounts).
 
 \section{Conclusion}
 The model succesfully model the formation of congestions with a clear dependence on traffic density. A system with low traffic density has a higher steady-state flow, but is relatively more affected by an artifical disturbance creating congestion due to the initial higer average flow. Propagating congestion waves due to stop-and-go behaviour are shown to form spontaneously in systems with high traffic density. 
