@@ -77,9 +77,14 @@ def _plot_time_series(path):
     unique_series = [path + f.split('before.dat')[0] for f in files if
                      'before.dat' in f]
     unique_series.sort(reverse=True)
-    velocity_factors = []
+    legend_labels = []
     for series_name in unique_series:
+        print(series_name)
         velocity_factor = float(re.findall("\d+\.\d+", series_name)[1])
+        aggressives = float(re.findall("\d+\.\d+", series_name)[0])
+        # legend_labels.append("velocity-factor:%s" % (velocity_factor))
+        legend_labels.append("aggressives: %s, velocity-factor:%s" %(
+            aggressives, velocity_factor))
         # if velocity_factor not in [0.0, 0.3, 0.6, 1.0]:
         #     continue
         data_before = np.loadtxt(series_name + 'before.dat')
@@ -96,11 +101,11 @@ def _plot_time_series(path):
                                    data_after[:, 2],
                                    data_final[:, 2]))
         plt.plot(time, velocity)
-        velocity_factors.append(velocity_factor)
-    plt.legend(velocity_factors)
+    # plt.legend(velocity_factors)
+    plt.legend(legend_labels)
+
     plt.plot((last_time_before, last_time_before), (0.4, 1), 'k--')
     plt.plot((last_time_after, last_time_after), (0.4, 1), 'k--')
-    plt.title("Flow for different velocity awareness values")
     plt.xlabel("time (seconds)")
     plt.ylabel("velocity (relative to speed limit)")
 
