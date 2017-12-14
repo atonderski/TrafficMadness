@@ -100,7 +100,7 @@ One gets the density distribution by keeping track of the number of cars in each
 
 %The agents are placed on a track of fixed length, but with periodic boundary conditions creating an infinite loop. Driving is only allowed in one direction, but to allow for more complexity and further model highway traffic the track can be extended to allow multiple parallel lanes with lane switching allowed. To decide on its actions each agent can see agents in its proximity, both in its lane and in other lanes bordering its own. The agent can read the velocity and position of these nearby agents to adjust its acceleration or decide to shift lanes.
 
-\section{Results}\label{sec:results}
+\section{Results and Discussion}\label{sec:results}
 Three main avenues have been followed. First, we wanted to confirm that the model was able to produce wave-like congestions patterns and see how this vary depending on the traffic density. We measured spontaneously forming congestions and congestions after the introduction of artificial disturbances. To see the effect of improved velocity awareness and adaptation transient behaviour was examined for traffic before, during and after an artifical disturbance. 
 
 % Amount of slowdown during traffic jam for varying percentages of aggressive drivers
@@ -152,7 +152,7 @@ Three main avenues have been followed. First, we wanted to confirm that the mode
       \caption{In the first stage all cars drive at the speed limit. All models drop almost immediately to around 0.7 and stay there. Only the model with velocity awareness of 1.0 is able to recover to the speed limit. After the disturbance, the models with low velocity awareness decrease in average velocity whereas the models with higher velocity awareness actually increased their average velocity.}
       \label{fig:vel_over_time}
 \end{figure*}
-\subsection{Transient behaviour}
+\subsection{Varying the velocity parameter}
 Figure \ref{fig:vel_over_time} displays the time evolution for varying velocity parameters \eqref{eq:velo_param}. The initial observation phase shows that the average velocities tend to drop to around 0.7.
 This should correspond to the steady state where every car keeps their desired safety distance to the car in front, see section REFERENCE TO SECTION and the theoretical value from equation REFERENCE EQUATION is X.
 An interesting observation is that when the velocity awareness is set to 1.0, the model initially drops close to 0.7, but manages to recover to the speed limit. DISCUSS THIS
@@ -164,6 +164,9 @@ This result is extremely interesting, since it implies that major traffic distru
 There have been studies that show that placing certain obstacles in front of an emergency exit improves the overall flow \cite{yanagisawa2009obstacle}, which lends some strength to this very unintuitive conclusion..
 
 A likely reason that we don't commonly see this kind of flow improvement in the real world is that human drivers have a very low velocity awareness. With the advent of self driving cars however, it's possible that traffic disturbances  will no longer cause immense slowdowns, but might rather be beneficial (in small amounts).
+
+\subsection{Effect of mixed populations on steady state}
+
 
 \FloatBarrier
 \section{Conclusion}
