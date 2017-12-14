@@ -124,26 +124,21 @@ One gets the density distribution by keeping track of the number of cars in each
 
 
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[scale=0.4]{figs/jam_flow_aggresives_150.png}
-    \caption{Traffic flow as a function of the ratio of agressive drivers versus passive drivers. We can tell there appears to be a ratio at which the traffic flow is optimal}
-    \label{fig:jam_flow}
-\end{figure}
+%\begin{figure}[ht]
+%    \centering
+%    \includegraphics[scale=0.4]{figs/jam_flow_aggresives_150.png}
+%    \caption{Traffic flow as a function of the ratio of agressive drivers versus passive drivers. We can tell there appears to be a ratio at which the traffic flow is optimal}
+%    \label{fig:jam_flow}
+%\end{figure}
 
-\begin{figure}[ht]
-    \centering
-      \includegraphics[scale=0.2]{figs/velocity_over_time.eps}
-      \caption{In the first stage all cars drive at the speed limit. All models drop almost immediately to around 0.7 and stay there. Only the model with velocity awareness of 1.0 is able to recover to the speed limit. After the disturbance, the models with low velocity awareness decrease in average velocity whereas the models with higher velocity awareness actually increased their average velocity.}
-      \label{fig:vel_over_time}
-\end{figure}
 
-\begin{figure*}[ht]     
+
+\begin{figure}[ht]     
       \centering
-       \includegraphics[scale=0.35]{figs/traffic_density_effect}
+       \includegraphics[scale=0.33]{figs/traffic_density_effect}
        \caption{Effect of traffic density }
        \label{fig:traffic_density}
- \end{figure*}
+ \end{figure}
  
  \subsection{Formation of traffic jams}
  One of the most important parameters for the formation and dissipation of traffic jams is known to be the traffic density \cite{kerner96trafficjam, kerner97flow}. We examined the effect of road saturation by varying the number of cars on a three-lane highway and measuring the average traffic flow  before and after an artificial disturbance had been introduced ,in the form of a car coming to a sudden halt blocking one lane of traffic. The artificial disturbance was used to get an even, strong congestion for all cases and not rely on eventual self-formed congestions due to system instability.  We also varied the ratio of aggressive drivers in traffic to see if a more active lane-changing behaviour and shorter safety distances would have an effect on the traffic flow.
@@ -152,14 +147,27 @@ One gets the density distribution by keeping track of the number of cars in each
  
  The measurements before the disturbance is the red symbols in the figure, while the measurements after are black. A clear difference in traffic flow before and after the congestion is observed for all values of car density. Although, the effect is more limited for higer densities. This could probably be explained by the fact that a highly saturated road forces drivers to slow down because of the decreased available distance between each car, placing the system in a congestion-like state from the beginning.
 
- The variations due to the ratio of aggressive drivers are seen along the x-axis in \ref{fig:traffic_density}. Except for 
+ The variations due to the ratio of aggressive drivers are seen along the x-axis in \ref{fig:traffic_density}. The flow is close constant, with small flucations, for all  
 
- The absence of change between individual measurements is possibly a consequence of the averaging used. The average is taken over a large time in the system both before and after the disturbance. Transient behaviour in the transition from flowing traffic to congestion is therefore averaged out and figure \ref{fig:traffic_density} .   \ref{sec:transient} 
+ The absence of change between individual measurements is possibly a consequence of the averaging used. The average is taken over a large time in the system both before and after the disturbance. Transient behaviour in the transition from flowing traffic to congestion is therefore averaged out and figure \ref{fig:traffic_density} only represents the steady-state behaviour. To study the transient behaviour of the system with the introduction of disturbances we examined the time evolution of the instantaneous velocity, see section \ref{sec:transient}. 
 
 A clear difference in traffic flow level is observed 
 
 average traffic flow decreases with car density for both the measurements   
 
+\begin{figure*}[ht]     
+      \centering
+       \includegraphics[scale=0.35]{figs/velocity_over_time_aggressive.png}
+       \caption{Effect of traffic density }
+       \label{fig:vel_agg_over_time}
+ \end{figure*}
+
+\begin{figure*}[ht]
+    \centering
+      \includegraphics[scale=0.35]{figs/velocity_over_time.png}
+      \caption{In the first stage all cars drive at the speed limit. All models drop almost immediately to around 0.7 and stay there. Only the model with velocity awareness of 1.0 is able to recover to the speed limit. After the disturbance, the models with low velocity awareness decrease in average velocity whereas the models with higher velocity awareness actually increased their average velocity.}
+      \label{fig:vel_over_time}
+\end{figure*}
 Figure \ref{fig:vel_over_time} displays the time evolution for varying velocity parameters ADD EQREF. The initial observation phase shows that the average velocities tend to drop to around 0.7.
 This should correspond to the steady state where every car keeps their desired safety distance to the car in front, see section REFERENCE TO SECTION and the theoretical value from equation REFERENCE EQUATION is X.
 An interesting observation however is that when the velocity awareness is set to 1.0, the model initially drops close to 0.7, but manages to recover to the speed limit. DISCUSS THIS
@@ -167,7 +175,7 @@ An interesting observation however is that when the velocity awareness is set to
 Once a disturbance is introduce (first vertical line), the system leaves the steady state and starts fluctuating. For low velocity awareness, the average velocity decreases, but for the larger velocity awareness the average velocity tends to increase.
 After the disturbance is removed, the models with low velocit awareness slowly return to the steady state. Several of the other models however, manage to go all the way to the speed limit.
 This result is extremely interesting, since it means that a traffic accident can actually improve the flow of the entire system, while it happens and after it has been cleared up.
-It can be related to studies that show that placing certain obstacles in front of an emergency exit improves the overall flow REFERENCE.
+It can be related to studies that show that placing certain obstacles in front of an emergency exit improves the overall flow \cite{yanagisawa2009obstacle}.
 
 We probably don't see these kind of behaviours in the real world since human drivers have a very low velocity awareness. With the advent of self driving cars however, it's possible that accidents will no longer cause immense slowdowns in traffic!
 
