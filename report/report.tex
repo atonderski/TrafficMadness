@@ -23,8 +23,9 @@
 
 
 \begin{document}
-
-\title{Simulations of road blockages, Simulation of complex systems}
+\title{%
+  The effect of driver behaviour on traffic jams \\
+  \large Agent-based model for studying congestion in highway traffic}
 \author{Fredrik Johnsson, Daniel Karlsson, Thorben Finke, Adam Tonderski}
 \date{\today}
 
@@ -32,8 +33,7 @@
   \begin{@twocolumnfalse}
     \maketitle
     \begin{abstract}
-\noindent In real-world traffic small errors, like an unnecessary brake from individual drivers can propagate through traffic and lead to interruptions and traffic jams far away from the initial disturbance. Studying these phenomena could be especially important with the emergence of self-driving cars. The cars need to be tuned so they don't cause unnecessary traffic congestion.
-We want to study how small irregularities, such as braking or acceleration of a few drivers, in traffic flow propagate through traffic. We start from a single lane situation with agent-based modelling of individual drivers and periodic boundary conditions. Each agent is represented by a finite-state machine with threes states, braking, acceleration and driving at constant speed. The state transitions depend on the speed and positions of the nearest neighbours, primarily the one ahead. Depending on the time available, more complexity will be added to the model.
+        \noindent
     \end{abstract}
   \end{@twocolumnfalse}
 ]
@@ -123,9 +123,30 @@ Three main avenues have been followed. First, we wanted to confirm that the mode
 \begin{figure}[ht]     
       \centering
        \includegraphics[scale=0.33]{figs/traffic_density_effect}
-       \caption{Effect of traffic density }
+       \caption{Effect of artifical congestion on traffic flow for different values of traffic density and ratio of aggressive drivers. The red and black symbols are the average traffic flow before and after the introduction of an artificial disturbance, respectively. The measurements is done for three distinct traffic densities, representing low, medium and high density traffic. The traffic flow both before and after the disturbance decreases with increased density, with smaller shifts for higher densities. The aggressive drivers do not have a large effect on traffic flow, except for when traffic density is low.}
        \label{fig:traffic_density}
  \end{figure}
+ 
+\begin{figure*}[t]     
+      \centering
+       \includegraphics[scale=1, trim={1cm 2.5cm 1cm 3cm}]{figs/phase_transition1.png}
+       \caption{Effect of traffic density }
+       \label{fig:vel_agg_over_time}
+ \end{figure*}
+
+\begin{figure*}[t]     
+      \centering
+       \includegraphics[scale=0.35]{figs/velocity_over_time_aggressive.png}
+       \caption{Effect of traffic density }
+       \label{fig:vel_agg_over_time}
+ \end{figure*}
+ 
+\begin{figure*}[t]
+    \centering
+      \includegraphics[scale=0.35, trim={0 0 0 0 }]{figs/velocity_over_time.png}
+      \caption{In the first stage all cars drive at the speed limit. All models drop almost immediately to around 0.7 and stay there. Only the model with velocity awareness of 1.0 is able to recover to the speed limit. After the disturbance, the models with low velocity awareness decrease in average velocity whereas the models with higher velocity awareness actually increased their average velocity.}
+      \label{fig:vel_over_time}
+\end{figure*}
  
  \subsection{Formation of traffic jams}
  One of the most important parameters for the formation and dissipation of traffic jams is known to be the traffic density \cite{kerner96trafficjam, kerner97flow}. We examined the effect of road saturation by varying the number of cars on a three-lane highway and measuring the average traffic flow  before and after an artificial disturbance had been introduced ,in the form of a car coming to a sudden halt blocking one lane of traffic. The artificial disturbance was used to get an even, strong congestion for all cases and not rely on eventual self-formed congestions due to system instability.  We also varied the ratio of aggressive drivers in traffic to see if a more active lane-changing behaviour and shorter safety distances would have an effect on the traffic flow.
@@ -134,23 +155,10 @@ Three main avenues have been followed. First, we wanted to confirm that the mode
  
  The measurements before the disturbance is the red symbols in the figure, while the measurements after are black. A clear difference in traffic flow before and after the congestion is observed for all values of car density. Although, the effect is more limited for higer densities. This could probably be explained by the fact that a highly saturated road forces drivers to slow down because of the decreased available distance between each car, placing the system in a congestion-like state from the beginning.
 
- The variations due to the ratio of aggressive drivers are seen along the x-axis in \ref{fig:traffic_density}. The flow is close constant, with small flucations, for all  
+ The variations due to the ratio of aggressive drivers are seen along the x-axis in \ref{fig:traffic_density}. The flow is close constant, with small flucations, for all values except for a slight rise in traffic flow for a large amount of aggressive cars in the case of low density traffic. The difference can by explained by the fact that the aggressive cars need available extra space to be able to have an effect. When the traffic is too dense, they get stuck at the same speed as the normal cars. Conversely, when there is available space, as in the case of low density traffic, the aggressive cars can take advantage of their higher speed and increase the over all flow of traffic.  
 
  The absence of change between individual measurements is possibly a consequence of the averaging used. The average is taken over a large time in the system both before and after the disturbance. Transient behaviour in the transition from flowing traffic to congestion is therefore averaged out and figure \ref{fig:traffic_density} only represents the steady-state behaviour. To study the transient behaviour of the system with the introduction of disturbances we examined the time evolution of the instantaneous velocity, see section \ref{sec:transient}. 
 
-
-\begin{figure*}[ht!]     
-      \centering
-       \includegraphics[scale=0.35]{figs/velocity_over_time_aggressive.png}
-       \caption{Effect of traffic density }
-       \label{fig:vel_agg_over_time}
- \end{figure*}
-\begin{figure*}[ht!]
-    \centering
-      \includegraphics[scale=0.35]{figs/velocity_over_time.png}
-      \caption{In the first stage all cars drive at the speed limit. All models drop almost immediately to around 0.7 and stay there. Only the model with velocity awareness of 1.0 is able to recover to the speed limit. After the disturbance, the models with low velocity awareness decrease in average velocity whereas the models with higher velocity awareness actually increased their average velocity.}
-      \label{fig:vel_over_time}
-\end{figure*}
 \subsection{Transient behaviour}
 Figure \ref{fig:vel_over_time} displays the time evolution for varying velocity parameters ADD EQREF. The initial observation phase shows that the average velocities tend to drop to around 0.7.
 This should correspond to the steady state where every car keeps their desired safety distance to the car in front, see section REFERENCE TO SECTION and the theoretical value from equation REFERENCE EQUATION is X.
@@ -163,7 +171,6 @@ It can be related to studies that show that placing certain obstacles in front o
 
 We probably don't see these kind of behaviours in the real world since human drivers have a very low velocity awareness. With the advent of self driving cars however, it's possible that accidents will no longer cause immense slowdowns in traffic.
 
-\FloatBarrier
 \section{Conclusion}
 The model succesfully model the formation of congestions with a clear dependence on traffic density. A system with low traffic density has a higher steady-state flow, but is relatively more affected by an artifical disturbance creating congestion due to the initial higer average flow. Propagating congestion waves due to stop-and-go behaviour are shown to form spontaneously in systems with high traffic density. 
 
