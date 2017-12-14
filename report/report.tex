@@ -45,7 +45,7 @@
 %\newpage
 
 \section{Introduction}
-Congestions in traffic flow is a widely recognized problem in many regions of the world and a large cost for both individuals and society \cite{inrix}. Congestions form in regions with high-density traffic with increased instability. Even small localized perturbations, such as for example an unnecessary brake from an individual driver, can cause interruptions and congestions in traffic flow for a long time after the initial disturbance \cite{kerner97flow, bando1995dynamical}. The initial congestion along with driver behaviour creates growing stop-and-go waves propagating backwards through traffic as new cars at the end of the wave need to slow down while cars in the wave need to speed up or slow donw depending on the state of their forward neighbour  \cite{stern17autonomous, kerner96trafficjam}. The occuring sections of slow-moving flow can propagate long distances and give rise to traffic jams involving cars far away from the disturbance \cite{kerner96trafficjam}.
+Congestions in traffic flow is a widely recognized problem in many regions of the world and a large cost for both individuals and society \cite{inrix}. Congestions form in regions with high-density traffic with increased instability. Even small localized perturbations, such as for example an unnecessary brake from an individual driver, can cause interruptions and congestions in traffic flow for a long time after the initial disturbance \cite{kerner97flow, bando1995dynamical}. The initial congestion along with driver behaviour creates growing stop-and-go waves propagating backwards through traffic as new cars at the end of the wave need to slow down while cars in the wave need to speed up or slow down depending on the state of their forward neighbour  \cite{stern17autonomous, kerner96trafficjam}. The occuring sections of slow-moving flow can propagate long distances and give rise to traffic jams involving cars far away from the disturbance \cite{kerner96trafficjam}.
 
 Much work regarding the prevention of traffic jams has been done, many focusing on improvements in road planning and increased availibility of public transportation. As put forward by Anthony Downs in 1962, traffic tends to increase to meet the capacity of available road network \cite{downs2000stuck, downs2005still, downs1962law}. This means there are diminishing or no improvements on congestion at all for investments in road capacity. Instead, the possible avenues for improvements are ways of controlling traffic flow and the behaviour of individual drivers.
 
@@ -102,7 +102,7 @@ One gets the density distribution by keeping track of the number of cars in each
 
 %The agents are placed on a track of fixed length, but with periodic boundary conditions creating an infinite loop. Driving is only allowed in one direction, but to allow for more complexity and further model highway traffic the track can be extended to allow multiple parallel lanes with lane switching allowed. To decide on its actions each agent can see agents in its proximity, both in its lane and in other lanes bordering its own. The agent can read the velocity and position of these nearby agents to adjust its acceleration or decide to shift lanes.
 
-\section{Results}\label{sec:results}
+\section{Results and Discussion}\label{sec:results}
 Three main avenues have been followed. First, we wanted to confirm that the model was able to produce wave-like congestions patterns and see how this vary depending on the traffic density. We measured spontaneously forming congestions and congestions after the introduction of artificial disturbances. To see the effect of improved velocity awareness and adaptation transient behaviour was examined for traffic before, during and after an artifical disturbance. 
 
 % Amount of slowdown during traffic jam for varying percentages of aggressive drivers
@@ -133,8 +133,8 @@ Three main avenues have been followed. First, we wanted to confirm that the mode
 \begin{figure*}[t]     
       \centering
        \includegraphics[scale=1, trim={1cm 2.5cm 1cm 3cm}]{figs/phase_transition1.png}
-       \caption{Effect of traffic density }
-       \label{fig:vel_agg_over_time}
+       \caption{Illustration of the system going from an initial unstable uniform distribution of cars to a state where congestions appear as waves.}
+       \label{fig:phase_transition}
  \end{figure*}
 
 \begin{figure*}[t]     
@@ -162,7 +162,7 @@ Three main avenues have been followed. First, we wanted to confirm that the mode
 
  The absence of change between individual measurements is possibly a consequence of the averaging used. The average is taken over a large time in the system both before and after the disturbance. Transient behaviour in the transition from flowing traffic to congestion is therefore averaged out and figure \ref{fig:traffic_density} only represents the steady-state behaviour. To study the transient behaviour of the system with the introduction of disturbances we examined the time evolution of the instantaneous velocity, see section \ref{sec:transient}. 
 
-\subsection{Transient behaviour}
+\subsection{Varying the velocity parameter}
 Figure \ref{fig:vel_over_time} displays the time evolution for varying velocity parameters \eqref{eq:velo_param}. The initial observation phase shows that the average velocities tend to drop to around 0.7.
 This should correspond to the steady state where every car keeps their desired safety distance to the car in front, see section REFERENCE TO SECTION and the theoretical value from equation REFERENCE EQUATION is X.
 An interesting observation is that when the velocity awareness is set to 1.0, the model initially drops close to 0.7, but manages to recover to the speed limit. DISCUSS THIS
@@ -175,12 +175,25 @@ There have been studies that show that placing certain obstacles in front of an 
 
 A likely reason that we don't commonly see this kind of flow improvement in the real world is that human drivers have a very low velocity awareness. With the advent of self driving cars however, it's possible that traffic disturbances  will no longer cause immense slowdowns, but might rather be beneficial (in small amounts).
 
+\subsection{Effect of mixed populations on steady state}
+In the previous section we studied the effect of velocity awareness and saw that a disturbance can have a positive impact on the flow. We have also previously studied mixed population of aggressive and normal drivers. Together, this raised the question whether a mix of driving styles can provide a continuous stream of micro disturbances and improve the overall flow. Figure \ref{fig:vel_agg_over_time} shows just that.
+Populations with 100\% normal and 100\% aggressive drivers immediately go to their respective steady state and stay there until a disturbance. Since the aggressive drivers have a smaller safety distance (and higher speed limit), their steady state line is significantly higher. The mixed population never reaches a steady state and, most interestingly, it mostly stay above the purely aggressive population. This confirms our theory that mixed populations can help the system perform better than the sum of it's parts (which would correspond to the average between both steady states).
+
+During the disturbance, the population with only normal cars starts oscillating but doesn't really decrease, whereas the other two populations drop to the same level. As soon as it clears up the mixed population shoots back up to the previous levels whereas the other two populations go up, but then start drifting down towards the steady states.
+
+These results are very interesting. Intuition tells us that a population of aggressive drivers should have the highest velocity since every car wants to drive faster and keep a smaller distance to the car in front. The simulations however, show that a mixed population adds some randomness to the system which can be beneficial for breaking up congestion and steady state behaviour.
+
 \section{Conclusion}
 The model succesfully model the formation of congestions with a clear dependence on traffic density. A system with low traffic density has a higher steady-state flow, but is relatively more affected by an artifical disturbance creating congestion due to the initial higer average flow. Propagating congestion waves due to stop-and-go behaviour are shown to form spontaneously in systems with high traffic density. 
 
 Driver behaviour, in terms of aggressiveness and neighbour-velocity adaptation, has an effect on both steady-state flow and transient behaviour in transitions between steady-state and congestions. The velocity adaptation decreases the rate at which congestions form and allows for higher traffic densities in steady-state flow. For the transient behaviour, both a higher ratio of aggressive drivers and a higher degree of velocity adaptation decreases the effect of an artificial disturbance and give the system a higher rate of recovery to a state with optimal traffic flow.
 
 The model used is relatively simple and represents an idealized view of driver behaviour and the physical properties of highway traffic. Even though the results are qualitatively pointing towards a positive effect of the introduction of velocity adaptation capabilities, the results should not be seen as more than an indication that the velocity adaptation. To achieve conclusive results further study is needed to improve the model as well as to perform a more extensive search in parameter space. An initial main direction for further work would be to investigate how more complex additions, such as driver reaction time, noise in velocity measurements, decreased vision when changing lanes et cetera.
+
+\section{Traffic congestion as a phase transition}
+Traffic congestions can be created by introducing obstacles or or giving the cars a non uniform initial distribution. These congestions can appear without any such initial perturbation. This can be regarded as a phase transition in an unstable dynamical system \cite{bando1995dynamical}. When the velocity awareness in our model is high, the flow appears stable. Under a certain threshold of velocity awareness, congestions appear as waves appearing from a uniform initial distribution. This is illustrated in figure \ref{phase_transition}. at $t=0$ we see the cars evenly distributed. Between $t=0$ and $t=1000$ we see a how a wave starts forming, propagating backwards relative to the driving direction. We can observe a secondary smaller wave forming shortly after the primary wave, and a few more even smaller waves. Two of the small waves merge with the primary large wave, and one of them dissolves spontaneously at $t \approx 8000$. 
+
+
 %\section{Parameter dependence of cluster formations etc...}
 
 %\subsection{}
