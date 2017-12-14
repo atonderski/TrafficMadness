@@ -27,24 +27,16 @@
 \title{Simulations of road blockages, Simulation of complex systems}
 \author{Fredrik Johnsson, Daniel Karlsson, Thorben Finke, Adam Tonderski}
 \date{\today}
-\maketitle
 
-
-\begin{abstract}
-  In real-world traffic small errors, like an unnecessary brake from individual drivers can propagate through traffic and lead to interruptions and traffic jams far away from the initial disturbance. Studying these phenomena could be especially important with the emergence of self-driving cars. The cars need to be tuned so they don't cause unnecessary traffic congestion.
-
-We want to study how small irregularities, such as braking or acceleration of a few drivers, in traffic flow propagate through traffic. We start from a single lane situation with agent-based modelling of individual drivers and periodic boundary conditions. Each agent is represented by a finite-state machine with threes states, braking, acceleration and driving at constant speed. The state transitions depend on the speed and positions of the nearest neighbours, primarily the one ahead. Depending on the time available, more complexity will be added to the model.  
-
-main features to be implemented:
-Graphics - matplotlib/pygame,
-Track - linked list, keep track of length, be able to give info to car.
-Car - properties: speed, positions, (lane?), state (braking, acceleration, constant), (size?). Functions: update(), query track.
-Braking - instantly
-Crashes, not in the beginning
-Main controller
-
-
-\end{abstract}
+\twocolumn[
+  \begin{@twocolumnfalse}
+    \maketitle
+    \begin{abstract}
+\noindent In real-world traffic small errors, like an unnecessary brake from individual drivers can propagate through traffic and lead to interruptions and traffic jams far away from the initial disturbance. Studying these phenomena could be especially important with the emergence of self-driving cars. The cars need to be tuned so they don't cause unnecessary traffic congestion.
+We want to study how small irregularities, such as braking or acceleration of a few drivers, in traffic flow propagate through traffic. We start from a single lane situation with agent-based modelling of individual drivers and periodic boundary conditions. Each agent is represented by a finite-state machine with threes states, braking, acceleration and driving at constant speed. The state transitions depend on the speed and positions of the nearest neighbours, primarily the one ahead. Depending on the time available, more complexity will be added to the model.
+    \end{abstract}
+  \end{@twocolumnfalse}
+]
 
 \newpage
 \tableofcontents
@@ -56,14 +48,8 @@ Congestions in traffic flow is a widely recognized problem in many regions of th
 Much work regarding the prevention of traffic jams has been done, many focusing on improvements in road planning and increased availibility of public transportation. As put forward by Anthony Downs in 1962, traffic tends to increase to meet the capacity of available road network \cite{downs2000stuck, downs2005still, downs1962law}. This means there are diminishing or no improvements on congestion at all for investments in road capacity. Instead, the possible avenues for improvements are ways of controlling traffic flow and the behaviour of individual drivers.
 
 Since a large part of the dynamics of the stop-and-go waves are due to the human factor a prospect solution to the problem is the introduction of autonomous vehicles (AVs) and different forms of inter-vehicle communication (IVC) \cite{stern17autonomous, darbha1999cruisecontrol, bauza2013vehicle2vehicle, fagnant2015autonomous}. Even a small amount of AVs are proposed to be able to drastically improve the negative effects of congestion on traffic flow and even help to dissipate them when formed by serving as actuators. It is suggested that even simple decision measures such as velocity differences and spatial distance to nearby cars, as already present in some modern cruise control systems, can be utilized by AVs to regulate the flow of traffic \cite{stern17autonomous}.
-
-In this paper we implement a simple agent-based simulation model to explore the effects of congestion on traffic flow and throughput, and how traffic jams form and dissipate depending on traffic density and characteristic behaviour of the drivers involved. Furthermore, we study the simulated effect of introducing autonomous vehicles by allowing the agents a higher degree of awareness of variations in traffic by reading the velocity of nearby cars and using this information in their decision model. As stated previosly, even simple measures such as this should lead to increased traffic flow and ability to dissipate congestions \cite{stern17autonomous}.
-In this paper we use a simple agent-based simulation model to explore the effects of congestion on traffic flow and throughput, and how traffic jams form and dissipate depending on traffic density and characteristic behaviour of the drivers involved. Furthermore, we study the simulated effect of introducing autonomous vehicles by allowing the agents a higher degree of awareness of variations in traffic by reading the velocity of nearby cars and using this information in their decision model. As stated previosly, even simple measures such as this should lead to increased traffic flow and ability to dissipate congestions \cite{stern17autonomous}. 
-
-To characterize the congestions 
-
-A characteristic measure of real-world traffic jams that can be used to verify the authenticity has been proposed by B.S Kerner \cite{kerner96trafficjam}. The characteristics include the density of vehicles in the traffic jam, the average velocity of the cars and the flow of traffic out from the jam.
-
+\subsection{Problem description}
+In this paper we implement a simple agent-based simulation model to explore the effects of congestion on traffic flow and throughput, and how traffic jams form and dissipate depending on traffic density and characteristic behaviour of the drivers involved. Furthermore, we study the simulated effect of introducing autonomous vehicles by allowing the agents a higher degree of awareness of variations in traffic by reading the velocity of nearby cars and using this information in their decision model. As stated previosly, even simple measures such as this should lead to increased traffic flow and ability to dissipate congestions \cite{stern17autonomous}. To see the effect we measure both long-time steady-state state behaviour and instantaneous behaviour in transients between different kinds of traffic flow.
 
 \section{The model}
 To model traffic behaviour we use an agent-based approach with each agent representing a car and the behaviour of its driver. The goal of each agent is to try to keep its set target speed on the track and avoid having to slow down. Different agents can have different personalities, some drivers are more aggressive while others try to drive more carefully to ensure not to disturb other drivers in traffic.
@@ -114,6 +100,7 @@ One gets the density distribution by keeping track of the number of cars in each
 %The agents are placed on a track of fixed length, but with periodic boundary conditions creating an infinite loop. Driving is only allowed in one direction, but to allow for more complexity and further model highway traffic the track can be extended to allow multiple parallel lanes with lane switching allowed. To decide on its actions each agent can see agents in its proximity, both in its lane and in other lanes bordering its own. The agent can read the velocity and position of these nearby agents to adjust its acceleration or decide to shift lanes.
 
 \section{Results}\label{sec:results}
+Three main avenues have been followed. First, we wanted to confirm that the model was able to produce wave-like congestions patterns and see how this vary depending on the traffic density. We measured spontaneously forming congestions and congestions after the introduction of artificial disturbances. To see the effect of improved velocity awareness and adaptation transient behaviour was examined for traffic before, during and after an artifical disturbance. 
 
 % Amount of slowdown during traffic jam for varying percentages of aggressive drivers
 % Amount of slowdown during traffic jam for varying percentages of passive drivers (no improvement)
@@ -151,23 +138,20 @@ One gets the density distribution by keeping track of the number of cars in each
 
  The absence of change between individual measurements is possibly a consequence of the averaging used. The average is taken over a large time in the system both before and after the disturbance. Transient behaviour in the transition from flowing traffic to congestion is therefore averaged out and figure \ref{fig:traffic_density} only represents the steady-state behaviour. To study the transient behaviour of the system with the introduction of disturbances we examined the time evolution of the instantaneous velocity, see section \ref{sec:transient}. 
 
-A clear difference in traffic flow level is observed 
 
-average traffic flow decreases with car density for both the measurements   
-
-\begin{figure*}[ht]     
+\begin{figure*}[ht!]     
       \centering
        \includegraphics[scale=0.35]{figs/velocity_over_time_aggressive.png}
        \caption{Effect of traffic density }
        \label{fig:vel_agg_over_time}
  \end{figure*}
-
-\begin{figure*}[ht]
+\begin{figure*}[ht!]
     \centering
       \includegraphics[scale=0.35]{figs/velocity_over_time.png}
       \caption{In the first stage all cars drive at the speed limit. All models drop almost immediately to around 0.7 and stay there. Only the model with velocity awareness of 1.0 is able to recover to the speed limit. After the disturbance, the models with low velocity awareness decrease in average velocity whereas the models with higher velocity awareness actually increased their average velocity.}
       \label{fig:vel_over_time}
 \end{figure*}
+\subsection{Transient behaviour}
 Figure \ref{fig:vel_over_time} displays the time evolution for varying velocity parameters ADD EQREF. The initial observation phase shows that the average velocities tend to drop to around 0.7.
 This should correspond to the steady state where every car keeps their desired safety distance to the car in front, see section REFERENCE TO SECTION and the theoretical value from equation REFERENCE EQUATION is X.
 An interesting observation however is that when the velocity awareness is set to 1.0, the model initially drops close to 0.7, but manages to recover to the speed limit. DISCUSS THIS
@@ -177,9 +161,15 @@ After the disturbance is removed, the models with low velocit awareness slowly r
 This result is extremely interesting, since it means that a traffic accident can actually improve the flow of the entire system, while it happens and after it has been cleared up.
 It can be related to studies that show that placing certain obstacles in front of an emergency exit improves the overall flow \cite{yanagisawa2009obstacle}.
 
-We probably don't see these kind of behaviours in the real world since human drivers have a very low velocity awareness. With the advent of self driving cars however, it's possible that accidents will no longer cause immense slowdowns in traffic!
+We probably don't see these kind of behaviours in the real world since human drivers have a very low velocity awareness. With the advent of self driving cars however, it's possible that accidents will no longer cause immense slowdowns in traffic.
 
+\FloatBarrier
+\section{Conclusion}
+The model succesfully model the formation of congestions with a clear dependence on traffic density. A system with low traffic density has a higher steady-state flow, but is relatively more affected by an artifical disturbance creating congestion due to the initial higer average flow. Propagating congestion waves due to stop-and-go behaviour are shown to form spontaneously in systems with high traffic density. 
 
+Driver behaviour, in terms of aggressiveness and neighbour-velocity adaptation, has an effect on both steady-state flow and transient behaviour in transitions between steady-state and congestions. The velocity adaptation decreases the rate at which congestions form and allows for higher traffic densities in steady-state flow. For the transient behaviour, both a higher ratio of aggressive drivers and a higher degree of velocity adaptation decreases the effect of an artificial disturbance and give the system a higher rate of recovery to a state with optimal traffic flow.
+
+The model used is relatively simple and represents an idealized view of driver behaviour and the physical properties of highway traffic. Even though the results are qualitatively pointing towards a positive effect of the introduction of velocity adaptation capabilities, the results should not be seen as more than an indication that the velocity adaptation. To achieve conclusive results further study is needed to improve the model as well as to perform a more extensive search in parameter space. more parameters need to , such as drivers reaction time, noise in velocity measurements
 %\section{Parameter dependence of cluster formations etc...}
 
 %\subsection{}
