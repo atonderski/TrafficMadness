@@ -133,24 +133,25 @@ Three main topics have been explored. First, we wanted to confirm that the model
 \begin{figure*}[t]     
       \centering
        \includegraphics[scale=1, trim={1cm 2.5cm 1cm 3cm}]{figs/phase_transition1.png}
-       \caption{Illustration of the system going from an initial unstable uniform distribution of cars to a state where congestions appear as waves.}
+       \caption{Illustration of car density in the system going from an initial unstable, uniform distribution of cars to a state where congestions appear as waves. Regions with higher density are red, while low-density regions are blue. At time zero, the cars are uniformly distributed over the track separated in 20 buckets with periodic boundary conditions. As time progresses along the y-axis congestions start to form, seen in bucket position two around time step 1000. The cars are driving in positive bucket direction, but the congestions in seen moving in the reverse direction. The formed congestion wraps around and grows in density continously forming the red ridge moving from bucket position 20 to 0 from time step 2000 to 6000. Another feature is the small density ridge starting at bucket position 20 at time 4000 and then suddenly thinning out and disappearing at time 8000. This means the small congestion managed to resolve itself. }
        \label{fig:phase_transition}
  \end{figure*}
 
-\begin{figure*}[t]     
-      \centering
-       \includegraphics[scale=0.35]{figs/velocity_over_time_aggressive.png}
-       \caption{Effect of traffic density }
-       \label{fig:vel_agg_over_time}
- \end{figure*}
  
 \begin{figure*}[t]
     \centering
       \includegraphics[scale=0.35, trim={0 0 0 0 }]{figs/velocity_over_time.png}
-      \caption{In the first stage all cars drive at the speed limit. All models drop almost immediately to around 0.7 and stay there. Only the model with velocity awareness of 1.0 is able to recover to the speed limit. After the disturbance, the models with low velocity awareness decrease in average velocity whereas the models with higher velocity awareness actually increased their average velocity.}
+      \caption{Effect of varying velocity parameter on the average velocity in a system with an artifical disturbance introduced at time 100 and removed at time 200. In the first stage with uniform initialization all cars drive at the speed limit. All models drop almost immediately to around 0.7 and stay there. Only the model with velocity awareness of 1.0 is able to recover to the speed limit. During the disturbance, congestions form disrupting the steady-state. After the disturbance, the models with low velocity awareness decrease in average velocity whereas the models with higher velocity awareness actually increased their average velocity and managed to reach a higher velocity steady-state.}
       \label{fig:vel_over_time}
 \end{figure*}
  
+\begin{figure*}[t]     
+      \centering
+       \includegraphics[scale=0.35]{figs/velocity_over_time_aggressive.png}
+       \caption{Effect of mixed populations on the avergae velocity in a system with an artifical disturbance introduced at time 100 and removed at time 200. The system with a mixed population do not reach a steady state and have a high average velocity. All systems are equally affected by the disturbance. While the other two systems approach their steady state again when the disturbance is removed, the mixed system continues to oscillate close to the speed limit. }
+       \label{fig:vel_agg_over_time}
+ \end{figure*}
+
  \subsection{Congestion for varying density}
  One of the most important parameters for the formation and dissipation of traffic jams is known to be the traffic density \cite{kerner96trafficjam, kerner97flow}. We examined the effect of road saturation by varying the number of cars on a three-lane highway and measuring the average traffic flow  before and after an artificial disturbance had been introduced. The artificial disturbance was used to get an even, strong congestion for all cases and not rely on eventual self-formed congestions due to system instability.  We also varied the ratio of aggressive drivers in traffic to see if a more active lane-changing behaviour and shorter safety distances would have an effect on the traffic flow.
  
