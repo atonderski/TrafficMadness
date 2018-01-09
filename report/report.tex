@@ -145,7 +145,7 @@ Three main topics have been explored. First, we wanted to confirm that the model
 \begin{figure*}[t]     
       \centering
        \includegraphics[scale=0.35]{figs/velocity_over_time_aggressive.png}
-       \caption{Effect of mixed populations on the avergae velocity in a system with an artifical disturbance introduced at time 100 and removed at time 200. The system with a mixed population do not reach a steady state and have a high average velocity. All systems are equally affected by the disturbance. While the other two systems approach their steady state again when the disturbance is removed, the mixed system continues to oscillate close to the speed limit. }
+       \caption{Effect of mixed populations on the average velocity in a system with an artifical disturbance introduced at time 100 and removed at time 200. The system with a mixed population do not reach a steady state and have a high average velocity. All systems are equally affected by the disturbance. While the other two systems approach their steady state again when the disturbance is removed, the mixed system continues to oscillate close to the speed limit. }
        \label{fig:vel_agg_over_time}
  \end{figure*}
 
@@ -168,14 +168,14 @@ Traffic congestions can be created by introducing obstacles or giving the cars a
 \end{comment}
 
 \subsection{Varying the velocity parameter}\label{sec:vel_param}
-Figure \ref{fig:vel_over_time} displays the time evolution for varying velocity parameters \eqref{eq:velo_param}. The initial observation phase shows that the average velocities tend to drop to around 0.7.
+Figure \ref{fig:vel_over_time} displays the time evolution for varying velocity parameters, equation \eqref{eq:velo_param}. The initial observation phase shows that the average velocities tend to drop to around 0.7.
 This should correspond to the steady state where every car keeps their desired safety distance to the car in front.% see section REFERENCE TO SECTION and the theoretical value from equation REFERENCE EQUATION is X.
 An interesting observation is that when the velocity awareness is set to 1.0, the model initially drops close to 0.7, but manages to recover to the speed limit. %DISCUSS THIS
 
 Once a disturbance is introduced (first vertical line), the system leaves the steady state and starts fluctuating. For low velocity awareness values, the average velocity decreases, but for the larger velocity awareness the average velocity tends to increase.
 After the disturbance is removed, the models with low velocity awareness slowly return to the steady state, whereas the other models manage to go all the way to the speed limit. This behaviour of escaping from a steady state to another, less stable steady state, can be likened to a system with a stable and unstable attractor (such as a simple pendulum). In and of itself, the system will always converge to the stable attractor, but external factors (in this case velocity awareness) can keep the system semi-stable in the unstable fix point.
 
-This result is extremely interesting, since it implies that major traffic distrubances (such as a roadblack or accident) can actually improve the overall flow. Both during the disturbance and after it has been cleared up.
+This result is interesting, since it implies that major traffic disturbances (such as a roadblack or accident) can actually improve the overall flow. Both during the disturbance and after it has been cleared up.
 There have been studies that show that placing certain obstacles in front of an emergency exit improves the overall flow \cite{yanagisawa2009obstacle}, which lends some strength to this very unintuitive conclusion.
 
 A likely reason that we don't commonly see this kind of flow improvement in the real world is that human drivers have a very low velocity awareness. With the advent of self driving cars however, it's possible that traffic disturbances  will no longer cause immense slowdowns, but might rather be beneficial (in small amounts).
